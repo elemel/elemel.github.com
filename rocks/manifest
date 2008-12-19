@@ -1,0 +1,12 @@
+modules = {}
+
+commands = {}
+
+repository = {import={['0.1-1']={{arch='rockspec'}
+}
+}
+, json={['0.1-1']={{arch='rockspec'}
+}
+}
+}
+
