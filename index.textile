@@ -5,4 +5,15 @@ title: Mikael Lind
 
 h1. Mikael Lind
 
-"My rockspec repository":rocks
+I am a software developer living in Gothenburg, Sweden with my family. I am
+employed by Epsilon as a consultant. I am also one of the owners of Beliber.
+
+In my spare time I develop even more software. You can find my trail of
+inactive open-source projects starting at SourceForge.net, crossing Google
+Code, and ending at GitHub, which I prefer these days. Maybe I will migrate my
+old projects to GitHub. There are also a number of unreleased projects from the
+past few years. The minimal overhead of GitHub is a catalyst for cleaning them
+up and releasing them.
+
+* "GitHub profile":http://github.com/elemel
+* "LuaRocks repository":rocks
