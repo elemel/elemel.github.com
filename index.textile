@@ -31,5 +31,5 @@ Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/. M
 h2. Blog Posts
 
 {% for post in site.posts %}
-  * {{ post.date | date_to_string }} <a href="{{ post.url }}">{{ post.title }}</a>
+* {{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}
 {% endfor %}
