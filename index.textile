@@ -15,21 +15,25 @@ old projects to GitHub. I also have a number of unreleased projects from the
 past few years. The minimal overhead of GitHub is a catalyst for cleaning them
 up and releasing them.
 
-* "GitHub profile":http://github.com/elemel
-* "LuaRocks repository":rocks
-
-h2. The Linds
+h2. Family
 
 My four-year-old son can write his own name: viggo
 
 My younger son is named Love (pronounced Lou-veh). He is still at home with my wife, Angelique, but will attend preschool starting February next year. Viggo and Love get along fine most of the time, though they are keeping us busy, as they should be.
 
-Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/. My blog is simply called "Elemel":http://elemel.blogspot.com/. I will probably move it to my GitHub Pages in the near future.
+Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/.
 
 !http://farm4.static.flickr.com/3077/3123381692_ffeca4968f.jpg?v=0!
 
-h2. Blog Posts
+h2. Blogging
+
+I am blogging because I want to become a better writer.
 
 {% for post in site.posts %}
 * {{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}
 {% endfor %}
+
+h2. Projects
+
+* "GitHub Profile":http://github.com/elemel
+* "LuaRocks Repository":rocks
