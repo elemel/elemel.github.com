@@ -17,3 +17,9 @@ up and releasing them.
 
 * "GitHub profile":http://github.com/elemel
 * "LuaRocks repository":rocks
+
+h2. The Linds
+
+My older son can write his name: viggo
+
+My younger son is named Love (pronounced Lou-veh) and my wife's name is Angelique.
