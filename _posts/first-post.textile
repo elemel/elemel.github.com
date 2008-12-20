@@ -1,0 +1,8 @@
+---
+layout: default
+title: First Post
+---
+
+h1. First Post
+
+Nothing to see here. Please move along.

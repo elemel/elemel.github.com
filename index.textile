@@ -27,3 +27,9 @@ My younger son is named Love (pronounced Lou-veh). He is still at home with my w
 Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/. My blog is simply called "Elemel":http://elemel.blogspot.com/. I will probably move it to my GitHub Pages in the near future.
 
 !http://farm4.static.flickr.com/3077/3123381692_ffeca4968f.jpg?v=0!
+
+h2. Blog Posts
+
+{% for post in site.posts %}
+  * {{ post.date | date_to_string }} <a href="{{ post.url }}">{{ post.title }}</a>
+{% endfor %}
