@@ -5,16 +5,9 @@ title: Mikael Lind
 
 h1. Mikael Lind
 
-I am a software developer living in Gothenburg, Sweden with my family. I am
-employed by Epsilon as a software development consultant. I am also one of the
-owners of Beliber, a modern software development company, whatever that means.
+I am a software developer living in Gothenburg, Sweden with my family. I am employed by Epsilon as a software development consultant. I am also one of the owners of Beliber, a modern software development company, whatever that means.
 
-In my spare time I develop even more software. You can pick up my trail of
-abandoned open-source projects at SourceForge.net, follow it across Google
-Code, and end up at GitHub, which I prefer these days. Maybe I will migrate my
-old projects to GitHub. I also have a number of unreleased projects from the
-past few years. The minimal overhead of GitHub is a catalyst for cleaning them
-up and releasing them.
+In my spare time I develop even more software. You can pick up my trail of abandoned open-source projects at SourceForge.net, follow it across Google Code, and end up at GitHub, which I prefer these days. Maybe I will migrate my old projects to GitHub. I also have a number of unreleased projects from the past few years. The minimal overhead of GitHub is a catalyst for cleaning them up and releasing them.
 
 h2. Family
 
