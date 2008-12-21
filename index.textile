@@ -19,15 +19,14 @@ Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/.
 
 !http://farm4.static.flickr.com/3077/3123381692_ffeca4968f.jpg?v=0!
 
-h2. Blogging
+h2. Blog
 
-I am blogging because I want to become a better writer.
+<ul>
+  {% for post in site.posts %}
+    <li>{{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}</li>
+  {% endfor %}
+</ul>
 
-{% for post in site.posts %}
-* {{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}
-{% endfor %}
+h2. Other
 
-h2. Projects
-
-* "GitHub Profile":http://github.com/elemel
 * "LuaRocks Repository":rocks
