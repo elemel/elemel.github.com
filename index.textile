@@ -19,10 +19,10 @@ Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/.
 
 !http://farm4.static.flickr.com/3077/3123381692_ffeca4968f.jpg?v=0!
 
-h2. Blog
+h2. Latest Blog Posts
 
 <ul>
-  {% for post in site.posts %}
+  {% for post in site.posts limit:3 %}
     <li>{{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}</li>
   {% endfor %}
 </ul>
