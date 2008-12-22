@@ -9,10 +9,17 @@
       body {
         margin: 2em 10em 2em 5em;
       }
+
+      #ribbon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 0;
+      }
     </style>
   </head>
   <body>
-    <a href="http://github.com/elemel"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/images/fork-me-on-github.png" alt="Fork me on GitHub" /></a>
+    <a href="http://github.com/elemel"><img id="ribbon" src="/images/fork-me-on-github.png" alt="Fork me on GitHub" /></a>
     <div id="header">
       <a href="/">Mikael Lind</a> |
       <a href="/family.html">Family</a> |
@@ -22,4 +29,3 @@
     {{ content }}
   </body>
 </html>
-
