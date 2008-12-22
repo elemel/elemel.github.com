@@ -1,0 +1,14 @@
+---
+layout: default
+title: Family
+---
+
+h1. {{ page.title }}
+
+My four-year-old son can write his own name: viggo
+
+My younger son is named Love (pronounced Lou-veh). He is still at home with my wife, Angelique, but will attend preschool starting February next year. Viggo and Love get along fine most of the time, though they are keeping us busy, as they should be.
+
+Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/.
+
+!http://farm4.static.flickr.com/3077/3123381692_ffeca4968f.jpg?v=0!

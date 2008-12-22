@@ -1,0 +1,7 @@
+---
+layout: default
+title: Rocks
+---
+
+<iframe src="/rocks" style="width: 100%; height: 400px">
+</iframe>

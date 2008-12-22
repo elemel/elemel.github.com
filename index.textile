@@ -5,28 +5,12 @@ title: Mikael Lind
 
 h1. Mikael Lind
 
-I am a software developer living in Gothenburg, Sweden with my family. I am employed by Epsilon as a software development consultant. I am also one of the owners of Beliber, a modern software development company, whatever that means.
+I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife Angelique and our two sons. I'm employed by Epsilon as a consultant, and I run Beliber on the side with a couple of friends. In my spare time I enjoy programming.
 
-In my spare time I develop even more software. You can pick up my trail of abandoned open-source projects at SourceForge.net, follow it across Google Code, and end up at GitHub, which I prefer these days. Maybe I will migrate my old projects to GitHub. I also have a number of unreleased projects from the past few years. The minimal overhead of GitHub is a catalyst for cleaning them up and releasing them.
-
-h2. Family
-
-My four-year-old son can write his own name: viggo
-
-My younger son is named Love (pronounced Lou-veh). He is still at home with my wife, Angelique, but will attend preschool starting February next year. Viggo and Love get along fine most of the time, though they are keeping us busy, as they should be.
-
-Angelique blogs in Swedish at "Studio Agnes":http://studioagnes.blogspot.com/.
-
-!http://farm4.static.flickr.com/3077/3123381692_ffeca4968f.jpg?v=0!
-
-h2. Blog
+h2. Latest Blog Posts
 
 <ul>
-  {% for post in site.posts %}
-    <li>{{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}</li>
+  {% for post in site.posts limit:3 %}
+    <li>"{{ post.title }}":{{ post.url }} | {{ post.date | date_to_string }}</li>
   {% endfor %}
 </ul>
-
-h2. Other
-
-* "LuaRocks Repository":rocks
