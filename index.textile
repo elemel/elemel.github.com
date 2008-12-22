@@ -26,7 +26,3 @@ h2. Blog
     <li>{{ post.date | date_to_string }} | "{{ post.title }}":{{ post.url }}</li>
   {% endfor %}
 </ul>
-
-h2. Other
-
-* "LuaRocks Repository":rocks
