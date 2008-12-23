@@ -6,6 +6,9 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+#ribbon img {
     border: 0;
 }
 
@@ -14,4 +17,3 @@ body {
 
 #footer {
 }
-
