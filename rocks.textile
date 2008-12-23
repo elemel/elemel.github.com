@@ -3,5 +3,7 @@ layout: default
 title: Rocks
 ---
 
+h1. {{ page.title }}
+
 <iframe src="/rocks" style="width: 100%; height: 400px">
 </iframe>
