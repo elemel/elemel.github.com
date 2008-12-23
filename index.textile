@@ -6,11 +6,3 @@ title: Mikael Lind
 h1. Mikael Lind
 
 I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife Angelique and our two sons. I'm employed by Epsilon as a consultant, and I run Beliber on the side with a couple of friends. In my spare time I enjoy programming.
-
-h2. Latest Blog Posts
-
-<ul>
-  {% for post in site.posts limit:3 %}
-    <li>"{{ post.title }}":{{ post.url }} | {{ post.date | date_to_string }}</li>
-  {% endfor %}
-</ul>
