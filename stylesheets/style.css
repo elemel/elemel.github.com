@@ -1,0 +1,17 @@
+body {
+    margin: 2em 10em 2em 5em;
+}
+
+#ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+#header {
+}
+
+#footer {
+}
+
