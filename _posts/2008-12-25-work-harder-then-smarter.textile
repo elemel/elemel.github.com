@@ -1,0 +1,16 @@
+---
+layout: post
+title: Work Harder, Then Smarter
+---
+
+h1. {{ page.title }}
+
+bq. Tyler Durden: Oh I get it, it's very clever.
+Narrator: Thank you.
+Tyler Durden: How's that working out for you?
+Narrator: What?
+Tyler Durden: Being clever.
+
+I've always been clever. Cleverness for the sake of cleverness alone is a distraction. I don't remember how it all started, but I guess I was sometimes clever as a child. How we appreciate a clever child. I must have turned cleverness into a strategy. How we cling on to our strategies, long after they stopped serving us. I'm almost thirty-five now. It's time to try something different. I want to be stupid instead, like Linus Torvalds.
+
+Being stupid means there's no easy way out. You have no choice but to stick to the obvious. Forget about working smarter, not harder. You have to work very hard to make it if you're stupid. After a while, you'll see what was right and what wasn't. You couldn't have figured that out before the fact. You're simply not smart enough. Here's where software is funny. Even the smart people aren't smart enough to figure everything out before the fact. Unfortunately, that doesn't stop them from trying. Not very smart, is it?
