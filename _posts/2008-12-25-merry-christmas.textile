@@ -1,0 +1,10 @@
+---
+layout: post
+title: Merry Christmas
+---
+
+h1. {{ page.title }}
+
+Yesterday was Christmas Eve. I seldom get sick, but yesterday I was feeling ill and couldn't bring myself to eat much, just some pickled herring and the occasional ham sandwich. Oh, and some akvavit. I'm feeling better today, probably much thanks to the akvavit, so I'll give the food another try today. Unfortunately, Angelique isn't feeling great, though she was fine yesterday. How about the rest of the family? Viggo plays with his Christmas gifts, and my mother Anna-Lena, visiting us for Christmas, reads a book. We'll probably take a walk later, when Love has taken his nap. The weather outside is beautiful.
+
+Despite feeling a bit under the weather yesterday, I managed to submit a couple of patches to Jekyll. They were both accepted, which felt great. As I've stated elsewhere, I'm a long-time proponent of free and open-source software, but I've never been much of a developer or collaborator in this field. As an early New Year's resolution, I'll try to change that.
