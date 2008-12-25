@@ -1,0 +1,10 @@
+---
+layout: default
+title: Contact Details
+---
+
+h1. {{ page.title }}
+
+* Email -- <a href="mailto:elemel@elemel.se">elemel@elemel.se</a>
+* Website -- <a href="http://elemel.github.com/">elemel.github.com</a>
+* GitHub Profile -- <a href="http://github.com/elemel">github.com/elemel</a>
