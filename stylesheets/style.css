@@ -13,10 +13,10 @@ body {
     border: 0;
 }
 
-#header {
-}
-
-#footer {
+#header, #footer {
+    border: 2px solid #ccd;
+    background-color: #eef;
+    padding: 1em;
 }
 
 .posts {
