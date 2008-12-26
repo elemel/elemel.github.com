@@ -5,7 +5,7 @@ title: Work Harder, Then Smarter
 
 h1. {{ page.title }}
 
-bq. Tyler Durden: Oh I get it, it's very clever.
+bq. Tyler Durden: Oh, I get it. It's very clever.
 Narrator: Thank you.
 Tyler Durden: How's that working out for you?
 Narrator: What?
