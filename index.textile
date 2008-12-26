@@ -5,6 +5,6 @@ title: Mikael Lind
 
 h1. Mikael Lind
 
-I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife Angelique and our two sons. I'm employed by Epsilon as a consultant, and I run Beliber on the side with a couple of friends. In my spare time I enjoy programming.
+I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife Angelique and our sons Viggo and Love. I'm employed by Epsilon as a consultant, and I run Beliber on the side with a couple of friends. In my spare time I enjoy programming.
 
 !http://farm4.static.flickr.com/3081/3129783393_188388c656.jpg?v=0!
