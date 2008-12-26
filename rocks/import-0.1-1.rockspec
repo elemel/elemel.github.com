@@ -5,7 +5,7 @@ source = {
     file = "elemel-lua-import-1dc0725eb5ebdb86123738c4bff640acdbcccb6a.zip",
 }
 description = {
-    summary = "Python-style imports for Lua.",
+    summary = "Python-style imports for Lua",
     homepage = "http://github.com/elemel/lua-import/tree/master",
     license = "MIT/X11",
 }
