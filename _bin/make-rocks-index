@@ -1,0 +1,47 @@
+#!/usr/bin/env lua
+
+function dirname(path)
+    i = #path
+    while i >= 1 and string.sub(path, i, i) ~= "/" do
+        i = i - 1
+    end
+    if i == 0 then
+        return "."
+    else
+        return string.sub(path, 1, i)
+    end
+end
+
+if #arg ~= 1 then
+    print("Usage: make-rocks-index <manifest>")
+    os.exit(1)
+end
+
+ok, message = pcall(dofile, arg[1])
+if not ok then
+    print(string.format("make-rocks-index: cannot load manifest %q", arg[1]))
+    print(message)
+    os.exit(1)
+end
+
+print([[---
+layout: default
+title: Rocks
+---
+h1. {{ page.title }}
+]])
+
+for name, versions in pairs(repository) do
+    for version, _ in pairs(versions) do
+        filename = string.format("%s-%s.rockspec", name, version)
+        ok, message = pcall(dofile, dirname(arg[1]) .. "/" .. filename)
+        if not ok then
+            print(string.format("make-rocks-index: cannot load rockspec %q",
+                                filename))
+            print(message)
+            os.exit(1)
+        end
+        print(string.format("\"%s %s\":/rocks/%s -- %s", name, version,
+                            filename, description.summary))
+    end
+end
