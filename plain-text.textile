@@ -8,7 +8,7 @@ h1. {{ page.title }}
 h2. Hustomtarnas julbord
 
 *Original:* Viktor Rydberg -- Tomten
-*Kommentar:* Välkomsthälsning till Epsilons julbord 2008.
+*Kommentar:* Välkomsthälsning till Epsilons julbord 2008. Vi var på La Stazione i Partille.
 
 Midvinternattens tystnadsed
 bryts av ett sorl från stationen.
