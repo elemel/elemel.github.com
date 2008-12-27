@@ -7,11 +7,11 @@ h1. {{ page.title }}
 
 *Updated 27 Dec 2008:* Less name-dropping.
 
-bq. Tyler Durden: Oh, I get it. It's very clever.
-Narrator: Thank you.
-Tyler Durden: How's that working out for you?
-Narrator: What?
-Tyler Durden: Being clever.
+bq. *Tyler Durden:* Oh, I get it. It's very clever.
+*Narrator:* Thank you.
+*Tyler Durden:* How's that working out for you?
+*Narrator:* What?
+*Tyler Durden:* Being clever.
 
 I've always been clever. Cleverness for the sake of cleverness alone is a distraction. I don't remember how it all started, but I guess I was sometimes clever as a child. How we appreciate a clever child. Always eager to please, I must have turned cleverness into a strategy. How we cling on to our strategies, long after they've stopped serving us. I'm almost thirty-five now. It's time to try something different. I want to be stupid instead.
 
