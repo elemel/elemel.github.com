@@ -7,6 +7,9 @@ h1. {{ page.title }}
 
 h2. Hustomtarnas julbord
 
+*Original:* Viktor Rydberg -- Tomten
+*Kommentar:* Välkomsthälsning till Epsilons julbord 2008.
+
 Midvinternattens tystnadsed
 bryts av ett sorl från stationen.
 Lilleputt klingar i glas med sked,
