@@ -1,0 +1,17 @@
+---
+layout: default
+title: Plain Text
+---
+
+h1. {{ page.title }}
+
+h2. Hustomtarnas julbord
+
+Midvinternattens tystnadsed
+bryts av ett sorl från stationen.
+Lilleputt klingar i glas med sked,
+harklar sig, sätter tonen:
+"Bänka er, pysslingar, smörj ert krås!"
+Tomtenissen från Alingsås
+spiller upp styrketåren,
+en färdknäpp på resan mot våren.
