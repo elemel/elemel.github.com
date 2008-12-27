@@ -8,19 +8,9 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
   </head>
   <body>
-    <div id="ribbon"><a href="http://github.com/elemel"><img src="/images/fork-me-on-github.png" alt="Fork me on GitHub" /></a></div>
-    <div id="header">
-      <a href="/">Mikael Lind</a> |
-      <a href="/family.html">Family</a> |
-      <a href="/blog.html">Blog</a> |
-      <a href="/rocks.html">Rocks</a>
-    </div>
+    {% include ribbon.html %}
+    {% include header.html %}
     {{ content }}
-    <div id="footer">
-      &copy; 2008 Mikael Lind |
-      <a href="/contact.html">Contact Details</a> |
-      <a href="http://validator.w3.org/check/referer">Valid HTML</a> |
-      <a href="http://jigsaw.w3.org/css-validator/check/referer/">Valid CSS</a>
-    </div>
+    {% include footer.html %}
   </body>
 </html>
