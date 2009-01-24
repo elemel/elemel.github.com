@@ -3,8 +3,6 @@ layout: post
 title: Good Lazy, Bad Lazy
 ---
 
-h1. {{ page.title }}
-
 I'm a programmer. That's how I earn my living, and I enjoy programming in my spare time as well. Not that I have a lot of spare time these days, working as a consultant, running a small business on the side with a couple of friends, and being the proud father of two boys and happy husband to one wife. However, I find that the less time I have, the more I get done. If I can't hack it, I'm the one to blame, not anyone else. But why am I less effective when I have more time, and more effective when I'm under pressure? The answer is, not surprisingly, laziness.
 
 According to Larry Wall, the three principal virtues of a programmer are laziness, impatience, and hubris. I'm starting to think that those traits are all just integral parts of the human condition. I'm not saying that Larry Wall is wrong, far from it. I'm just saying that he writes as much between the lines as he writes on them. Maybe that's why (a) Perl is so hard to read and (b) Perl 6 isn't out yet. Maybe he's just saying that we're all programmers at heart, us humans. I don't know, and I'm too shy to ask.

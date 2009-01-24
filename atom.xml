@@ -1,0 +1,22 @@
+---
+title: Atom Feed
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Mikael Lind</title>
+  <link href="http://elemel.github.com/atom.xml" rel="self"/>
+  <link href="http://elemel.github.com/"/>
+  <author>
+    <name>Mikael Lind</name>
+    <email>elemel@elemel.se</email>
+  </author>
+  {% for post in site.posts %}
+    <entry>
+      <title>{{ post.title }}</title>
+      <link href="{{ post.url }}"/>
+      <id>{{ post.id }}</id>
+      <updated>{{ post.date | date:"%Y-%m-%dT%H:%M:%S+01:00" }}</updated>
+      <summary>{{ post.content | strip_html | truncatewords:50 }}</summary>
+    </entry>
+  {% endfor %}
+</feed>

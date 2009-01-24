@@ -3,8 +3,6 @@ layout: post
 title: Work Harder, Then Smarter
 ---
 
-h1. {{ page.title }}
-
 *Updated 27 Dec 2008:* Less name-dropping.
 
 bq. *Tyler Durden:* Oh, I get it. It's very clever.

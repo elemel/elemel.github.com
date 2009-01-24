@@ -3,6 +3,4 @@ layout: post
 title: First Post
 ---
 
-h1. {{ page.title }}
-
 Nothing to see here. Please move along.
