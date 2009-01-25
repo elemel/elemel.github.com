@@ -7,4 +7,4 @@ I moved my personal web site and blog to GitHub Pages about a month ago. GitHub 
 
 My first attempt at setting up a feed was Feedburner. I couldn't figure out how to use it, at least not for what I wanted to do. Maybe it requires that you already have a feed. My next attempt was Yahoo! Pipes. I already had a post list at my GitHub Pages, and assumed it could be turned into a feed somewhow. I might have succeeded eventually, but Yahoo! Pipes was too painful to use on my netbook. My last attempt was generating an Atom feed with Jekyll, which actually worked like a charm. Oh, I ran into one problem. Your feed page must have YAML front matter, or it won't be processed by Jekyll.
 
-You can find the source of my feed page "here":http://github.com/elemel/elemel.github.com/blob/master/atom.xml.
+The source of my feed page is "here":http://github.com/elemel/elemel.github.com/blob/master/atom.xml.
