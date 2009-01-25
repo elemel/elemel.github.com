@@ -1,11 +1,13 @@
 ---
-title: Atom Feed
+layout: nil
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Mikael Lind</title>
   <link href="http://elemel.github.com/atom.xml" rel="self"/>
   <link href="http://elemel.github.com/"/>
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>http://elemel.github.com/</id>
   <author>
     <name>Mikael Lind</name>
     <email>elemel@elemel.se</email>
@@ -13,10 +15,10 @@ title: Atom Feed
   {% for post in site.posts %}
     <entry>
       <title>{{ post.title }}</title>
-      <link href="{{ post.url }}"/>
-      <id>{{ post.id }}</id>
-      <updated>{{ post.date | date:"%Y-%m-%dT%H:%M:%S+01:00" }}</updated>
-      <summary>{{ post.content | strip_html | truncatewords:50 }}</summary>
+      <link href="http://elemel.github.com{{ post.url }}"/>
+      <updated>{{ post.date | date_to_xmlschema }}</updated>
+      <id>http://elemel.github.com{{ post.id }}</id>
+      <content type="html">{{ post.content | xml_escape }}</content>
     </entry>
   {% endfor %}
 </feed>
