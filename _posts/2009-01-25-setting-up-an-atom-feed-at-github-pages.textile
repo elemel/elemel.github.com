@@ -3,7 +3,7 @@ layout: post
 title: Setting Up an Atom Feed at GitHub Pages
 ---
 
-I moved my personal web site and blog to GitHub Pages about a month ago. GitHub Pages uses Jekyll for static content generation, and it works great most of the time. However, I didn't find a way to automatically generate an Atom or RSS feed for my blog posts. Until a couple of days ago, I wasn't even aware that Atom and RSS were different, albeit similar, concepts.
+I moved my personal web site and blog to GitHub Pages about a month ago. GitHub Pages uses Jekyll for static content generation, which works great most of the time. However, I didn't find a way to automatically generate an Atom or RSS feed for my blog posts. Until a couple of days ago, I wasn't even aware that Atom and RSS were different, albeit similar, concepts.
 
 My first attempt at setting up a feed was Feedburner. I couldn't figure out how to use it, at least not for what I wanted to do. Maybe it requires that you already have a feed. My next attempt was Yahoo! Pipes. I already had a post list at my GitHub Pages, and assumed it could be turned into a feed somewhow. I might have succeeded eventually, but Yahoo! Pipes was too painful to use on my netbook. My last attempt was generating an Atom feed with Jekyll, which actually worked like a charm. Oh, I ran into one problem. Your feed page must have YAML front matter, or it won't be processed by Jekyll.
 
