@@ -1,0 +1,6 @@
+---
+layout: post
+title: Tramscension Post
+---
+
+I bought a netbook, an Asus EEE PC 901, in September last year. The first thing I did on it was to ascend an Elf Wizard in "NetHack":http://www.nethack.org/, playing almost exclusively on the tram to and from work. That took me about a month, or around 15 hours given my commute time of 45 minutes per day. Before I had the netbook, I used to -pass out- take a nap on the tram instead. What a waste.
