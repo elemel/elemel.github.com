@@ -9,4 +9,4 @@ I've hosted my personal web site and blog at GitHub Pages for a few weeks now. G
 # If you don't finish the post in one go, create a new branch named after it and commit your work.
 # Keep editing the post until you're happy with it. You can have multiple branches at the same time, one for each post that you're working on.
 # Optionally, push your branches to GitHub for backup.
-# Ready to publish a post? Change its date to today's date, and merge its branch into the master branch. Push your changes to GitHub.
+# Ready to publish a post? Change its date to today's date, and merge its branch into the master branch. Push the master branch to GitHub.
