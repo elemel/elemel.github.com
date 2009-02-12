@@ -4,6 +4,10 @@ body {
     text-align: justify;
 }
 
+h1, h2, h3 {
+    text-align: left;
+}
+
 #ribbon {
     position: absolute;
     top: 0;
