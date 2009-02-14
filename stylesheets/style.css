@@ -35,3 +35,13 @@ img {
     list-style-type: none;
     padding-left: 0;
 }
+
+pre {
+    overflow: auto;
+}
+
+.terminal {
+    color: white;
+    background-color: black;
+    padding: 0.5em;
+}
