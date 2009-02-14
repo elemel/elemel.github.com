@@ -3,8 +3,6 @@ layout: default
 title: Plain Text
 ---
 
-h1. {{ page.title }}
-
 h2. Hustomtarnas julbord
 
 *Original:* Viktor Rydberg -- Tomten

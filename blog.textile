@@ -3,8 +3,6 @@ layout: base
 title: Blog
 ---
 
-h1. {{ page.title }}
-
 <ul class="posts">
   {% for post in site.posts %}
     <li>"{{ post.title }}":{{ post.url }} -- {{ post.date | date_to_string }}</li>

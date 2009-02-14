@@ -52,7 +52,6 @@ print([[---
 layout: default
 title: Rocks
 ---
-h1. {{ page.title }}
 ]])
 
 for name, versions in pairs(repository) do

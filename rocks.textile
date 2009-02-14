@@ -2,7 +2,6 @@
 layout: default
 title: Rocks
 ---
-h1. {{ page.title }}
 
 "json 0.1-1":/rocks/json-0.1-1.rockspec -- JSON codec for Lua
 "import 0.1-1":/rocks/import-0.1-1.rockspec -- Python-style imports for Lua
