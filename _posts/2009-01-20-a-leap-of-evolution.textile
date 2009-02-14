@@ -11,10 +11,10 @@ There are still a few problems with Tics. I hope to be able to address them in t
 
 Original photo, taken by "Angelique":http://www.flickr.com/photos/anqh/:
 
-!/images/dry-leaves.jpg(Dry Leaves, Original)!
+<a href="http://www.flickr.com/photos/elemel/3278662344/" title="Dry Leaves, Original"><img src="http://farm4.static.flickr.com/3321/3278662344_873de12fe0.jpg" alt="Dry Leaves, Original" /></a>
 
 Tics image with 1024 triangles, after a few hundred thousand generations:
 
-!/images/dry-leaves-tics.png(Dry Leaves, Tics Image)!
+<a href="http://www.flickr.com/photos/elemel/3278662348/" title="Dry Leaves, Tics Image"><img src="http://farm4.static.flickr.com/3424/3278662348_db804a32cf.jpg" alt="Dry Leaves, Tics Image" /></a>
 
 You can download the Tics image "here":/images/dry-leaves.tics.
