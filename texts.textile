@@ -1,12 +1,14 @@
 ---
 layout: default
-title: Plain Text
+title: Texts
 ---
+
+Here are some texts that I've written. Some are in English, and some are in Swedish.
 
 h2. Hustomtarnas julbord
 
 *Original:* Viktor Rydberg -- Tomten
-*Kommentar:* Välkomsthälsning till Epsilons julbord 2008. Vi var på La Stazione i Partille.
+*Kommentar:* Välkomsthälsning vid Epsilons julbord 2008. Vi var på La Stazione i Partille.
 
 Midvinternattens tystnadsed
 bryts av ett sorl från stationen.
