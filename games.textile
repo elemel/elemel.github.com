@@ -1,0 +1,16 @@
+---
+layout: default
+title: Games
+---
+
+Here are some games that I've written. Most of them could use some more love.
+
+h2. Nucleus
+
+"Nucleus":http://github.com/elemel/nucleus/ is a fast-paced puzzle game, where you build words from the available letters in order to advance to the next level. You're awarded a time extension at each level, and you get bonus points for building words from letters that are close to one another.
+
+<a href="/images/nucleus.png"><img src="/images/nucleus-small.png" alt="Nucleus" /></a>
+
+You'll need a word list to play. Nucleus works out of the box on Ubuntu 9.04, using the system's English word list. On other systems, you may need to get your hands dirty. "Grady Ward's Moby project":http://icon.shef.ac.uk/Moby/ offers some public-domain word lists.
+
+Nucleus depends on "pyglet":http://www.pyglet.org/ and "pybox2d":http://code.google.com/p/pybox2d/.
