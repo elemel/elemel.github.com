@@ -3,9 +3,12 @@ layout: default
 title: Games
 ---
 
-Here are some games that I've written. Most of them could use some more love.
+Here are some games that I'm working on. Most of them could use some more love. I write games in Python, using "pyglet":http://www.pyglet.org/ for graphics, "pybox2d":http://code.google.com/p/pybox2d/ for physics, and "Inkscape":http://www.inkscape.org/ for content.
 
 h2. Nucleus
+
+*Status:* Playable
+*Dependencies:* "pyglet":http://www.pyglet.org/, "pybox2d":http://code.google.com/p/pybox2d/
 
 "Nucleus":http://github.com/elemel/nucleus/ is a fast-paced puzzle game, where you score points by constructing words from a nucleus of bouncing and spinning letters. Bonus points are awarded for words formed from adjacent letters. After assembling the required number of letters, you receive a hearty time extension and advance to the next level.
 
@@ -13,11 +16,9 @@ h2. Nucleus
 
 You need a word list to play. Nucleus works out of the box on Ubuntu 9.04, using the system's English word list. On other systems, you may need to get your hands dirty. "Grady Ward's Moby project":http://icon.shef.ac.uk/Moby/ offers some public-domain word lists.
 
-Nucleus depends on "pyglet":http://www.pyglet.org/ and "pybox2d":http://code.google.com/p/pybox2d/.
-
 h2. Cannonball
 
-In "Cannonball":http://github.com/elemel/cannonball/, you control a ball that has cannon fixed onto it. The cannon spins with the ball, which means that you use the same controls to move the ball and aim the cannon.
+In "Cannonball":http://github.com/elemel/cannonball/, you control a ball that has a cannon fixed onto it. The cannon spins with the ball, which means that you use the same controls to move the ball and aim the cannon.
 
 h2. Void
 
