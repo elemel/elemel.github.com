@@ -1,0 +1,6 @@
+---
+layout: post
+title: New Games Page
+---
+
+I've added a "page with some games":/games.html that I've been working on recently. I write games in Python, using "pyglet":http://www.pyglet.org/ for graphics, "pybox2d":http://code.google.com/p/pybox2d/ for physics, and "Inkscape":http://www.inkscape.org/ for content.
