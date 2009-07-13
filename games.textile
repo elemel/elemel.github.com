@@ -14,20 +14,30 @@ h2. Nucleus
 
 <a href="/images/nucleus.png"><img src="/images/nucleus-small.png" alt="Nucleus" /></a>
 
-You need a word list to play. Nucleus works out of the box on Ubuntu 9.04, using the system's English word list. On other systems, you may need to get your hands dirty. "Grady Ward's Moby project":http://icon.shef.ac.uk/Moby/ offers some public-domain word lists.
-
 h2. Cannonball
+
+*Status:* Playable
+*Dependencies:* "pyglet":http://www.pyglet.org/, "pybox2d":http://code.google.com/p/pybox2d/
 
 In "Cannonball":http://github.com/elemel/cannonball/, you control a ball that has a cannon fixed onto it. The cannon spins with the ball, which means that you use the same controls to move the ball and aim the cannon.
 
 h2. Void
 
+*Status:* Playable
+*Dependencies:* "pyglet":http://www.pyglet.org/, "pybox2d":http://code.google.com/p/pybox2d/
+
 "Void":http://github.com/elemel/void/ is a retro space shooter.
 
 h2. Siblings in Arms
 
+*Status:* Prototyping
+*Dependencies:* "pygame":http://www.pygame.org/
+
 "Siblings in Arms":http://github.com/elemel/siblings-in-arms/ is a swords-and-sorcery RTS.
 
 h2. Mortified
+
+*Status:* Prototyping
+*Dependencies:* "pyglet":http://www.pyglet.org/, "pybox2d":http://code.google.com/p/pybox2d/
 
 "Mortified":http://github.com/elemel/mortified/ is a 2D platform RPG.
