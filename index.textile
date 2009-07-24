@@ -3,6 +3,6 @@ layout: default
 title: Mikael Lind
 ---
 
-I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife Angelique and our sons Viggo and Love. I work at "Illuminate Labs":http://www.illuminatelabs.com/, and I run "Beliber":http://www.beliber.se/ on the side with a couple of friends.
+I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife "Angelique":http://studioagnes.blogspot.com/ and our sons Viggo and Love. I work at "Illuminate Labs":http://www.illuminatelabs.com/, and I run "Beliber":http://www.beliber.se/ on the side with a couple of friends.
 
-<img src="/images/mikael-lind.jpg" alt="Mikael Lind" />
+<img src="/images/the-boys.jpg" alt="The Boys" />
