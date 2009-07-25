@@ -6,9 +6,3 @@ title: Mikael Lind
 I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife "Angelique":http://studioagnes.blogspot.com/ and our sons Viggo and Love. I work at "Illuminate Labs":http://www.illuminatelabs.com/, and I run "Beliber":http://www.beliber.se/ on the side with a couple of friends.
 
 <img src="/images/the-boys.jpg" alt="The Boys" />
-
-h2. Contact Details
-
-*Email:* "elemel@elemel.se":mailto:elemel@elemel.se
-*Website:* "elemel.se":http://elemel.se/
-*On GitHub:* "github.com/elemel":http://github.com/elemel

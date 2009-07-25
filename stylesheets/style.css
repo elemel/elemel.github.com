@@ -22,15 +22,34 @@ img {
 
 #header, #footer, .date {
     font-size: small;
+}
+
+.date {
     text-transform: uppercase;
 }
 
 #header {
+    padding-bottom: 1em;
+    border-bottom: 2px solid #ccc;
     margin-bottom: 2em;
 }
 
 #footer {
+    padding-top: 1em;
+    border-top: 2px solid #ccc;
     margin-top: 2em;
+}
+
+.contact {
+    float: left;
+}
+
+.validator {
+    float: right;
+}
+
+.clears {
+    clear: both;
 }
 
 .posts {
