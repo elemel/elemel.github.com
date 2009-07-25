@@ -3,7 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>{{ page.title }} | Mikael Lind</title>
+    {% if page.title == 'Mikael Lind' %}
+      <title>Mikael Lind</title>
+    {% else %}
+      <title>{{ page.title }} | Mikael Lind</title>
+    {% endif %}
     <meta name="author" content="Mikael Lind" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
     <link href="http://feeds.feedburner.com/elemel" rel="alternate"
