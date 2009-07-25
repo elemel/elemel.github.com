@@ -11,4 +11,4 @@ h2. Contact Details
 
 *Email:* "elemel@elemel.se":mailto:elemel@elemel.se
 *Website:* "http://elemel.se/":http://elemel.se/
-*At GitHub:* "http://github.com/elemel":http://github.com/elemel
+*On GitHub:* "http://github.com/elemel":http://github.com/elemel
