@@ -3,7 +3,14 @@ layout: default
 title: Texts
 ---
 
-Here are some texts that I've written. Some are in English, and some are in Swedish.
+Here are some English and Swedish texts that I've written.
+
+h2. Piloten
+
+Drinken ska blandas
+Planet ska landas
+Middagen ska handlas
+Kroppen ska förvandlas
 
 h2. Hustomtarnas julbord
 
