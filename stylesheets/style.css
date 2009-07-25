@@ -24,10 +24,6 @@ img {
     font-size: small;
 }
 
-.date {
-    text-transform: uppercase;
-}
-
 #header {
     padding-bottom: 1em;
     border-bottom: 2px solid #ccc;
