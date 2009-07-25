@@ -10,5 +10,5 @@ I'm Mikael Lind, a programmer living in Gothenburg, Sweden with my wife "Angeliq
 h2. Contact Details
 
 *Email:* "elemel@elemel.se":mailto:elemel@elemel.se
-*Website:* "http://elemel.se/":http://elemel.se/
-*On GitHub:* "http://github.com/elemel":http://github.com/elemel
+*Website:* "elemel.se":http://elemel.se/
+*On GitHub:* "github.com/elemel":http://github.com/elemel
