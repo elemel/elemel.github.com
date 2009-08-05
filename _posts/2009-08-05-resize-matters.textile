@@ -1,0 +1,21 @@
+---
+layout: post
+title: Resize Matters
+---
+
+Most screens have an aspect ratio of either 4:3 (traditional) or 8:5 (widescreen), right? And some screens can pivot to portrait mode, resulting in an aspect ratio of 3:4 or 5:8. What's the best way to utilize the full resolution of most screen configurations in a game? I'm interested in games running in fullscreen mode as well as games running in a resizable window, and I think it's reasonable to constrain the aspect ratio to some degree, e.g. between 5:8 and 3:4 for portrait-mode games; between 4:3 and 8:5 for landscape-mode games; and between 5:8 and 8:5 for pivotable games. You could scale the view by window height, but then people with wider screens get to see more of the game, while pivoting the screen to portrait mode lets you see far less. Perhaps a better solution is to scale the view by the diagonal of the screen, or by the minimum or maximum of the width and height.
+
+In my recent games, I've used pyglet and Rabbyt for graphics and Box2D for physics. pyglet and Rabbyt each have their different take on sprites, for efficiently drawing translated, rotated, and scaled bitmaps. Box2D is tuned for body sizes in the range 0.1 to 10 units, which doesn't translate directly to pixels. I've used a couple of different approaches to bridge the scale gap between the physics world and the screen.
+
+Approach #1 -- scale the view:
+
+# Transform the view to physics scale, e.g. by making the screen 20 units high.
+# Before drawing each frame, update all sprite positions and angles from their respective physics bodies, _without scaling the positions_.
+# Manually tune the scale of each sprite until it looks right.
+
+Approach #2 -- scale sprite positions:
+
+# Stick with pyglet's default view.
+# Before drawing each frame, update all sprite positions and angles from their respective physics bodies, _scaling the positions_.
+
+Approach #1 works well with Rabbyt. It doesn't work as well with pyglet, since pyglet keeps sprite corners pixel-aligned. I've submitted a "patch":http://code.google.com/p/pyglet/issues/detail?id=371#c2 implementing a <code>subpixel</code> option for pyglet sprites. Approach #2 is preferrable when you actually want pixel alignment. Use pyglet sprites in that case.
