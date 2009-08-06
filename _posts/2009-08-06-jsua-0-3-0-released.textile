@@ -1,0 +1,6 @@
+---
+layout: post
+title: jsua 0.3.0 Released
+---
+
+Projects named lua-json are plentiful these days, so I've renamed _my_ lua-json project to "jsua":http://github.com/elemel/jsua. Oh, and I've released "version 0.3.0":http://github.com/elemel/jsua/tree/v0.3.0 of jsua.
