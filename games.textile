@@ -5,6 +5,8 @@ title: Games
 
 Here are some games that I'm working on. Most of them could use some more love. I write games in "Python":http://www.python.org/, using "pyglet":http://www.pyglet.org/ and "Rabbyt":http://matthewmarshall.org/projects/rabbyt/ for graphics, "pybox2d":http://code.google.com/p/pybox2d/ for physics, and "GIMP":http://www.gimp.org/ and "Inkscape":http://www.inkscape.org/ for content.
 
+You can also find some game-related prototypes in my "prototypes":http://github.com/elemel/prototypes repository.
+
 h2. Nucleus
 
 *Status:* Playable
