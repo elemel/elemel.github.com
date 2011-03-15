@@ -40,8 +40,12 @@ img {
     float: left;
 }
 
-.validator {
+.badges {
     float: right;
+}
+
+.badges img {
+    vertical-align: top;
 }
 
 .clears {
