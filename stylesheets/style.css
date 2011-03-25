@@ -1,13 +1,22 @@
+html {
+    background-color: #fd0;
+    color: #666;
+}
+
 body {
-    width: 40em;
-    margin: 2em auto;
-    text-align: justify;
+    width: 48em;
+    margin: 0 auto;
     line-height: 1.5;
     font-family: Helvetica, sans-serif;
 }
 
 h1, h2, h3 {
     text-align: left;
+}
+
+h1, h2, h3, strong {
+    color: black;
+    font-family: Trebuchet MS, sans-serif;
 }
 
 #ribbon {
@@ -20,20 +29,58 @@ img {
     border: 0;
 }
 
-#header, #footer, .date {
+.date {
     font-size: small;
 }
 
+#header p, #footer p {
+    margin: 0;
+}
+
+#footer p + p {
+    margin-top: 1em;
+}
+
 #header {
-    padding-bottom: 1em;
-    border-bottom: 2px solid #ccc;
-    margin-bottom: 2em;
+    padding: 1em;
+}
+
+#header, #header a, #header strong {
+    background-color: #000;
+    color: #9ff;
+}
+
+#header a {
+    text-decoration: none;
+}
+
+#header a:hover {
+    text-decoration: underline;
+}
+
+#content a {
+    text-decoration: none;
+}
+
+#content a:hover {
+    text-decoration: underline;
+}
+
+#content {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 1em;
+    border-radius: 0 0 0.5em 0.5em;
 }
 
 #footer {
-    padding-top: 1em;
-    border-top: 2px solid #ccc;
-    margin-top: 2em;
+    padding: 1em;
+    text-align: center;
+}
+
+#footer img {
+    vertical-align: middle;
+    margin: 0 0.5em;
 }
 
 .contact {
@@ -42,6 +89,7 @@ img {
 
 .badges {
     float: right;
+    text-align: right;
 }
 
 .badges img {

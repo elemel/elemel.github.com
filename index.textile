@@ -3,6 +3,6 @@ layout: default
 title: Mikael Lind
 ---
 
-I'm Mikael Lind, a somewhat awesome programmer living in Gothenburg, Sweden with my wife "Angelique":http://studioagnes.blogspot.com/ and our sons Viggo and Love. I work on the "Beast":http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&id=15779574 at "Autodesk":http://usa.autodesk.com/, and I run "Beliber":http://www.beliber.se/ with my friends Henrik and Mattias.
+I'm a programmer living in Gothenburg, Sweden with my wife "Angelique":http://studioagnes.blogspot.com/ and our sons Viggo and Love. I work on the "Beast":http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&id=15779574 at "Autodesk":http://usa.autodesk.com/, and I run "Beliber":http://www.beliber.se/ with my friends Henrik and Mattias.
 
 <img src="/images/the-boys.jpg" alt="The Boys"/>
