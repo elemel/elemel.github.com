@@ -7,7 +7,7 @@ body {
     width: 48em;
     margin: 0 auto;
     line-height: 1.5;
-    font-family: Helvetica, sans-serif;
+    font-family: Georgia, serif;
 }
 
 h1, h2, h3 {
@@ -16,7 +16,6 @@ h1, h2, h3 {
 
 h1, h2, h3, strong {
     color: black;
-    font-family: Trebuchet MS, sans-serif;
 }
 
 #ribbon {
