@@ -1,6 +1,7 @@
 html {
     background-color: #fd0;
     color: #666;
+    -webkit-text-size-adjust: none;
 }
 
 body {
