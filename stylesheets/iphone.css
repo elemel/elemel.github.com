@@ -1,0 +1,28 @@
+html {
+    -webkit-text-size-adjust: none;
+}
+
+body {
+    width: 100%;
+    margin: 0;
+    line-height: 1.5;
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+}
+
+img {
+    max-width: 100%;
+}
+
+#footer img {
+    max-width: 40px;
+}
+
+#content {
+    border-width: 1px 0;
+    border-radius: 0;
+}
+
+#ribbon {
+    display: none;
+}

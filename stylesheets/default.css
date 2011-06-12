@@ -1,24 +1,13 @@
-@media screen {
-    html {
-        background-color: #fd0;
-        color: #666;
-        -webkit-text-size-adjust: none;
-    }
-
-    body {
-        width: 48em;
-        margin: 0 auto;
-        line-height: 1.5;
-        font-family: Georgia, serif;
-    }
+html {
+    background-color: #fd0;
+    color: #666;
 }
 
-@media handheld {
-    html {
-        background-color: #fd0;
-        color: #666;
-        -webkit-text-size-adjust: none;
-    }
+body {
+    width: 48em;
+    margin: 0 auto;
+    line-height: 1.5;
+    font-family: Georgia, serif;
 }
 
 h1, h2, h3 {
@@ -95,15 +84,6 @@ img {
 
 .contact {
     float: left;
-}
-
-.badges {
-    float: right;
-    text-align: right;
-}
-
-.badges img {
-    vertical-align: top;
 }
 
 .clears {
