@@ -1,14 +1,24 @@
-html {
-    background-color: #fd0;
-    color: #666;
-    -webkit-text-size-adjust: none;
+@media screen {
+    html {
+        background-color: #fd0;
+        color: #666;
+        -webkit-text-size-adjust: none;
+    }
+
+    body {
+        width: 48em;
+        margin: 0 auto;
+        line-height: 1.5;
+        font-family: Georgia, serif;
+    }
 }
 
-body {
-    width: 48em;
-    margin: 0 auto;
-    line-height: 1.5;
-    font-family: Georgia, serif;
+@media handheld {
+    html {
+        background-color: #fd0;
+        color: #666;
+        -webkit-text-size-adjust: none;
+    }
 }
 
 h1, h2, h3 {
