@@ -1,6 +1,0 @@
----
-layout: post
-title: New Prototypes Repository
----
-
-I've added a new "prototypes":http://github.com/elemel/prototypes/ repository to my GitHub account, where I'll prototype ideas and explore library features. So far, there are two prototypes in the repository: Ragdoll Walk and Shadow of the Rabbyt. Ragdoll Walk is my recently published python-ragdoll project, now merged into the prototypes repository. Shadow of the Rabbyt gives an example of how to attach a shadow sprite to another sprite using Rabbyt.

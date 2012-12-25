@@ -1,6 +1,0 @@
----
-layout: post
-title: First Post
----
-
-Nothing to see here. Please move along.

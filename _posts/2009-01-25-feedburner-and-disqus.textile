@@ -1,6 +1,0 @@
----
-layout: post
-title: FeedBurner and Disqus
----
-
-We live and learn. "Tom Preston-Werner":http://tom.preston-werner.com/ had a better-looking Atom feed than mine, so I copied his. I've started using "FeedBurner":http://www.feedburner.com/, now that I almost understand what it's good for. "Dr Nic Williams":http://drnicwilliams.com/ taught me just enough about "Disqus":http://www.disqus.com/ through his "Jekyll generator":http://github.com/drnic/jekyll_generator. Disqus now powers the new comment function on my blog. Thanks, guys.

@@ -1,6 +1,6 @@
 html {
-    background-color: #fd0;
-    color: #666;
+    background-color: #000;
+    color: #ccc;
 }
 
 body {
@@ -14,8 +14,8 @@ h1, h2, h3 {
     text-align: left;
 }
 
-h1, h2, h3, strong {
-    color: black;
+h1, h2, h3, strong, .date {
+    color: #9ff;
 }
 
 #ribbon {
@@ -44,9 +44,8 @@ img {
     padding: 1em;
 }
 
-#header, #header a, #header strong {
-    background-color: #000;
-    color: #9ff;
+#header a, #header strong {
+    color: #9f0;
 }
 
 #header a {
@@ -66,10 +65,10 @@ img {
 }
 
 #content {
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 2px solid #f90;
+    background-color: #000;
     padding: 1em;
-    border-radius: 0 0 0.5em 0.5em;
+    border-radius: 0.5em;
 }
 
 #footer {
@@ -103,4 +102,16 @@ pre {
     color: white;
     background-color: black;
     padding: 0.5em;
+}
+
+a:link {
+    color: #ff0;
+}
+
+a:visited {
+    color: #fc0;
+}
+
+a:active, #header a:active, #header strong:active {
+    color: #f00;
 }

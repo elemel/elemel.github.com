@@ -1,0 +1,12 @@
+---
+layout: post
+title: Ludum Dare 25
+---
+
+I participated in "Ludum Dare 25":http://www.ludumdare.com/compo/ludum-dare-25/ in December, 2012. Ludum Dare is a game-making competition held three times a year, where you have 48 hours to create a game from scratch. The theme for Ludum Dare 25 was "You Are the Villain". I submitted an entry called "Hungry Alien":http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&uid=19461, where you control an alien ship stocking up on food on planet Earth. Using your tractor beam, you pull cows and other farm animals toward your ship, while steering clear of tank shells fired by the aggravated earthlings. Had I read the competition instructions more carefully, goats would be included among the farm animals that you can gather -- apparently, "goats" were a minor theme of Ludum Dare 25. Lesson learned. Never pass up a low-hanging fruit.
+
+Taking a game from start to finish in just a couple of days requires scoping. The end result may be a simple game, but it should still be complete. In my case, that meant having gameplay, graphics and sound, as well as win and lose conditions. I was pressed for time throughout the competition, and I hadn't even started working on several important features with only a few hours left until the deadline. As always, I think you should have something crude but complete as early as possible, and then iterate on that. I can definitely improve there.
+
+One of the major time sinks was using "PlayN":http://code.google.com/p/playn/, a game library that was new to me. My reason for going with PlayN was that I wanted Hungry Alien to be easy to start for other Ludum Dare participants. With PlayN, you write your game in Java and deploy it to several possible targets, including compiling to HTML5/JavaScript using the GWT compiler. Web games are great in that they don't require any installation, and are (ideally) portable. I say "ideally" because while Hungry Alien runs fine in Chrome, a friend who uses Internet Explorer was unable to start the game. Oops. I haven't looked into the problem, but hopefully it's something minor!
+
+I'm really happy that I was able to complete Hungry Alien for Ludum Dare 25, and that I went with PlayN. It was a risky decision because I was inexperienced with PlayN, and because the development time available during the competition is very limited. I intend to participate in Ludum Dare again in the future, and I'll also make sure to learn more about PlayN.

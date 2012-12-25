@@ -1,8 +1,0 @@
----
-layout: post
-title: Let There Be Light
----
-
-I started working at Illuminate Labs a week ago. Being at a small company once again is a welcome change, having done consultancy work for large companies during the last couple of years. Although I've been at small companies before, something feels different this time around. Illuminate Labs being a great company to work at is only half the answer. I also feel different because I _am_ different. I've matured a lot from working as a consultant. Or maybe it's just living my life as it has been during this time, becoming a father for the second time and whatnot.
-
-I used to be all about doing The Right Thing. I talked and talked about agile software development practices, but was I really that agile myself? Now I'm much more into the Worse Is Better school of thought, and happier for it. Most of the time, applying Worse Is Better leads to less speculation, less insecurity, less risk taking, more momentum, and more concrete results.
