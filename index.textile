@@ -3,6 +3,6 @@ layout: default
 title: Mikael Lind
 ---
 
-I'm a programmer living in Gothenburg, Sweden with my wife "Angelique":http://studioagnes.blogspot.com/ and our sons Viggo and Love. I work on the "Beast":http://usa.autodesk.com/adsk/servlet/pc/index?siteID=123112&id=15779574 at "Autodesk":http://usa.autodesk.com/. I've always been fascinated by games, and I enjoy making them on a hobby basis.
+I'm a programmer living in Gothenburg, Sweden with my wife "Angelique":http://studioagnes.blogspot.com/ and our sons Viggo and Love. I work on the "Beast":http://gameware.autodesk.com/beast at "Autodesk":http://usa.autodesk.com/. I've always been fascinated by games, and I enjoy making them on a hobby basis.
 
 <img src="/images/the-boys.jpg" alt="The Boys"/>
