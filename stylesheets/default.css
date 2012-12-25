@@ -14,8 +14,12 @@ h1, h2, h3 {
     text-align: left;
 }
 
-h1, h2, h3, strong, .date {
-    color: #9ff;
+h1, h2, h3, strong {
+    color: #0cf;
+}
+
+.date {
+    color: #f90;
 }
 
 #ribbon {
@@ -44,29 +48,16 @@ img {
     padding: 1em;
 }
 
-#header a, #header strong {
-    color: #9f0;
-}
-
-#header a {
+a {
     text-decoration: none;
 }
 
-#header a:hover {
-    text-decoration: underline;
-}
-
-#content a {
-    text-decoration: none;
-}
-
-#content a:hover {
+a:hover {
     text-decoration: underline;
 }
 
 #content {
     border: 2px solid #f90;
-    background-color: #000;
     padding: 1em;
     border-radius: 0.5em;
 }
@@ -104,14 +95,14 @@ pre {
     padding: 0.5em;
 }
 
-a:link {
+a:link, a:link {
     color: #ff0;
 }
 
 a:visited {
-    color: #fc0;
+    color: #9f0;
 }
 
-a:active, #header a:active, #header strong:active {
+a:active {
     color: #f00;
 }
