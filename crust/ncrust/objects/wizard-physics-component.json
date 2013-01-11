@@ -1,0 +1,45 @@
+{
+	"bodies": [
+		{
+			"name": "upper",
+			"type": "dynamic",
+			"position": [0.0, 0.2],
+			"fixedRotation": true,
+			"fixtures": [
+				{
+					"shape": {
+						"type": "circle",
+						"radius": 0.5
+					}
+				}
+			]
+		},
+		{
+			"name": "lower",
+			"type": "dynamic",
+			"position": [0.0, -0.15],
+			"fixtures": [
+				{
+					"name": "lower",
+					"shape": {
+						"type": "circle",
+						"radius": 0.3
+					},
+					"friction": 2.0
+				}
+			]
+		}
+	],
+	"joints": [
+		{
+			"name": "motor",
+			"type": "revolute",
+			"bodyNameA": "upper",
+			"bodyNameB": "lower",
+			"anchorA": [0.0, -0.15],
+			"anchorB": [0.0, -0.15],
+			"enableMotor": true,
+			"maxMotorTorque": 10.0
+		}
+	]
+}

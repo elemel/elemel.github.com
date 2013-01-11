@@ -1,0 +1,11 @@
+{
+	"layers": [
+		{
+			"name": "wizard",
+			"type": "image",
+			"imagePath": "images/wizard.png",
+			"alignment": [0.5, 0.5],
+			"scale": 0.1
+		}
+	]
+}
