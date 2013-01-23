@@ -5,7 +5,7 @@ title: Games
 
 h2. Crust
 
-Crust is a 2D mining game.
+"Crust":/crust/ is a 2D mining game.
 
 h2. Hungry Alien
 
