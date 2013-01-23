@@ -45,7 +45,7 @@ img {
 }
 
 #header {
-    padding: 1em;
+    padding: 1em 2em;
 }
 
 a {
@@ -58,12 +58,12 @@ a:hover {
 
 #content {
     border: 2px solid #f90;
-    padding: 1em;
+    padding: 1em 2em;
     border-radius: 0.5em;
 }
 
 #footer {
-    padding: 1em;
+    padding: 1em 2em;
     text-align: center;
 }
 
