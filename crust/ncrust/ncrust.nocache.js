@@ -249,7 +249,7 @@ function ncrust(){
   $stats && $stats({moduleName:'ncrust', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      strongName = 'B05FB1DBE60C46B833CA3116CAAA3B5F';
+      strongName = 'B6521926CF922408364E71522344A8DF';
       var idx = strongName.indexOf(':');
       if (idx != -1) {
         softPermutationId = Number(strongName.substring(idx + 1));
