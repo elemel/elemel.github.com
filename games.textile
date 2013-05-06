@@ -3,6 +3,10 @@ layout: default
 title: Games
 ---
 
+h2. Beanslingers
+
+"Beanslingers":/beanslingers/ was an entry that I started on for Ludum Dare 26. I wasn't able to spend a lot of time on the game during the competition weekend, but I'm publishing it as is.
+
 h2. Crust
 
 "Crust":/crust/ is a 2D mining game.
