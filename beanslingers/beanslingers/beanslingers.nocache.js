@@ -249,7 +249,7 @@ function beanslingers(){
   $stats && $stats({moduleName:'beanslingers', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      strongName = '61E4F8B6A4D81AEC706303E0B28ACA9B';
+      strongName = '628B8D265014FB67E6BDD10284C134D2';
       var idx = strongName.indexOf(':');
       if (idx != -1) {
         softPermutationId = Number(strongName.substring(idx + 1));

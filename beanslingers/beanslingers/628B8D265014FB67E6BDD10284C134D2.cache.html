@@ -4,14 +4,14 @@ var $gwt_version = "2.5.0";
 var $wnd = parent;
 var $doc = $wnd.document;
 var $moduleName, $moduleBase;
-var $strongName = '61E4F8B6A4D81AEC706303E0B28ACA9B';
+var $strongName = '628B8D265014FB67E6BDD10284C134D2';
 var $stats = $wnd.__gwtStatsEvent ? function(a) {return $wnd.__gwtStatsEvent(a);} : null,
 $sessionId = $wnd.__gwtStatsSessionId ? $wnd.__gwtStatsSessionId : null;
 $stats && $stats({moduleName:'beanslingers',sessionId:$sessionId,subSystem:'startup',evtGroup:'moduleStartup',millis:(new Date()).getTime(),type:'moduleEvalStart'});
 </script></head>
 <body>
 <script><!--
-var _, seedTable = {}, Q$Object = 0, Q$String = 1, Q$SoundType = 2, Q$Context2d$Repetition = 3, Q$Style$HasCssName = 4, Q$Style$Overflow = 5, Q$Style$Position = 6, Q$Style$Unit = 7, Q$Style$Visibility = 8, Q$LongLibBase$LongEmul = 9, Q$Serializable = 10, Q$CharSequence = 11, Q$Comparable = 12, Q$Enum = 13, Q$Exception = 14, Q$Float = 15, Q$Integer = 16, Q$Number = 17, Q$RuntimeException = 18, Q$StackTraceElement = 19, Q$Throwable = 20, Q$ByteBuffer = 21, Q$FloatBuffer = 22, Q$IntBuffer = 23, Q$ShortBuffer = 24, Q$List = 25, Q$Map = 26, Q$Map$Entry = 27, Q$Set = 28, Q$AbstractLayer$Flag = 29, Q$Events$Input = 30, Q$Events$Input$Impl = 31, Q$Events$Position = 32, Q$Events$Position$Impl = 33, Q$Key = 34, Q$Log$Level = 35, Q$Touch$Event = 36, Q$Touch$Event$Impl = 37, Q$HasArrayBufferView = 38, Q$HtmlGL20$VertexAttribArrayState = 39, Q$HtmlGL20$WebGLObjectType = 40, Q$AbstractCircle = 41, Q$AbstractPoint = 42, Q$AbstractVector = 43, Q$Actor = 44, Q$GameScreen$PlayerInput = 45, Q$PlayerActor = 46, CM$ = {};
+var _, seedTable = {}, Q$Object = 0, Q$String = 1, Q$SoundType = 2, Q$Context2d$Repetition = 3, Q$Style$HasCssName = 4, Q$Style$Overflow = 5, Q$Style$Position = 6, Q$Style$Unit = 7, Q$Style$Visibility = 8, Q$LongLibBase$LongEmul = 9, Q$UmbrellaException = 10, Q$Serializable = 11, Q$CharSequence = 12, Q$Comparable = 13, Q$Enum = 14, Q$Exception = 15, Q$Float = 16, Q$Integer = 17, Q$Number = 18, Q$RuntimeException = 19, Q$StackTraceElement = 20, Q$Throwable = 21, Q$ByteBuffer = 22, Q$FloatBuffer = 23, Q$IntBuffer = 24, Q$ShortBuffer = 25, Q$List = 26, Q$Map = 27, Q$Map$Entry = 28, Q$Set = 29, Q$AbstractLayer$Flag = 30, Q$Events$Input = 31, Q$Events$Input$Impl = 32, Q$Events$Position = 33, Q$Events$Position$Impl = 34, Q$Key = 35, Q$Log$Level = 36, Q$Touch$Event = 37, Q$Touch$Event$Impl = 38, Q$HasArrayBufferView = 39, Q$HtmlGL20$VertexAttribArrayState = 40, Q$HtmlGL20$WebGLObjectType = 41, Q$AbstractCircle = 42, Q$AbstractPoint = 43, Q$AbstractVector = 44, Q$Actor = 45, Q$GameScreen$PlayerInput = 46, Q$PlayerActor = 47, CM$ = {};
 function newSeed(id){
   return new seedTable[id];
 }
@@ -284,13 +284,19 @@ function RuntimeException_1(message){
   this.detailMessage = message;
 }
 
-function RuntimeException_2(cause){
+function RuntimeException_2(message, cause){
+  $fillInStackTrace($clinit_StackTraceCreator$CollectorChrome());
+  this.cause = cause;
+  this.detailMessage = message;
+}
+
+function RuntimeException_3(cause){
   $fillInStackTrace($clinit_StackTraceCreator$CollectorChrome());
   this.detailMessage = !cause?null:$toString(cause);
   this.cause = cause;
 }
 
-defineSeed(14, 15, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), RuntimeException_1, RuntimeException_2);
+defineSeed(14, 15, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), RuntimeException_1, RuntimeException_3);
 function JavaScriptException_0(e){
   RuntimeException_0.call(this);
   this.e = e;
@@ -832,6 +838,54 @@ function $removeChild(this$static, oldChild){
   return this$static.removeChild(oldChild);
 }
 
+function $addClassName(this$static, className){
+  var idx, last, lastPos, oldClassName;
+  className = $trim(className);
+  oldClassName = this$static.className;
+  idx = oldClassName.indexOf(className);
+  while (idx != -1) {
+    if (idx == 0 || oldClassName.charCodeAt(idx - 1) == 32) {
+      last = idx + className.length;
+      lastPos = oldClassName.length;
+      if (last == lastPos || last < lastPos && oldClassName.charCodeAt(last) == 32) {
+        break;
+      }
+    }
+    idx = oldClassName.indexOf(className, idx + 1);
+  }
+  if (idx == -1) {
+    oldClassName.length > 0 && (oldClassName += ' ');
+    this$static.className = oldClassName + className;
+  }
+}
+
+function $removeClassName(this$static, className){
+  var begin, end, idx, last, lastPos, newClassName, oldStyle;
+  className = $trim(className);
+  oldStyle = this$static.className;
+  idx = oldStyle.indexOf(className);
+  while (idx != -1) {
+    if (idx == 0 || oldStyle.charCodeAt(idx - 1) == 32) {
+      last = idx + className.length;
+      lastPos = oldStyle.length;
+      if (last == lastPos || last < lastPos && oldStyle.charCodeAt(last) == 32) {
+        break;
+      }
+    }
+    idx = oldStyle.indexOf(className, idx + 1);
+  }
+  if (idx != -1) {
+    begin = $trim(oldStyle.substr(0, idx - 0));
+    end = $trim($substring(oldStyle, idx + className.length));
+    begin.length == 0?(newClassName = end):end.length == 0?(newClassName = begin):(newClassName = begin + ' ' + end);
+    this$static.className = newClassName;
+  }
+}
+
+function $setAttribute(this$static, name_0, value){
+  this$static.setAttribute(name_0, value);
+}
+
 function $setHeight(this$static, height){
   this$static.height = height;
 }
@@ -933,6 +987,16 @@ function getBoundingClientRect(element){
   return element.getBoundingClientRect && element.getBoundingClientRect();
 }
 
+function $getClientHeight(this$static){
+  return ($equals(this$static.compatMode, 'CSS1Compat')?this$static.documentElement:this$static.body).clientHeight;
+}
+
+function $getClientWidth(this$static){
+  return ($equals(this$static.compatMode, 'CSS1Compat')?this$static.documentElement:this$static.body).clientWidth;
+}
+
+--></script>
+<script><!--
 function $clinit_Style$Overflow(){
   $clinit_Style$Overflow = nullMethod;
   VISIBLE = new Style$Overflow$1_0;
@@ -994,8 +1058,6 @@ function Style$Position$2_0(){
   Enum_0.call(this, 'RELATIVE', 1);
 }
 
---></script>
-<script><!--
 defineSeed(55, 53, makeCastMap([Q$Style$HasCssName, Q$Style$Position, Q$Serializable, Q$Comparable, Q$Enum]), Style$Position$2_0);
 function Style$Position$3_0(){
   Enum_0.call(this, 'ABSOLUTE', 2);
@@ -1105,9 +1167,253 @@ function $getRelativeY(this$static, target){
   return this$static.clientY - $getAbsoluteTop(target) + (target.scrollTop || 0) + (target.ownerDocument.body.scrollTop || 0);
 }
 
+defineSeed(74, 1, {});
+_.toString$ = function toString_3(){
+  return 'An event type';
+}
+;
+_.source = null;
+function $overrideSource(this$static, source){
+  this$static.source = source;
+}
+
+defineSeed(73, 74, {});
+_.dead = false;
+function fire(){
+}
+
+function ResizeEvent_0(width, height){
+  this.width_0 = width;
+  this.height_0 = height;
+}
+
+function fire_0(source, width, height){
+  var event_0;
+  if (TYPE) {
+    event_0 = new ResizeEvent_0(width, height);
+    $fireEvent(source, event_0);
+  }
+}
+
+defineSeed(75, 73, {}, ResizeEvent_0);
+_.dispatch = function dispatch(handler){
+  $onResize(handler, this);
+}
+;
+_.getAssociatedType = function getAssociatedType(){
+  return TYPE;
+}
+;
+_.height_0 = 0;
+_.width_0 = 0;
+var TYPE = null;
+defineSeed(77, 1, {});
+_.hashCode$ = function hashCode_2(){
+  return this.index_0;
+}
+;
+_.toString$ = function toString_4(){
+  return 'Event type';
+}
+;
+_.index_0 = 0;
+var nextHashCode = 0;
+function GwtEvent$Type_0(){
+  this.index_0 = ++nextHashCode;
+}
+
+defineSeed(76, 77, {}, GwtEvent$Type_0);
+function $addHandler(this$static, type, handler){
+  return new LegacyHandlerWrapper_0($doAdd(this$static.eventBus, type, handler));
+}
+
+function $fireEvent(this$static, event_0){
+  var $e0, e, oldSource;
+  !event_0.dead || (event_0.dead = false , event_0.source = null);
+  oldSource = event_0.source;
+  $overrideSource(event_0, this$static.source);
+  try {
+    $doFire(this$static.eventBus, event_0);
+  }
+   catch ($e0) {
+    $e0 = caught($e0);
+    if (instanceOf($e0, Q$UmbrellaException)) {
+      e = $e0;
+      throw new UmbrellaException_2(e.causes);
+    }
+     else 
+      throw $e0;
+  }
+   finally {
+    oldSource == null?(event_0.dead = true , event_0.source = null):(event_0.source = oldSource);
+  }
+}
+
+defineSeed(78, 1, {});
+_.eventBus = null;
+_.source = null;
+defineSeed(81, 1, {});
+function $defer(this$static, command){
+  !this$static.deferredDeltas && (this$static.deferredDeltas = new ArrayList_0);
+  $add_0(this$static.deferredDeltas, command);
+}
+
+function $doAdd(this$static, type, handler){
+  if (!type) {
+    throw new NullPointerException_1('Cannot add a handler with a null type');
+  }
+  if (!handler) {
+    throw new NullPointerException_1('Cannot add a null handler');
+  }
+  this$static.firingDepth > 0?$defer(this$static, new SimpleEventBus$2_0(this$static, type, handler)):$doAddNow(this$static, type, null, handler);
+  return new SimpleEventBus$1_0;
+}
+
+function $doAddNow(this$static, type, source, handler){
+  var l;
+  l = $ensureHandlerList(this$static, type, source);
+  l.add(handler);
+}
+
+function $doFire(this$static, event_0){
+  var $e0, causes, e, handler, handlers, it;
+  if (!event_0) {
+    throw new NullPointerException_1('Cannot fire null event');
+  }
+  try {
+    ++this$static.firingDepth;
+    handlers = $getDispatchList(this$static, event_0.getAssociatedType());
+    causes = null;
+    it = this$static.isReverseOrder?handlers.listIterator_0(handlers.size_0()):handlers.listIterator();
+    while (this$static.isReverseOrder?it.i > 0:it.i < it.this$0_0.size_0()) {
+      handler = this$static.isReverseOrder?$previous(it):$next_0(it);
+      try {
+        event_0.dispatch(handler);
+      }
+       catch ($e0) {
+        $e0 = caught($e0);
+        if (instanceOf($e0, Q$Throwable)) {
+          e = $e0;
+          !causes && (causes = new HashSet_0);
+          $add_1(causes, e);
+        }
+         else 
+          throw $e0;
+      }
+    }
+    if (causes) {
+      throw new UmbrellaException_1(causes);
+    }
+  }
+   finally {
+    --this$static.firingDepth;
+    this$static.firingDepth == 0 && $handleQueuedAddsAndRemoves(this$static);
+  }
+}
+
+function $ensureHandlerList(this$static, type, source){
+  var handlers, sourceMap;
+  sourceMap = $get_4(this$static.map, type);
+  if (!sourceMap) {
+    sourceMap = new HashMap_0;
+    $put_2(this$static.map, type, sourceMap);
+  }
+  handlers = sourceMap.get(source);
+  if (!handlers) {
+    handlers = new ArrayList_0;
+    sourceMap.put(source, handlers);
+  }
+  return handlers;
+}
+
+function $getDispatchList(this$static, type){
+  var directHandlers;
+  directHandlers = $getHandlerList(this$static, type);
+  return directHandlers;
+}
+
+function $getHandlerList(this$static, type){
+  var handlers, sourceMap;
+  sourceMap = $get_4(this$static.map, type);
+  if (!sourceMap) {
+    return $clinit_Collections() , $clinit_Collections() , EMPTY_LIST;
+  }
+  handlers = sourceMap.get(null);
+  if (!handlers) {
+    return $clinit_Collections() , $clinit_Collections() , EMPTY_LIST;
+  }
+  return handlers;
+}
+
+function $handleQueuedAddsAndRemoves(this$static){
+  var c, c$iterator;
+  if (this$static.deferredDeltas) {
+    try {
+      for (c$iterator = new AbstractList$IteratorImpl_0(this$static.deferredDeltas); c$iterator.i < c$iterator.this$0_0.size_0();) {
+        c = $next_0(c$iterator);
+        $doAddNow(c.this$0, c.val$type, c.val$source, c.val$handler);
+      }
+    }
+     finally {
+      this$static.deferredDeltas = null;
+    }
+  }
+}
+
+defineSeed(80, 81, {});
+_.deferredDeltas = null;
+_.firingDepth = 0;
+_.isReverseOrder = false;
+function HandlerManager$Bus_0(){
+  this.map = new HashMap_0;
+  this.isReverseOrder = false;
+}
+
+defineSeed(79, 80, {}, HandlerManager$Bus_0);
+function LegacyHandlerWrapper_0(){
+}
+
+defineSeed(82, 1, {}, LegacyHandlerWrapper_0);
+function UmbrellaException_1(causes){
+  RuntimeException_2.call(this, makeMessage(causes), makeCause(causes));
+  this.causes = causes;
+}
+
+function makeCause(causes){
+  var iterator;
+  iterator = causes.iterator();
+  if (!iterator.hasNext()) {
+    return null;
+  }
+  return iterator.next();
+}
+
+function makeMessage(causes){
+  var b, count, first, t, t$iterator;
+  count = causes.size_0();
+  if (count == 0) {
+    return null;
+  }
+  b = new StringBuilder_1(count == 1?'Exception caught: ':count + ' exceptions caught: ');
+  first = true;
+  for (t$iterator = causes.iterator(); t$iterator.hasNext();) {
+    t = t$iterator.next();
+    first?(first = false):(b.impl.string += '; ' , b);
+    $append_11(b, t.getMessage());
+  }
+  return b.impl.string;
+}
+
+defineSeed(84, 14, makeCastMap([Q$UmbrellaException, Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), UmbrellaException_1);
+_.causes = null;
+function UmbrellaException_2(causes){
+  UmbrellaException_1.call(this, causes);
+}
+
+defineSeed(83, 84, makeCastMap([Q$UmbrellaException, Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), UmbrellaException_2);
 function throwIfNull(value){
   if (null == value) {
-    throw new NullPointerException_1;
+    throw new NullPointerException_1('encodedURLComponent cannot be null');
   }
 }
 
@@ -1163,7 +1469,7 @@ function setCheck(array, index, value){
   return array[index] = value;
 }
 
-defineSeed(74, 1, {}, Array_0);
+defineSeed(87, 1, {}, Array_0);
 _.queryId$ = 0;
 function $clinit_Array$ExpandoWrapper(){
   $clinit_Array$ExpandoWrapper = nullMethod;
@@ -1267,7 +1573,7 @@ function getLocalStorageIfSupported(){
   return null;
 }
 
-defineSeed(85, 1, {}, Storage_0);
+defineSeed(98, 1, {}, Storage_0);
 _.storage = null;
 var localStorage_0 = null, supportDetectorImpl = null;
 function Storage$StorageSupportDetector_0(){
@@ -1275,7 +1581,7 @@ function Storage$StorageSupportDetector_0(){
   $wnd.sessionStorage != null;
 }
 
-defineSeed(86, 1, {}, Storage$StorageSupportDetector_0);
+defineSeed(99, 1, {}, Storage$StorageSupportDetector_0);
 function $getItem_0(storage, key){
   return $wnd[storage].getItem(key);
 }
@@ -1311,7 +1617,7 @@ function $keySet(this$static){
   return new AbstractMap$1_0(this$static, entrySet);
 }
 
-defineSeed(90, 1, makeCastMap([Q$Map]));
+defineSeed(103, 1, makeCastMap([Q$Map]));
 _.containsKey = function containsKey(key){
   return !!$implFindEntry(this, key);
 }
@@ -1348,7 +1654,7 @@ _.get = function get(key){
   return !entry?null:entry.getValue();
 }
 ;
-_.hashCode$ = function hashCode_2(){
+_.hashCode$ = function hashCode_3(){
   var entry, entry$iterator, hashCode;
   hashCode = 0;
   for (entry$iterator = this.entrySet_0().iterator(); entry$iterator.hasNext();) {
@@ -1359,11 +1665,15 @@ _.hashCode$ = function hashCode_2(){
   return hashCode;
 }
 ;
+_.put = function put(key, value){
+  throw new UnsupportedOperationException_1('Put not supported on this map');
+}
+;
 _.size_0 = function size_0(){
   return this.entrySet_0().size_0();
 }
 ;
-_.toString$ = function toString_3(){
+_.toString$ = function toString_5(){
   var comma, entry, iter, s;
   s = '{';
   comma = false;
@@ -1398,11 +1708,15 @@ function $get(this$static, key){
   return $getItem(this$static.storage, toString__devirtual$(key));
 }
 
+function $put(){
+  throw new IllegalArgumentException_1('Key and value cannot be null!');
+}
+
 function StorageMap_0(storage){
   this.storage = storage;
 }
 
-defineSeed(89, 90, makeCastMap([Q$Map]), StorageMap_0);
+defineSeed(102, 103, makeCastMap([Q$Map]), StorageMap_0);
 _.containsKey = function containsKey_0(key){
   return $containsKey(this, key);
 }
@@ -1416,6 +1730,10 @@ _.get = function get_0(key){
   return $get(this, key);
 }
 ;
+_.put = function put_0(key, value){
+  return $put(value);
+}
+;
 _.size_0 = function size_1(){
   return $getLength(this.storage.storage);
 }
@@ -1427,7 +1745,7 @@ function StorageMap$StorageEntry_0(this$0, key){
   this.key_0 = key;
 }
 
-defineSeed(91, 1, makeCastMap([Q$Map$Entry]), StorageMap$StorageEntry_0);
+defineSeed(104, 1, makeCastMap([Q$Map$Entry]), StorageMap$StorageEntry_0);
 _.equals$ = function equals_2(obj){
   var e;
   if (obj == null) {
@@ -1451,7 +1769,7 @@ _.getValue = function getValue(){
   return $getItem(this.this$0.storage, this.key_0);
 }
 ;
-_.hashCode$ = function hashCode_3(){
+_.hashCode$ = function hashCode_4(){
   var value;
   value = $getItem(this.this$0.storage, this.key_0);
   return (this.key_0 == null?0:getHashCode_0(this.key_0)) ^ (value == null?0:getHashCode_0(value));
@@ -1476,7 +1794,7 @@ function StorageMap$StorageEntryIterator_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(92, 1, {}, StorageMap$StorageEntryIterator_0);
+defineSeed(105, 1, {}, StorageMap$StorageEntryIterator_0);
 _.hasNext = function hasNext(){
   return this.index_0 < $getLength(this.this$0.storage.storage) - 1;
 }
@@ -1513,7 +1831,7 @@ function $toString_0(this$static){
   return sb.impl.string;
 }
 
-defineSeed(95, 1, {});
+defineSeed(108, 1, {});
 _.add = function add(o){
   throw new UnsupportedOperationException_1('Add not supported on this collection');
 }
@@ -1524,11 +1842,11 @@ _.contains = function contains(o){
   return !!iter;
 }
 ;
-_.toString$ = function toString_4(){
+_.toString$ = function toString_6(){
   return $toString_0(this);
 }
 ;
-defineSeed(94, 95, makeCastMap([Q$Set]));
+defineSeed(107, 108, makeCastMap([Q$Set]));
 _.equals$ = function equals_3(o){
   var iter, other, otherItem;
   if (o === this) {
@@ -1550,7 +1868,7 @@ _.equals$ = function equals_3(o){
   return true;
 }
 ;
-_.hashCode$ = function hashCode_4(){
+_.hashCode$ = function hashCode_5(){
   var hashCode, iter, next;
   hashCode = 0;
   for (iter = this.iterator(); iter.hasNext();) {
@@ -1567,7 +1885,7 @@ function StorageMap$StorageEntrySet_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(93, 94, makeCastMap([Q$Set]), StorageMap$StorageEntrySet_0);
+defineSeed(106, 107, makeCastMap([Q$Set]), StorageMap$StorageEntrySet_0);
 _.contains = function contains_0(o){
   var e, key;
   if (o == null || !instanceOf(o, Q$Map$Entry)) {
@@ -1578,7 +1896,7 @@ _.contains = function contains_0(o){
   return key != null && $containsKey(this.this$0, key) && $eq($get(this.this$0, key), e.getValue());
 }
 ;
-_.iterator = function iterator(){
+_.iterator = function iterator_0(){
   return new StorageMap$StorageEntryIterator_0(this.this$0);
 }
 ;
@@ -1647,10 +1965,77 @@ function $onModuleLoad(){
   allowedModes.length == 1 && $equals('CSS1Compat', allowedModes[0]) && $equals('BackCompat', currentMode)?"GWT no longer supports Quirks Mode (document.compatMode=' BackCompat').<br>Make sure your application's host HTML page has a Standards Mode (document.compatMode=' CSS1Compat') doctype,<br>e.g. by using &lt;!doctype html&gt; at the start of your application's HTML page.<br><br>To continue using this unsupported rendering mode and risk layout problems, suppress this message by adding<br>the following line to your*.gwt.xml module file:<br>&nbsp;&nbsp;&lt;extend-configuration-property name=\"document.compatMode\" value=\"" + currentMode + '"/&gt;':"Your *.gwt.xml module configuration prohibits the use of the current doucment rendering mode (document.compatMode=' " + currentMode + "').<br>Modify your application's host HTML page doctype, or update your custom 'document.compatMode' configuration property settings.";
 }
 
+function addHandler(type, handler){
+  return $addHandler((!handlers_0 && (handlers_0 = new Window$WindowHandlers_0) , handlers_0), type, handler);
+}
+
+function addResizeHandler(handler){
+  maybeInitializeCloseHandlers();
+  maybeInitializeResizeHandlers();
+  return addHandler((!TYPE && (TYPE = new GwtEvent$Type_0) , TYPE), handler);
+}
+
 function alert_0(msg){
   $wnd.alert(msg);
 }
 
+function maybeInitializeCloseHandlers(){
+  if (!closeHandlersInitialized) {
+    $initWindowCloseHandler();
+    closeHandlersInitialized = true;
+  }
+}
+
+function maybeInitializeResizeHandlers(){
+  if (!resizeHandlersInitialized) {
+    $initWindowResizeHandler();
+    resizeHandlersInitialized = true;
+  }
+}
+
+function onClosing(){
+  var event_0;
+  if (closeHandlersInitialized) {
+    event_0 = new Window$ClosingEvent_0;
+    !!handlers_0 && $fireEvent(handlers_0, event_0);
+    return null;
+  }
+  return null;
+}
+
+function onResize(){
+  var height, width;
+  if (resizeHandlersInitialized) {
+    width = $getClientWidth($doc);
+    height = $getClientHeight($doc);
+    if (lastResizeWidth != width || lastResizeHeight != height) {
+      lastResizeWidth = width;
+      lastResizeHeight = height;
+      fire_0((!handlers_0 && (handlers_0 = new Window$WindowHandlers_0) , handlers_0), width, height);
+    }
+  }
+}
+
+var closeHandlersInitialized = false, handlers_0 = null, lastResizeHeight = 0, lastResizeWidth = 0, resizeHandlersInitialized = false;
+function $clinit_Window$ClosingEvent(){
+  $clinit_Window$ClosingEvent = nullMethod;
+  TYPE_0 = new GwtEvent$Type_0;
+}
+
+function Window$ClosingEvent_0(){
+  $clinit_Window$ClosingEvent();
+}
+
+defineSeed(121, 73, {}, Window$ClosingEvent_0);
+_.dispatch = function dispatch_0(handler){
+  null.nullMethod();
+}
+;
+_.getAssociatedType = function getAssociatedType_0(){
+  return TYPE_0;
+}
+;
+var TYPE_0;
 function ensureParameterMap(){
   var kv, kvPair, kvPair$array, kvPair$index, kvPair$max, qs, queryString, regexp;
   if (!paramMap) {
@@ -1661,13 +2046,68 @@ function ensureParameterMap(){
       for (kvPair$array = $split(qs, '&', 0) , kvPair$index = 0 , kvPair$max = kvPair$array.length; kvPair$index < kvPair$max; ++kvPair$index) {
         kvPair = kvPair$array[kvPair$index];
         kv = $split(kvPair, '=', 2);
-        kv.length > 1?$put_1(paramMap, kv[0], (throwIfNull(kv[1]) , regexp = /\+/g , decodeURIComponent(kv[1].replace(regexp, '%20')))):$put_1(paramMap, kv[0], '');
+        kv.length > 1?$put_2(paramMap, kv[0], (throwIfNull(kv[1]) , regexp = /\+/g , decodeURIComponent(kv[1].replace(regexp, '%20')))):$put_2(paramMap, kv[0], '');
       }
     }
   }
 }
 
 var paramMap = null;
+function Window$WindowHandlers_0(){
+  this.eventBus = new HandlerManager$Bus_0;
+  this.source = null;
+}
+
+defineSeed(123, 78, {}, Window$WindowHandlers_0);
+--></script>
+<script><!--
+function $initWindowCloseHandler(){
+  var oldOnBeforeUnload = $wnd.onbeforeunload;
+  var oldOnUnload = $wnd.onunload;
+  $wnd.onbeforeunload = function(evt){
+    var ret, oldRet;
+    try {
+      ret = $entry(onClosing)();
+    }
+     finally {
+      oldRet = oldOnBeforeUnload && oldOnBeforeUnload(evt);
+    }
+    if (ret != null) {
+      return ret;
+    }
+    if (oldRet != null) {
+      return oldRet;
+    }
+  }
+  ;
+  $wnd.onunload = $entry(function(evt){
+    try {
+      closeHandlersInitialized && fire(!handlers_0 && (handlers_0 = new Window$WindowHandlers_0));
+    }
+     finally {
+      oldOnUnload && oldOnUnload(evt);
+      $wnd.onresize = null;
+      $wnd.onscroll = null;
+      $wnd.onbeforeunload = null;
+      $wnd.onunload = null;
+    }
+  }
+  );
+}
+
+function $initWindowResizeHandler(){
+  var oldOnResize = $wnd.onresize;
+  $wnd.onresize = $entry(function(evt){
+    try {
+      onResize();
+    }
+     finally {
+      oldOnResize && oldOnResize(evt);
+    }
+  }
+  );
+}
+
 function $clinit_RootPanel(){
   $clinit_RootPanel = nullMethod;
   new HashMap_0;
@@ -1692,6 +2132,10 @@ function toJsArray_0(data){
     jsan[i] = data[i];
   }
   return jsan;
+}
+
+function $setAntialias(this$static, antialias){
+  this$static.antialias = antialias;
 }
 
 function $attachShader(this$static, program, shader){
@@ -1861,11 +2305,27 @@ function getContext(canvas, attributes){
   return null;
 }
 
+function SimpleEventBus$1_0(){
+}
+
+defineSeed(142, 1, {}, SimpleEventBus$1_0);
+function SimpleEventBus$2_0(this$0, val$type, val$handler){
+  this.this$0 = this$0;
+  this.val$type = val$type;
+  this.val$source = null;
+  this.val$handler = val$handler;
+}
+
+defineSeed(143, 1, {}, SimpleEventBus$2_0);
+_.this$0 = null;
+_.val$handler = null;
+_.val$source = null;
+_.val$type = null;
 function ArrayStoreException_0(){
   RuntimeException_0.call(this);
 }
 
-defineSeed(127, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), ArrayStoreException_0);
+defineSeed(144, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), ArrayStoreException_0);
 function Class_0(){
 }
 
@@ -1940,8 +2400,8 @@ function setClassLiteral(seedId, clazz){
   proto.___clazz$ = clazz;
 }
 
-defineSeed(128, 1, {}, Class_0);
-_.toString$ = function toString_5(){
+defineSeed(145, 1, {}, Class_0);
+_.toString$ = function toString_7(){
   return ((this.modifiers & 2) != 0?'interface ':(this.modifiers & 1) != 0?'':'class ') + this.typeName;
 }
 ;
@@ -1968,7 +2428,7 @@ function __parseDouble(str){
   }
 }
 
-defineSeed(130, 1, makeCastMap([Q$Serializable, Q$Number]));
+defineSeed(147, 1, makeCastMap([Q$Serializable, Q$Number]));
 var floatRegex_0 = null;
 function Float_0(value){
   this.value = value;
@@ -1986,16 +2446,16 @@ function parseFloat_0(s){
   return doubleValue;
 }
 
-defineSeed(129, 130, makeCastMap([Q$Serializable, Q$Comparable, Q$Float, Q$Number]), Float_0);
+defineSeed(146, 147, makeCastMap([Q$Serializable, Q$Comparable, Q$Float, Q$Number]), Float_0);
 _.equals$ = function equals_4(o){
   return instanceOf(o, Q$Float) && o.value == this.value;
 }
 ;
-_.hashCode$ = function hashCode_5(){
+_.hashCode$ = function hashCode_6(){
   return round_int(this.value);
 }
 ;
-_.toString$ = function toString_6(){
+_.toString$ = function toString_8(){
   return '' + this.value;
 }
 ;
@@ -2008,17 +2468,21 @@ function IllegalArgumentException_1(message){
   RuntimeException_1.call(this, message);
 }
 
-defineSeed(131, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), IllegalArgumentException_0, IllegalArgumentException_1);
+defineSeed(148, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), IllegalArgumentException_0, IllegalArgumentException_1);
 function IllegalStateException_0(s){
   RuntimeException_1.call(this, s);
 }
 
-defineSeed(132, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), IllegalStateException_0);
-function IndexOutOfBoundsException_0(message){
+defineSeed(149, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), IllegalStateException_0);
+function IndexOutOfBoundsException_0(){
+  RuntimeException_0.call(this);
+}
+
+function IndexOutOfBoundsException_1(message){
   RuntimeException_1.call(this, message);
 }
 
-defineSeed(133, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), IndexOutOfBoundsException_0);
+defineSeed(150, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), IndexOutOfBoundsException_0, IndexOutOfBoundsException_1);
 function Integer_0(value){
   this.value = value;
 }
@@ -2055,16 +2519,16 @@ function valueOf(i){
   return new Integer_0(i);
 }
 
-defineSeed(134, 130, makeCastMap([Q$Serializable, Q$Comparable, Q$Integer, Q$Number]), Integer_0);
+defineSeed(151, 147, makeCastMap([Q$Serializable, Q$Comparable, Q$Integer, Q$Number]), Integer_0);
 _.equals$ = function equals_5(o){
   return instanceOf(o, Q$Integer) && o.value == this.value;
 }
 ;
-_.hashCode$ = function hashCode_6(){
+_.hashCode$ = function hashCode_7(){
   return this.value;
 }
 ;
-_.toString$ = function toString_7(){
+_.toString$ = function toString_9(){
   return '' + this.value;
 }
 ;
@@ -2083,6 +2547,10 @@ function cos(x){
   return Math.cos(x);
 }
 
+function min(x, y){
+  return x < y?x:y;
+}
+
 function sin(x){
   return Math.sin(x);
 }
@@ -2091,13 +2559,11 @@ function NullPointerException_0(){
   RuntimeException_0.call(this);
 }
 
-function NullPointerException_1(){
-  RuntimeException_1.call(this, 'encodedURLComponent cannot be null');
+function NullPointerException_1(message){
+  RuntimeException_1.call(this, message);
 }
 
---></script>
-<script><!--
-defineSeed(137, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NullPointerException_0, NullPointerException_1);
+defineSeed(154, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NullPointerException_0, NullPointerException_1);
 function $clinit_Number$__Digits(){
   $clinit_Number$__Digits = nullMethod;
   digits_0 = initValues(_3C_classLit, makeCastMap([Q$Serializable]), -1, [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]);
@@ -2108,20 +2574,20 @@ function NumberFormatException_0(message){
   IllegalArgumentException_1.call(this, message);
 }
 
-defineSeed(139, 131, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NumberFormatException_0);
+defineSeed(156, 148, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NumberFormatException_0);
 function StackTraceElement_0(methodName, fileName){
-  this.className = 'Unknown';
+  this.className_0 = 'Unknown';
   this.methodName = methodName;
   this.fileName = fileName;
   this.lineNumber = -1;
 }
 
-defineSeed(140, 1, makeCastMap([Q$Serializable, Q$StackTraceElement]), StackTraceElement_0);
-_.toString$ = function toString_8(){
-  return this.className + '.' + this.methodName + '(' + (this.fileName != null?this.fileName:'Unknown Source') + (this.lineNumber >= 0?':' + this.lineNumber:'') + ')';
+defineSeed(157, 1, makeCastMap([Q$Serializable, Q$StackTraceElement]), StackTraceElement_0);
+_.toString$ = function toString_10(){
+  return this.className_0 + '.' + this.methodName + '(' + (this.fileName != null?this.fileName:'Unknown Source') + (this.lineNumber >= 0?':' + this.lineNumber:'') + ')';
 }
 ;
-_.className = null;
+_.className_0 = null;
 _.fileName = null;
 _.lineNumber = 0;
 _.methodName = null;
@@ -2251,7 +2717,7 @@ _.equals$ = function equals_6(other){
   return $equals(this, other);
 }
 ;
-_.hashCode$ = function hashCode_7(){
+_.hashCode$ = function hashCode_8(){
   return getHashCode_0(this);
 }
 ;
@@ -2315,8 +2781,8 @@ function StringBuffer_0(){
   this.impl = new StringBufferImplAppend_0;
 }
 
-defineSeed(142, 1, makeCastMap([Q$CharSequence]), StringBuffer_0);
-_.toString$ = function toString_9(){
+defineSeed(159, 1, makeCastMap([Q$CharSequence]), StringBuffer_0);
+_.toString$ = function toString_11(){
   return this.impl.string;
 }
 ;
@@ -2378,8 +2844,8 @@ function StringBuilder_1(s){
   $append_3(this.impl, s);
 }
 
-defineSeed(143, 1, makeCastMap([Q$CharSequence]), StringBuilder_0, StringBuilder_1);
-_.toString$ = function toString_10(){
+defineSeed(160, 1, makeCastMap([Q$CharSequence]), StringBuilder_0, StringBuilder_1);
+_.toString$ = function toString_12(){
   return this.impl.string;
 }
 ;
@@ -2391,7 +2857,7 @@ function UnsupportedOperationException_1(message){
   RuntimeException_1.call(this, message);
 }
 
-defineSeed(144, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), UnsupportedOperationException_0, UnsupportedOperationException_1);
+defineSeed(161, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), UnsupportedOperationException_0, UnsupportedOperationException_1);
 function $clear_0(this$static){
   this$static.position_0 = 0;
   this$static.mark = -1;
@@ -2415,7 +2881,7 @@ function Buffer_0(capacity){
   this.capacity = this.limit = capacity;
 }
 
-defineSeed(145, 1, {});
+defineSeed(162, 1, {});
 _.capacity = 0;
 _.limit = 0;
 _.mark = -1;
@@ -2477,7 +2943,7 @@ function allocateDirect(capacity){
   return new ByteBuffer_0(capacity);
 }
 
-defineSeed(146, 145, makeCastMap([Q$Comparable, Q$ByteBuffer, Q$HasArrayBufferView]), ByteBuffer_0, ByteBuffer_2);
+defineSeed(163, 162, makeCastMap([Q$Comparable, Q$ByteBuffer, Q$HasArrayBufferView]), ByteBuffer_0, ByteBuffer_2);
 _.equals$ = function equals_7(other){
   var equalSoFar, myPosition, otherBuffer, otherPosition;
   if (!instanceOf(other, Q$ByteBuffer)) {
@@ -2508,7 +2974,7 @@ _.getTypedArray = function getTypedArray(){
   return this.byteArray;
 }
 ;
-_.hashCode$ = function hashCode_8(){
+_.hashCode$ = function hashCode_9(){
   var hash, myPosition;
   myPosition = this.position_0;
   hash = 0;
@@ -2518,7 +2984,7 @@ _.hashCode$ = function hashCode_8(){
   return hash;
 }
 ;
-_.toString$ = function toString_11(){
+_.toString$ = function toString_13(){
   var buf;
   buf = new StringBuffer_0;
   $append_5(buf, Ljava_nio_ByteBuffer_2_classLit.typeName);
@@ -2543,8 +3009,8 @@ function ByteOrder_0(name_0){
   this.name_0 = name_0;
 }
 
-defineSeed(147, 1, {}, ByteOrder_0);
-_.toString$ = function toString_12(){
+defineSeed(164, 1, {}, ByteOrder_0);
+_.toString$ = function toString_14(){
   return this.name_0;
 }
 ;
@@ -2554,7 +3020,7 @@ function $get_1(this$static, index){
   return this$static.floatArray[index];
 }
 
-function $put(this$static, c){
+function $put_0(this$static, c){
   this$static.floatArray[this$static.position_0++] = c;
   return this$static;
 }
@@ -2566,7 +3032,7 @@ function FloatBuffer_0(byteBuffer){
   this.floatArray = create(byteBuffer.byteArray.buffer, byteBuffer.byteArray.byteOffset, this.capacity);
 }
 
-defineSeed(148, 145, makeCastMap([Q$Comparable, Q$FloatBuffer, Q$HasArrayBufferView]), FloatBuffer_0);
+defineSeed(165, 162, makeCastMap([Q$Comparable, Q$FloatBuffer, Q$HasArrayBufferView]), FloatBuffer_0);
 _.equals$ = function equals_8(other){
   var equalSoFar, myPosition, otherBuffer, otherPosition;
   if (!instanceOf(other, Q$FloatBuffer)) {
@@ -2597,7 +3063,7 @@ _.getTypedArray = function getTypedArray_0(){
   return this.floatArray;
 }
 ;
-_.toString$ = function toString_13(){
+_.toString$ = function toString_15(){
   var buf;
   buf = new StringBuffer_0;
   $append_5(buf, Ljava_nio_FloatBuffer_2_classLit.typeName);
@@ -2623,7 +3089,7 @@ function IntBuffer_0(byteBuffer){
   this.intArray = create_1(byteBuffer.byteArray.buffer, byteBuffer.byteArray.byteOffset, this.capacity);
 }
 
-defineSeed(149, 145, makeCastMap([Q$Comparable, Q$IntBuffer, Q$HasArrayBufferView]), IntBuffer_0);
+defineSeed(166, 162, makeCastMap([Q$Comparable, Q$IntBuffer, Q$HasArrayBufferView]), IntBuffer_0);
 _.equals$ = function equals_9(other){
   var equalSoFar, myPosition, otherBuffer, otherPosition;
   if (!instanceOf(other, Q$IntBuffer)) {
@@ -2654,7 +3120,7 @@ _.getTypedArray = function getTypedArray_1(){
   return this.intArray;
 }
 ;
-_.hashCode$ = function hashCode_9(){
+_.hashCode$ = function hashCode_10(){
   var hash, myPosition;
   myPosition = this.position_0;
   hash = 0;
@@ -2664,7 +3130,7 @@ _.hashCode$ = function hashCode_9(){
   return hash;
 }
 ;
-_.toString$ = function toString_14(){
+_.toString$ = function toString_16(){
   var buf;
   buf = new StringBuffer_0;
   $append_5(buf, Ljava_nio_IntBuffer_2_classLit.typeName);
@@ -2683,7 +3149,7 @@ function $get_3(this$static, index){
   return this$static.shortArray[index];
 }
 
-function $put_0(this$static, c){
+function $put_1(this$static, c){
   this$static.shortArray[this$static.position_0++] = c;
   return this$static;
 }
@@ -2695,7 +3161,7 @@ function ShortBuffer_0(byteBuffer){
   this.shortArray = create_0(byteBuffer.byteArray.buffer, byteBuffer.byteArray.byteOffset, this.capacity);
 }
 
-defineSeed(150, 145, makeCastMap([Q$Comparable, Q$ShortBuffer, Q$HasArrayBufferView]), ShortBuffer_0);
+defineSeed(167, 162, makeCastMap([Q$Comparable, Q$ShortBuffer, Q$HasArrayBufferView]), ShortBuffer_0);
 _.equals$ = function equals_10(other){
   var equalSoFar, myPosition, otherBuffer, otherPosition;
   if (!instanceOf(other, Q$ShortBuffer)) {
@@ -2726,7 +3192,7 @@ _.getTypedArray = function getTypedArray_2(){
   return this.shortArray;
 }
 ;
-_.hashCode$ = function hashCode_10(){
+_.hashCode$ = function hashCode_11(){
   var hash, myPosition;
   myPosition = this.position_0;
   hash = 0;
@@ -2736,7 +3202,9 @@ _.hashCode$ = function hashCode_10(){
   return hash;
 }
 ;
-_.toString$ = function toString_15(){
+--></script>
+<script><!--
+_.toString$ = function toString_17(){
   var buf;
   buf = new StringBuffer_0;
   $append_5(buf, Ljava_nio_ShortBuffer_2_classLit.typeName);
@@ -2814,7 +3282,7 @@ function $hasHashValue(this$static, key, hashCode){
   return false;
 }
 
-function $put_1(this$static, key, value){
+function $put_2(this$static, key, value){
   return key == null?$putNullSlot(this$static, value):instanceOf(key, Q$String)?$putStringValue(this$static, key, value):$putHashValue(this$static, key, value, ~~hashCode__devirtual$(key));
 }
 
@@ -2890,7 +3358,7 @@ function $removeNullSlot(this$static){
   return result;
 }
 
-defineSeed(151, 90, makeCastMap([Q$Map]));
+defineSeed(168, 103, makeCastMap([Q$Map]));
 _.containsKey = function containsKey_1(key){
   return $containsKey_0(this, key);
 }
@@ -2907,6 +3375,10 @@ _.get = function get_1(key){
   return $get_4(this, key);
 }
 ;
+_.put = function put_1(key, value){
+  return $put_2(this, key, value);
+}
+;
 _.size_0 = function size_3(){
   return this.size;
 }
@@ -2920,7 +3392,7 @@ function AbstractHashMap$EntrySet_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(152, 94, makeCastMap([Q$Set]), AbstractHashMap$EntrySet_0);
+defineSeed(169, 107, makeCastMap([Q$Set]), AbstractHashMap$EntrySet_0);
 _.contains = function contains_1(o){
   var entry, key, value;
   if (instanceOf(o, Q$Map$Entry)) {
@@ -2934,7 +3406,7 @@ _.contains = function contains_1(o){
   return false;
 }
 ;
-_.iterator = function iterator_0(){
+_.iterator = function iterator_1(){
   return new AbstractHashMap$EntrySetIterator_0(this.this$0);
 }
 ;
@@ -2952,7 +3424,7 @@ function AbstractHashMap$EntrySetIterator_0(this$0){
   this.iter = new AbstractList$IteratorImpl_0(list);
 }
 
-defineSeed(153, 1, {}, AbstractHashMap$EntrySetIterator_0);
+defineSeed(170, 1, {}, AbstractHashMap$EntrySetIterator_0);
 _.hasNext = function hasNext_0(){
   return $hasNext(this.iter);
 }
@@ -2962,7 +3434,7 @@ _.next = function next_1(){
 }
 ;
 _.iter = null;
-defineSeed(155, 1, makeCastMap([Q$Map$Entry]));
+defineSeed(172, 1, makeCastMap([Q$Map$Entry]));
 _.equals$ = function equals_11(other){
   var entry;
   if (instanceOf(other, Q$Map$Entry)) {
@@ -2974,7 +3446,7 @@ _.equals$ = function equals_11(other){
   return false;
 }
 ;
-_.hashCode$ = function hashCode_11(){
+_.hashCode$ = function hashCode_12(){
   var keyHash, valueHash;
   keyHash = 0;
   valueHash = 0;
@@ -2983,7 +3455,7 @@ _.hashCode$ = function hashCode_11(){
   return keyHash ^ valueHash;
 }
 ;
-_.toString$ = function toString_16(){
+_.toString$ = function toString_18(){
   return this.getKey() + '=' + this.getValue();
 }
 ;
@@ -2991,7 +3463,7 @@ function AbstractHashMap$MapEntryNull_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(154, 155, makeCastMap([Q$Map$Entry]), AbstractHashMap$MapEntryNull_0);
+defineSeed(171, 172, makeCastMap([Q$Map$Entry]), AbstractHashMap$MapEntryNull_0);
 _.getKey = function getKey_0(){
   return null;
 }
@@ -3010,7 +3482,7 @@ function AbstractHashMap$MapEntryString_0(this$0, key){
   this.key_0 = key;
 }
 
-defineSeed(156, 155, makeCastMap([Q$Map$Entry]), AbstractHashMap$MapEntryString_0);
+defineSeed(173, 172, makeCastMap([Q$Map$Entry]), AbstractHashMap$MapEntryString_0);
 _.getKey = function getKey_1(){
   return this.key_0;
 }
@@ -3030,12 +3502,16 @@ function checkIndex(index, size){
 }
 
 function indexOutOfBounds(index, size){
-  throw new IndexOutOfBoundsException_0('Index: ' + index + ', Size: ' + size);
+  throw new IndexOutOfBoundsException_1('Index: ' + index + ', Size: ' + size);
 }
 
-defineSeed(157, 95, makeCastMap([Q$List]));
-_.add = function add_0(obj){
-  $add(this, this.size_0(), obj);
+defineSeed(174, 108, makeCastMap([Q$List]));
+_.add_0 = function add_0(index, element){
+  throw new UnsupportedOperationException_1('Add not supported on this list');
+}
+;
+_.add = function add_1(obj){
+  this.add_0(this.size_0(), obj);
   return true;
 }
 ;
@@ -3048,12 +3524,12 @@ _.equals$ = function equals_12(o){
     return false;
   }
   other = o;
-  if (this.size_0() != other.size) {
+  if (this.size_0() != other.size_0()) {
     return false;
   }
   iter = new AbstractList$IteratorImpl_0(this);
-  iterOther = new AbstractList$IteratorImpl_0(other);
-  while (iter.i < iter.this$0.size) {
+  iterOther = other.iterator();
+  while (iter.i < iter.this$0_0.size_0()) {
     elem = $next_0(iter);
     elemOther = $next_0(iterOther);
     if (!(elem == null?elemOther == null:equals__devirtual$(elem, elemOther))) {
@@ -3063,11 +3539,11 @@ _.equals$ = function equals_12(o){
   return true;
 }
 ;
-_.hashCode$ = function hashCode_12(){
+_.hashCode$ = function hashCode_13(){
   var iter, k, obj;
   k = 1;
   iter = new AbstractList$IteratorImpl_0(this);
-  while (iter.i < iter.this$0.size) {
+  while (iter.i < iter.this$0_0.size_0()) {
     obj = $next_0(iter);
     k = 31 * k + (obj == null?0:hashCode__devirtual$(obj));
     k = ~~k;
@@ -3075,26 +3551,34 @@ _.hashCode$ = function hashCode_12(){
   return k;
 }
 ;
-_.iterator = function iterator_1(){
+_.iterator = function iterator_2(){
   return new AbstractList$IteratorImpl_0(this);
 }
 ;
+_.listIterator = function listIterator(){
+  return new AbstractList$ListIteratorImpl_0(this, 0);
+}
+;
+_.listIterator_0 = function listIterator_0(from){
+  return new AbstractList$ListIteratorImpl_0(this, from);
+}
+;
 function $hasNext(this$static){
-  return this$static.i < this$static.this$0.size;
+  return this$static.i < this$static.this$0_0.size_0();
 }
 
 function $next_0(this$static){
-  if (this$static.i >= this$static.this$0.size) {
+  if (this$static.i >= this$static.this$0_0.size_0()) {
     throw new NoSuchElementException_0;
   }
-  return $get_5(this$static.this$0, this$static.i++);
+  return this$static.this$0_0.get_0(this$static.i++);
 }
 
 function AbstractList$IteratorImpl_0(this$0){
-  this.this$0 = this$0;
+  this.this$0_0 = this$0;
 }
 
-defineSeed(158, 1, {}, AbstractList$IteratorImpl_0);
+defineSeed(175, 1, {}, AbstractList$IteratorImpl_0);
 _.hasNext = function hasNext_1(){
   return $hasNext(this);
 }
@@ -3104,6 +3588,24 @@ _.next = function next_2(){
 }
 ;
 _.i = 0;
+_.this$0_0 = null;
+function $previous(this$static){
+  if (this$static.i <= 0) {
+    throw new NoSuchElementException_0;
+  }
+  return this$static.this$0.get_0(--this$static.i);
+}
+
+function AbstractList$ListIteratorImpl_0(this$0, start){
+  var size;
+  this.this$0 = this$0;
+  this.this$0_0 = this$0;
+  size = this$0.size_0();
+  (start < 0 || start > size) && indexOutOfBounds(start, size);
+  this.i = start;
+}
+
+defineSeed(176, 175, {}, AbstractList$ListIteratorImpl_0);
 _.this$0 = null;
 function $iterator(this$static){
   var outerIter;
@@ -3116,12 +3618,12 @@ function AbstractMap$1_0(this$0, val$entrySet){
   this.val$entrySet = val$entrySet;
 }
 
-defineSeed(159, 94, makeCastMap([Q$Set]), AbstractMap$1_0);
+defineSeed(177, 107, makeCastMap([Q$Set]), AbstractMap$1_0);
 _.contains = function contains_2(key){
   return $containsKey_0(this.this$0, key);
 }
 ;
-_.iterator = function iterator_2(){
+_.iterator = function iterator_3(){
   return $iterator(this);
 }
 ;
@@ -3135,7 +3637,7 @@ function AbstractMap$1$1_0(val$outerIter){
   this.val$outerIter = val$outerIter;
 }
 
-defineSeed(160, 1, {}, AbstractMap$1$1_0);
+defineSeed(178, 1, {}, AbstractMap$1$1_0);
 _.hasNext = function hasNext_2(){
   return $hasNext(this.val$outerIter.iter);
 }
@@ -3222,8 +3724,12 @@ function splice_1(array, index, deleteCount, value){
   array.splice(index, deleteCount, value);
 }
 
-defineSeed(161, 157, makeCastMap([Q$Serializable, Q$List]), ArrayList_0);
-_.add = function add_1(o){
+defineSeed(179, 174, makeCastMap([Q$Serializable, Q$List]), ArrayList_0);
+_.add_0 = function add_2(index, o){
+  $add(this, index, o);
+}
+;
+_.add = function add_3(o){
   return $add_0(this, o);
 }
 ;
@@ -3231,13 +3737,37 @@ _.contains = function contains_3(o){
   return $indexOf_0(this, o, 0) != -1;
 }
 ;
+_.get_0 = function get_2(index){
+  return $get_5(this, index);
+}
+;
 _.size_0 = function size_6(){
   return this.size;
 }
 ;
 _.size = 0;
---></script>
-<script><!--
+function $clinit_Collections(){
+  $clinit_Collections = nullMethod;
+  EMPTY_LIST = new Collections$EmptyList_0;
+}
+
+var EMPTY_LIST;
+function Collections$EmptyList_0(){
+}
+
+defineSeed(181, 174, makeCastMap([Q$Serializable, Q$List]), Collections$EmptyList_0);
+_.contains = function contains_4(object){
+  return false;
+}
+;
+_.get_0 = function get_3(location_0){
+  throw new IndexOutOfBoundsException_0;
+}
+;
+_.size_0 = function size_7(){
+  return 0;
+}
+;
 function $equals_0(value1, value2){
   return maskUndefined(value1) === maskUndefined(value2) || value1 != null && equals__devirtual$(value1, value2);
 }
@@ -3250,31 +3780,35 @@ function HashMap_0(){
   this.size = 0;
 }
 
-defineSeed(162, 151, makeCastMap([Q$Serializable, Q$Map]), HashMap_0);
+defineSeed(182, 168, makeCastMap([Q$Serializable, Q$Map]), HashMap_0);
+function $add_1(this$static, o){
+  var old;
+  old = $put_2(this$static.map, o, this$static);
+  return old == null;
+}
+
 function HashSet_0(){
   this.map = new HashMap_0;
 }
 
-defineSeed(163, 94, makeCastMap([Q$Serializable, Q$Set]), HashSet_0);
-_.add = function add_2(o){
-  var old;
-  old = $put_1(this.map, o, this);
-  return old == null;
+defineSeed(183, 107, makeCastMap([Q$Serializable, Q$Set]), HashSet_0);
+_.add = function add_4(o){
+  return $add_1(this, o);
 }
 ;
-_.contains = function contains_4(o){
+_.contains = function contains_5(o){
   return $containsKey_0(this.map, o);
 }
 ;
-_.iterator = function iterator_3(){
+_.iterator = function iterator_4(){
   return $iterator($keySet(this.map));
 }
 ;
-_.size_0 = function size_7(){
+_.size_0 = function size_8(){
   return this.map.size;
 }
 ;
-_.toString$ = function toString_17(){
+_.toString$ = function toString_19(){
   return $toString_0($keySet(this.map));
 }
 ;
@@ -3284,7 +3818,7 @@ function MapEntryImpl_0(key, value){
   this.value = value;
 }
 
-defineSeed(164, 155, makeCastMap([Q$Map$Entry]), MapEntryImpl_0);
+defineSeed(184, 172, makeCastMap([Q$Map$Entry]), MapEntryImpl_0);
 _.getKey = function getKey_2(){
   return this.key_0;
 }
@@ -3306,12 +3840,12 @@ function NoSuchElementException_0(){
   RuntimeException_0.call(this);
 }
 
-defineSeed(165, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoSuchElementException_0);
+defineSeed(185, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoSuchElementException_0);
 function equalsWithNullCheck(a, b){
   return maskUndefined(a) === maskUndefined(b) || a != null && equals__devirtual$(a, b);
 }
 
-defineSeed(167, 1, {});
+defineSeed(187, 1, {});
 function $interact(){
   return;
 }
@@ -3327,6 +3861,16 @@ function $onAdd(this$static){
 
 function $setFlag(this$static, flag, active){
   active?(this$static.flags |= flag.bitmask):(this$static.flags &= ~flag.bitmask);
+}
+
+function $setScale(this$static, sx, sy){
+  initValues(_3Ljava_lang_Object_2_classLit, makeCastMap([Q$Serializable]), Q$Object, [new Float_0(sx), new Float_0(sy)]);
+  if (sx != this$static.scaleX || sy != this$static.scaleY) {
+    this$static.scaleX = sx;
+    this$static.scaleY = sy;
+    $setFlag(this$static, ($clinit_AbstractLayer$Flag() , XFDIRTY), true);
+  }
+  return this$static;
 }
 
 function $transform_0(this$static){
@@ -3351,7 +3895,7 @@ function AbstractLayer_0(transform){
   $setFlag(this, ($clinit_AbstractLayer$Flag() , VISIBLE_1), true);
 }
 
-defineSeed(168, 1, {});
+defineSeed(188, 1, {});
 _.height_1 = function height_0(){
   return 0;
 }
@@ -3409,14 +3953,12 @@ _.setRotation = function setRotation(angle){
   return this;
 }
 ;
-_.setScale = function setScale(sx, sy){
-  initValues(_3Ljava_lang_Object_2_classLit, makeCastMap([Q$Serializable]), Q$Object, [new Float_0(sx), new Float_0(sy)]);
-  if (sx != this.scaleX || sy != this.scaleY) {
-    this.scaleX = sx;
-    this.scaleY = sy;
-    $setFlag(this, ($clinit_AbstractLayer$Flag() , XFDIRTY), true);
-  }
-  return this;
+_.setScale = function setScale(s){
+  return $setScale(this, s, s);
+}
+;
+_.setScale_0 = function setScale_0(sx, sy){
+  return $setScale(this, sx, sy);
 }
 ;
 _.setTranslation = function setTranslation(x, y){
@@ -3424,7 +3966,7 @@ _.setTranslation = function setTranslation(x, y){
   return this;
 }
 ;
-_.toString$ = function toString_18(){
+_.toString$ = function toString_20(){
   var bldr, cname;
   cname = this.___clazz$.typeName;
   bldr = new StringBuilder_1($substring(cname, cname.lastIndexOf('.') + 1));
@@ -3470,7 +4012,7 @@ function values_5(){
   return $VALUES_5;
 }
 
-defineSeed(169, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$AbstractLayer$Flag]), AbstractLayer$Flag_0);
+defineSeed(189, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$AbstractLayer$Flag]), AbstractLayer$Flag_0);
 _.bitmask = 0;
 var $VALUES_5, DESTROYED, INTERACTIVE, SHOWN, VISIBLE_1, XFDIRTY;
 function AbstractPlatform_0(log){
@@ -3478,14 +4020,14 @@ function AbstractPlatform_0(log){
   this.runQueue = new RunQueue_0;
 }
 
-defineSeed(170, 1, {});
+defineSeed(190, 1, {});
 _.log_0 = null;
 _.runQueue = null;
 function CachingAssets_0(){
   new HashMap_0;
 }
 
-defineSeed(171, 1, {}, CachingAssets_0);
+defineSeed(191, 1, {}, CachingAssets_0);
 function $dispatch(layer, event_0, interaction){
   var $e0, localized, t;
   localized = event_0.localize(layer);
@@ -3516,8 +4058,8 @@ function $setPreventDefault(this$static, preventDefault){
 function Events$Flags$Impl_0(){
 }
 
-defineSeed(174, 1, {}, Events$Flags$Impl_0);
-_.toString$ = function toString_19(){
+defineSeed(194, 1, {}, Events$Flags$Impl_0);
+_.toString$ = function toString_21(){
   return this.preventDefault_0?'preventDefault':'normal';
 }
 ;
@@ -3527,7 +4069,7 @@ function Events$Input$Impl_0(flags, time){
   this.time = time;
 }
 
-defineSeed(175, 1, makeCastMap([Q$Events$Input, Q$Events$Input$Impl]));
+defineSeed(195, 1, makeCastMap([Q$Events$Input, Q$Events$Input$Impl]));
 _.addFields = function addFields(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
 }
@@ -3536,7 +4078,7 @@ _.name_1 = function name_1(){
   return 'Events.Input';
 }
 ;
-_.toString$ = function toString_20(){
+_.toString$ = function toString_22(){
   var builder;
   builder = $append_6(new StringBuilder_1(this.name_1()), 91);
   this.addFields(builder);
@@ -3557,7 +4099,7 @@ function Events$Position$Impl_0(hit, flags, time, x, y){
   }
 }
 
-defineSeed(176, 175, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]));
+defineSeed(196, 195, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]));
 _.addFields = function addFields_0(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_10($append_11($append_8($append_11($append_8((builder.impl.string += ', x=' , builder), this.x), ', y='), this.y), ', hit='), this.hit);
@@ -3588,10 +4130,10 @@ function $tick(this$static, elapsed){
   this$static.nextUpdate = nextUpdate;
 }
 
-defineSeed(177, 1, {});
+defineSeed(197, 1, {});
 _.nextUpdate = 0;
 _.updateRate = 0;
-function $add_1(this$static, self_0, child){
+function $add_2(this$static, self_0, child){
   var count, index, parent_0;
   parent_0 = child.parent_0;
   if (parent_0 == self_0) {
@@ -3703,7 +4245,9 @@ function GroupLayerImpl_0(){
   this.children = new ArrayList_0;
 }
 
-defineSeed(178, 1, {}, GroupLayerImpl_0);
+defineSeed(198, 1, {}, GroupLayerImpl_0);
+--></script>
+<script><!--
 function $clinit_Key(){
   $clinit_Key = nullMethod;
   A = new Key_0('A', 0);
@@ -3944,14 +4488,14 @@ function values_6(){
   return $VALUES_6;
 }
 
-defineSeed(179, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$Key]), Key_0);
+defineSeed(199, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$Key]), Key_0);
 var $VALUES_6, A, ALT, AMPERSAND, APP_SWITCH, ASTERISK, AT, AVR_INPUT, AVR_POWER, B, BACK, BACKQUOTE, BACKSLASH, BACKSPACE, BANG, BLUE, BOOKMARK, BREAK, BUTTON_1, BUTTON_10, BUTTON_11, BUTTON_12, BUTTON_13, BUTTON_14, BUTTON_15, BUTTON_16, BUTTON_2, BUTTON_3, BUTTON_4, BUTTON_5, BUTTON_6, BUTTON_7, BUTTON_8, BUTTON_9, BUTTON_A, BUTTON_B, BUTTON_C, BUTTON_L1, BUTTON_L2, BUTTON_MODE, BUTTON_R1, BUTTON_R2, BUTTON_SELECT, BUTTON_START, BUTTON_THUMBL, BUTTON_THUMBR, BUTTON_X, BUTTON_Y, BUTTON_Z, C, CALL, CAMERA, CAPS_LOCK, CAPTIONS, CHANNEL_DOWN, CHANNEL_UP, CIRCUMFLEX, CLEAR, COLON, COMMA, CONTROL, D, DELETE, DOLLAR, DOUBLE_QUOTE, DOWN, DPAD_CENTER, DPAD_DOWN, DPAD_LEFT, DPAD_RIGHT, DPAD_UP, DVR, E, END, ENDCALL, ENTER, ENVELOPE, EQUALS, ESCAPE, EXPLORER, F, F1, F10, F11, F12, F2, F3, F4, F5, F6, F7, F8, F9, FOCUS, FORWARD, FORWARD_DEL, FUNCTION, G, GREATER, GREEN, GUIDE, H, HASH, HEADSETHOOK, HOME, I, INFO, INSERT, J, K, K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, L, LEFT, LEFT_BRACE, LEFT_BRACKET, LEFT_PAREN, LESS, M, MEDIA_CLOSE, MEDIA_EJECT, MEDIA_FAST_FORWARD, MEDIA_NEXT, MEDIA_PAUSE, MEDIA_PLAY, MEDIA_PLAY_PAUSE, MEDIA_PREVIOUS, MEDIA_RECORD, MEDIA_REWIND, MEDIA_STOP, MENU, META, MINUS, MULTIPLY, MUTE, N, NOTIFICATION, NP0, NP1, NP2, NP3, NP4, NP5, NP6, NP7, NP8, NP9, NP_ADD, NP_DECIMAL, NP_DELETE, NP_DIVIDE, NP_DOWN, NP_LEFT, NP_MULTIPLY, NP_NUM_LOCK, NP_RIGHT, NP_SUBTRACT, NP_UP, NUM, O, P, PAGE_DOWN, PAGE_UP, PAUSE, PERCENT, PERIOD, PICTSYMBOLS, PLUS, POWER, PRINT_SCREEN, Q, QUESTION_MARK, QUOTE, R, RED, RIGHT, RIGHT_BRACE, RIGHT_BRACKET, RIGHT_PAREN, S, SCROLL_LOCK, SEARCH, SEMICOLON, SETTINGS, SHIFT, SLASH, SOFT_LEFT, SOFT_RIGHT, SPACE, STAR, STB_INPUT, STB_POWER, SWITCH_CHARSET, SYM, SYSRQ, T, TAB, TILDE, TV, TV_INPUT, TV_POWER, U, UNDERSCORE, UNKNOWN, UP, V, VERTICAL_BAR, VOLUME_DOWN, VOLUME_MUTE, VOLUME_UP, W, WINDOW, WINDOWS, X, Y, YELLOW, Z, ZOOM_IN, ZOOM_OUT;
 function Keyboard$Event$Impl_0(flags, time, key){
   Events$Input$Impl_0.call(this, flags, time);
   this.key_0 = key;
 }
 
-defineSeed(180, 175, makeCastMap([Q$Events$Input, Q$Events$Input$Impl]), Keyboard$Event$Impl_0);
+defineSeed(200, 195, makeCastMap([Q$Events$Input, Q$Events$Input$Impl]), Keyboard$Event$Impl_0);
 _.addFields = function addFields_1(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_10((builder.impl.string += ', key=' , builder), this.key_0);
@@ -3967,7 +4511,7 @@ function Keyboard$TypedEvent$Impl_0(flags, time, typedChar){
   this.typedChar = typedChar;
 }
 
-defineSeed(181, 175, makeCastMap([Q$Events$Input, Q$Events$Input$Impl]), Keyboard$TypedEvent$Impl_0);
+defineSeed(201, 195, makeCastMap([Q$Events$Input, Q$Events$Input$Impl]), Keyboard$TypedEvent$Impl_0);
 _.addFields = function addFields_2(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_6((builder.impl.string += ', typedChar=' , builder), this.typedChar);
@@ -4003,7 +4547,7 @@ function values_7(){
   return $VALUES_7;
 }
 
-defineSeed(183, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$Log$Level]), Log$Level_0);
+defineSeed(203, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$Log$Level]), Log$Level_0);
 var $VALUES_7, DEBUG, ERROR, INFO_0, WARN;
 function $debug(this$static, msg){
   $log(this$static, ($clinit_Log$Level() , DEBUG), msg, null);
@@ -4034,7 +4578,7 @@ function $warn_0(this$static, msg, e){
   $log(this$static, ($clinit_Log$Level() , WARN), msg, e);
 }
 
-defineSeed(184, 1, {});
+defineSeed(204, 1, {});
 function Mouse$ButtonEvent$Impl_0(flags, time, x, y, button){
   Events$Position$Impl_0.call(this, null, flags, time, x, y);
   this.button_0 = button;
@@ -4045,7 +4589,7 @@ function Mouse$ButtonEvent$Impl_1(hit, flags, time, x, y, button){
   this.button_0 = button;
 }
 
-defineSeed(185, 176, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Mouse$ButtonEvent$Impl_0, Mouse$ButtonEvent$Impl_1);
+defineSeed(205, 196, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Mouse$ButtonEvent$Impl_0, Mouse$ButtonEvent$Impl_1);
 _.addFields = function addFields_3(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_10($append_11($append_8($append_11($append_8((builder.impl.string += ', x=' , builder), this.x), ', y='), this.y), ', hit='), this.hit);
@@ -4073,7 +4617,7 @@ function Mouse$MotionEvent$Impl_1(hit, flags, time, x, y, dx, dy){
   this.dy = dy;
 }
 
-defineSeed(186, 176, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Mouse$MotionEvent$Impl_0, Mouse$MotionEvent$Impl_1);
+defineSeed(206, 196, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Mouse$MotionEvent$Impl_0, Mouse$MotionEvent$Impl_1);
 _.localize = function localize_0(hit){
   return new Mouse$MotionEvent$Impl_1(hit, this.flags, this.time, this.x, this.y, this.dx, this.dy);
 }
@@ -4094,9 +4638,7 @@ function Mouse$WheelEvent$Impl_1(hit, flags, time, x, y, velocity){
   this.velocity = velocity;
 }
 
---></script>
-<script><!--
-defineSeed(187, 176, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Mouse$WheelEvent$Impl_0, Mouse$WheelEvent$Impl_1);
+defineSeed(207, 196, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Mouse$WheelEvent$Impl_0, Mouse$WheelEvent$Impl_1);
 _.addFields = function addFields_4(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_10($append_11($append_8($append_11($append_8((builder.impl.string += ', x=' , builder), this.x), ', y='), this.y), ', hit='), this.hit);
@@ -4161,37 +4703,37 @@ function $onMouseWheelScroll(this$static, event_0){
   return event_0.flags.preventDefault_0;
 }
 
-defineSeed(188, 1, {});
+defineSeed(208, 1, {});
 _.activeLayer = null;
 _.hoverLayer = null;
 function MouseImpl$1_0(){
 }
 
-defineSeed(189, 1, {}, MouseImpl$1_0);
+defineSeed(209, 1, {}, MouseImpl$1_0);
 function MouseImpl$2_0(){
 }
 
-defineSeed(190, 1, {}, MouseImpl$2_0);
+defineSeed(210, 1, {}, MouseImpl$2_0);
 function MouseImpl$3_0(){
 }
 
-defineSeed(191, 1, {}, MouseImpl$3_0);
+defineSeed(211, 1, {}, MouseImpl$3_0);
 function MouseImpl$4_0(){
 }
 
-defineSeed(192, 1, {}, MouseImpl$4_0);
+defineSeed(212, 1, {}, MouseImpl$4_0);
 function MouseImpl$5_0(){
 }
 
-defineSeed(193, 1, {}, MouseImpl$5_0);
+defineSeed(213, 1, {}, MouseImpl$5_0);
 function MouseImpl$6_0(){
 }
 
-defineSeed(194, 1, {}, MouseImpl$6_0);
+defineSeed(214, 1, {}, MouseImpl$6_0);
 function MouseImpl$7_0(){
 }
 
-defineSeed(195, 1, {}, MouseImpl$7_0);
+defineSeed(215, 1, {}, MouseImpl$7_0);
 function run(game){
   $run(platform_1, game);
 }
@@ -4206,7 +4748,7 @@ function Pointer$Event$Impl_1(hit, flags, time, x, y, isTouch){
   this.isTouch = isTouch;
 }
 
-defineSeed(197, 176, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Pointer$Event$Impl_0, Pointer$Event$Impl_1);
+defineSeed(217, 196, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl]), Pointer$Event$Impl_0, Pointer$Event$Impl_1);
 _.localize = function localize_2(hit){
   return new Pointer$Event$Impl_1(hit, this.flags, this.time, this.x, this.y, this.isTouch);
 }
@@ -4246,21 +4788,21 @@ function $onPointerStart(this$static, event_0){
   return event_0.flags.preventDefault_0;
 }
 
-defineSeed(198, 1, {});
+defineSeed(218, 1, {});
 _.activeLayer = null;
 function PointerImpl$1_0(){
 }
 
-defineSeed(199, 1, {}, PointerImpl$1_0);
+defineSeed(219, 1, {}, PointerImpl$1_0);
 function PointerImpl$2_0(){
 }
 
-defineSeed(200, 1, {}, PointerImpl$2_0);
+defineSeed(220, 1, {}, PointerImpl$2_0);
 function PointerImpl$3_0(){
 }
 
-defineSeed(201, 1, {}, PointerImpl$3_0);
-defineSeed(204, 1, {});
+defineSeed(221, 1, {}, PointerImpl$3_0);
+defineSeed(224, 1, {});
 _.setTransform = function setTransform(m00, m01, m10, m11, tx, ty){
   throw new UnsupportedOperationException_0;
 }
@@ -4293,14 +4835,14 @@ function $setTransform(this$static, m00, m01, m10, m11, tx, ty){
   return this$static;
 }
 
-defineSeed(203, 204, {});
+defineSeed(223, 224, {});
 _.inverseTransform = function inverseTransform(p, into){
   var det, rdet, x, y;
   x = p.x - this.tx;
   y = p.y - this.ty;
   det = this.m00 * this.m11 - this.m01 * this.m10;
   if (abs(det) == 0) {
-    throw new NoninvertibleTransformException_0('affine [' + toString_31(this.m00) + ' ' + toString_31(this.m01) + ' ' + toString_31(this.m10) + ' ' + toString_31(this.m11) + ' ' + new Vector_0(this.tx, this.ty) + ']');
+    throw new NoninvertibleTransformException_0('affine [' + toString_33(this.m00) + ' ' + toString_33(this.m01) + ' ' + toString_33(this.m10) + ' ' + toString_33(this.m11) + ' ' + new Vector_0(this.tx, this.ty) + ']');
   }
   rdet = 1 / det;
   return $set_4(into, (x * this.m11 - y * this.m10) * rdet, (y * this.m00 - x * this.m01) * rdet);
@@ -4326,8 +4868,8 @@ _.setTy = function setTy_0(ty){
   return this;
 }
 ;
-_.toString$ = function toString_21(){
-  return 'affine [' + toString_31(this.m00) + ' ' + toString_31(this.m01) + ' ' + toString_31(this.m10) + ' ' + toString_31(this.m11) + ' ' + new Vector_0(this.tx, this.ty) + ']';
+_.toString$ = function toString_23(){
+  return 'affine [' + toString_33(this.m00) + ' ' + toString_33(this.m01) + ' ' + toString_33(this.m10) + ' ' + toString_33(this.m11) + ' ' + new Vector_0(this.tx, this.ty) + ']';
 }
 ;
 _.tx_0 = function tx_0(){
@@ -4363,7 +4905,7 @@ function StockInternalTransform_0(){
   this.ty = 0;
 }
 
-defineSeed(202, 203, {}, StockInternalTransform_0);
+defineSeed(222, 223, {}, StockInternalTransform_0);
 _.m00_0 = function m00_0(){
   return this.m00;
 }
@@ -4391,7 +4933,7 @@ function Touch$Event$Impl_1(hit, flags, time, x, y, id, pressure, size){
   this.size = size;
 }
 
-defineSeed(205, 176, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl, Q$Touch$Event, Q$Touch$Event$Impl]), Touch$Event$Impl_0, Touch$Event$Impl_1);
+defineSeed(225, 196, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl, Q$Touch$Event, Q$Touch$Event$Impl]), Touch$Event$Impl_0, Touch$Event$Impl_1);
 _.addFields = function addFields_5(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_10($append_11($append_8($append_11($append_8((builder.impl.string += ', x=' , builder), this.x), ', y='), this.y), ', hit='), this.hit);
@@ -4449,27 +4991,27 @@ function $onTouchStart(this$static, touches){
       p.y += root.originY_0();
       hitLayer = root.hitTest(p);
       if (hitLayer) {
-        $put_1(this$static.activeLayers, valueOf(event_0.id), hitLayer);
+        $put_2(this$static.activeLayers, valueOf(event_0.id), hitLayer);
         $dispatch(hitLayer, event_0, START);
       }
     }
   }
 }
 
-defineSeed(206, 1, {});
+defineSeed(226, 1, {});
 var END_0, MOVE, START;
 function TouchImpl$1_0(){
 }
 
-defineSeed(207, 1, {}, TouchImpl$1_0);
+defineSeed(227, 1, {}, TouchImpl$1_0);
 function TouchImpl$2_0(){
 }
 
-defineSeed(208, 1, {}, TouchImpl$2_0);
+defineSeed(228, 1, {}, TouchImpl$2_0);
 function TouchImpl$3_0(){
 }
 
-defineSeed(209, 1, {}, TouchImpl$3_0);
+defineSeed(229, 1, {}, TouchImpl$3_0);
 function $transform_1(this$static, canvas){
   var transform;
   $translate_0(canvas, this$static.originX, this$static.originY);
@@ -4482,7 +5024,7 @@ function LayerCanvas_0(xform){
   AbstractLayer_0.call(this, xform);
 }
 
-defineSeed(211, 168, {});
+defineSeed(231, 188, {});
 function $paint(this$static, canvas, parentAlpha){
   if (!$isSet(this$static, ($clinit_AbstractLayer$Flag() , VISIBLE_1)))
     return;
@@ -4494,20 +5036,22 @@ function $paint(this$static, canvas, parentAlpha){
 
 function $paintChildren(this$static, canvas, alpha){
   var child, child$iterator;
-  for (child$iterator = new AbstractList$IteratorImpl_0(this$static.impl.children); child$iterator.i < child$iterator.this$0.size;) {
+  for (child$iterator = new AbstractList$IteratorImpl_0(this$static.impl.children); child$iterator.i < child$iterator.this$0_0.size_0();) {
     child = $next_0(child$iterator);
     child.paint(canvas, alpha);
   }
 }
 
+--></script>
+<script><!--
 function GroupLayerCanvas_0(xform){
   LayerCanvas_0.call(this, xform);
   this.impl = new GroupLayerImpl_0;
 }
 
-defineSeed(210, 211, {}, GroupLayerCanvas_0);
-_.add_0 = function add_3(layer){
-  $add_1(this.impl, this, layer);
+defineSeed(230, 231, {}, GroupLayerCanvas_0);
+_.add_1 = function add_5(layer){
+  $add_2(this.impl, this, layer);
 }
 ;
 _.hitTestDefault = function hitTestDefault_0(p){
@@ -4540,7 +5084,7 @@ function ImageLayerCanvas_0(xform){
   LayerCanvas_0.call(this, xform);
 }
 
-defineSeed(212, 211, {}, ImageLayerCanvas_0);
+defineSeed(232, 231, {}, ImageLayerCanvas_0);
 _.height_1 = function height_1(){
   return this.heightSet?this.height_0:$height_0(this.img);
 }
@@ -4591,7 +5135,7 @@ function $drawImage_0(this$static, img, w, h){
   return this$static;
 }
 
-defineSeed(213, 1, {});
+defineSeed(233, 1, {});
 function $draw(this$static, shader, xform, tint, dw, dh){
   $draw_0(this$static, shader, xform, tint, dw, dh, this$static.repeatX?dw:!this$static.img?0:$invScaled(this$static.scale_0, this$static.img.width), this$static.repeatY?dh:!this$static.img?0:$invScaled(this$static.scale_0, this$static.img.height));
 }
@@ -4611,7 +5155,7 @@ function $release(this$static){
   --this$static.refs == 0 && !!this$static.ctx && $clearTexture(this$static);
 }
 
-defineSeed(214, 1, {});
+defineSeed(234, 1, {});
 _.ctx = null;
 _.mipmapped = false;
 _.refs = 0;
@@ -4641,16 +5185,16 @@ function GL20Buffer_0(gl){
   this.bufferId = (ids = initDim(_3I_classLit, makeCastMap([Q$Serializable]), -1, 1, 1) , $genObjects(gl, ids, ($clinit_HtmlGL20$WebGLObjectType() , BUFFER)) , ids[0]);
 }
 
-defineSeed(215, 1, {});
+defineSeed(235, 1, {});
 _.bufferId = 0;
 _.gl = null;
-function $add_2(this$static, x, y){
-  $put($put(this$static.buffer_0, x), y);
+function $add_3(this$static, x, y){
+  $put_0($put_0(this$static.buffer_0, x), y);
   return this$static;
 }
 
-function $add_3(this$static, m00, m01, m10, m11, tx, ty){
-  $put($put($put($put($put($put(this$static.buffer_0, m00), m01), m10), m11), tx), ty);
+function $add_4(this$static, m00, m01, m10, m11, tx, ty){
+  $put_0($put_0($put_0($put_0($put_0($put_0(this$static.buffer_0, m00), m01), m10), m11), tx), ty);
   return this$static;
 }
 
@@ -4666,7 +5210,7 @@ function GL20Buffer$FloatImpl_0(gl, capacity){
   $expand(this, capacity);
 }
 
-defineSeed(216, 215, {}, GL20Buffer$FloatImpl_0);
+defineSeed(236, 235, {}, GL20Buffer$FloatImpl_0);
 _.buffer_1 = function buffer_0(){
   return this.buffer_0;
 }
@@ -4675,18 +5219,18 @@ _.byteSize = function byteSize_0(){
   return this.buffer_0.position_0 * 4;
 }
 ;
-_.toString$ = function toString_22(){
+_.toString$ = function toString_24(){
   return 'floatbuf:' + this.bufferId;
 }
 ;
 _.buffer_0 = null;
-function $add_4(this$static, value){
-  $put_0(this$static.buffer_0, ~~(value << 16) >> 16);
+function $add_5(this$static, value){
+  $put_1(this$static.buffer_0, ~~(value << 16) >> 16);
   return this$static;
 }
 
-function $add_5(this$static, x, y){
-  $put_0($put_0(this$static.buffer_0, ~~(x << 16) >> 16), ~~(y << 16) >> 16);
+function $add_6(this$static, x, y){
+  $put_1($put_1(this$static.buffer_0, ~~(x << 16) >> 16), ~~(y << 16) >> 16);
   return this$static;
 }
 
@@ -4703,7 +5247,7 @@ function GL20Buffer$ShortImpl_0(gl, capacity){
   this.buffer_0 = $asShortBuffer($order(allocateDirect(capacity * 2), ($clinit_ByteOrder() , $clinit_ByteOrder() , NATIVE_ORDER)));
 }
 
-defineSeed(217, 215, {}, GL20Buffer$ShortImpl_0);
+defineSeed(237, 235, {}, GL20Buffer$ShortImpl_0);
 _.buffer_1 = function buffer_1(){
   return this.buffer_0;
 }
@@ -4712,7 +5256,7 @@ _.byteSize = function byteSize_1(){
   return this.buffer_0.position_0 * 2;
 }
 ;
-_.toString$ = function toString_23(){
+_.toString$ = function toString_25(){
   return 'shortbuf:' + this.bufferId;
 }
 ;
@@ -4761,8 +5305,10 @@ function $quadShader(this$static, custom){
 }
 
 function $setSize(this$static, width, height){
-  this$static.curFbufWidth = this$static.defaultFbufWidth = $scaledCeil(this$static.scale_0, width);
-  this$static.curFbufHeight = this$static.defaultFbufHeight = $scaledCeil(this$static.scale_0, height);
+  this$static.viewWidth = width;
+  this$static.viewHeight = height;
+  this$static.curFbufWidth = this$static.defaultFbufWidth = iceil($scaled(this$static.scale_0, width));
+  this$static.curFbufHeight = this$static.defaultFbufHeight = iceil($scaled(this$static.scale_0, height));
   $bindFramebufferImpl(this$static, 0, this$static.defaultFbufWidth, this$static.defaultFbufHeight);
 }
 
@@ -4775,7 +5321,7 @@ function $useShader(this$static, shader, forceFlush){
   return true;
 }
 
-defineSeed(219, 1, {});
+defineSeed(239, 1, {});
 _.createTransform = function createTransform(){
   return new StockInternalTransform_0;
 }
@@ -4792,6 +5338,8 @@ _.pushedFramebuffer = -1;
 _.pushedHeight = 0;
 _.pushedWidth = 0;
 _.scale_0 = null;
+_.viewHeight = 0;
+_.viewWidth = 0;
 function $bindFramebufferImpl(this$static, fbuf, width, height){
   $glBindFramebuffer(this$static.gl, fbuf);
   $glViewport(this$static.gl, width, height);
@@ -4837,8 +5385,8 @@ function $createTexture_0(this$static, repeatX, repeatY, mipmaps){
   tex = initDim(_3I_classLit, makeCastMap([Q$Serializable]), -1, 1, 1);
   $genObjects(this$static.gl, tex, ($clinit_HtmlGL20$WebGLObjectType() , TEXTURE));
   $glBindTexture(this$static.gl, tex[0]);
-  $glTexParameteri(this$static.gl, 10240, 9729);
-  $glTexParameteri(this$static.gl, 10241, mipmapify(mipmaps));
+  $glTexParameteri(this$static.gl, 10240, this$static.magFilter);
+  $glTexParameteri(this$static.gl, 10241, mipmapify(this$static.minFilter, mipmaps));
   $glTexParameteri(this$static.gl, 10242, repeatX?10497:33071);
   $glTexParameteri(this$static.gl, 10243, repeatY?10497:33071);
   ++this$static.stats.texCreates;
@@ -4866,6 +5414,11 @@ function $paint_0(this$static, rootLayer){
   ++this$static.stats.frames_0;
 }
 
+function $setTextureFilter(this$static){
+  this$static.minFilter = toGL(0);
+  this$static.magFilter = toGL(1);
+}
+
 function GL20Context_0(platform, gl, checkErrors){
   this.stats = new GLContext$Stats_0;
   new ArrayList_0;
@@ -4877,19 +5430,32 @@ function GL20Context_0(platform, gl, checkErrors){
   this.rootXform.uniformScale(1);
 }
 
-function mipmapify(mipmaps){
+function mipmapify(filter, mipmaps){
   if (!mipmaps)
-    return 9729;
-  switch (9729) {
+    return filter;
+  switch (filter) {
     case 9728:
+      return 9984;
     case 9729:
       return 9985;
+    default:return filter;
   }
 }
 
-defineSeed(218, 219, {});
+function toGL(filter){
+  switch (filter) {
+    default:case 0:
+      return 9729;
+    case 1:
+      return 9728;
+  }
+}
+
+defineSeed(238, 239, {});
 _.checkErrors = false;
 _.gl = null;
+_.magFilter = 9729;
+_.minFilter = 9729;
 _.quadShader = null;
 _.rootXform = null;
 _.trisShader = null;
@@ -4938,8 +5504,6 @@ function $getUniform4fv(this$static){
   return loc < 0?null:new GL20Program$8_0(this$static, loc);
 }
 
---></script>
-<script><!--
 function GL20Program_0(ctx, gl, vertexSource, fragmentSource){
   var fragmentShader, linkStatus, log, program, vertexShader;
   this.gl = gl;
@@ -4977,7 +5541,7 @@ function GL20Program_0(ctx, gl, vertexSource, fragmentSource){
   }
 }
 
-defineSeed(220, 1, {}, GL20Program_0);
+defineSeed(240, 1, {}, GL20Program_0);
 _.fragmentShader = 0;
 _.gl = null;
 _.program = 0;
@@ -4994,7 +5558,7 @@ function GL20Program$10_0(this$0, val$loc, val$size, val$type){
   this.val$type = val$type;
 }
 
-defineSeed(221, 1, {}, GL20Program$10_0);
+defineSeed(241, 1, {}, GL20Program$10_0);
 _.this$0 = null;
 _.val$loc = 0;
 _.val$size = 0;
@@ -5008,7 +5572,7 @@ function GL20Program$2_0(this$0, val$loc){
   this.val$loc = val$loc;
 }
 
-defineSeed(222, 1, {}, GL20Program$2_0);
+defineSeed(242, 1, {}, GL20Program$2_0);
 _.this$0 = null;
 _.val$loc = 0;
 function $bind_3(this$static){
@@ -5020,7 +5584,7 @@ function GL20Program$5_0(this$0, val$loc){
   this.val$loc = val$loc;
 }
 
-defineSeed(223, 1, {}, GL20Program$5_0);
+defineSeed(243, 1, {}, GL20Program$5_0);
 _.this$0 = null;
 _.val$loc = 0;
 function $bind_4(this$static, data, count){
@@ -5035,13 +5599,13 @@ function GL20Program$8_0(this$0, val$loc){
   this.val$loc = val$loc;
 }
 
-defineSeed(224, 1, {}, GL20Program$8_0);
+defineSeed(244, 1, {}, GL20Program$8_0);
 _.this$0 = null;
 _.val$loc = 0;
 function GLContext$Stats_0(){
 }
 
-defineSeed(225, 1, {}, GLContext$Stats_0);
+defineSeed(245, 1, {}, GLContext$Stats_0);
 _.frameBufferBinds = 0;
 _.frameBufferCreates = 0;
 _.frames_0 = 0;
@@ -5099,7 +5663,7 @@ function $prepareTexture(this$static, tex, tint){
   return this$static;
 }
 
-defineSeed(226, 1, {});
+defineSeed(246, 1, {});
 _.colorCore = null;
 _.ctx = null;
 _.curCore = null;
@@ -5111,13 +5675,13 @@ function GLShader$Core_0(this$0, vertShader, fragShader){
   this.prog = $createProgram(this$0.ctx, vertShader, fragShader);
 }
 
-defineSeed(227, 1, {});
+defineSeed(247, 1, {});
 _.destroy = function destroy(){
   $destroy_0(this.prog);
 }
 ;
 _.prog = null;
-defineSeed(228, 1, {});
+defineSeed(248, 1, {});
 function $prepare(this$static, tex, justActivated){
   var stateChanged;
   $checkGLError(this$static.this$0.ctx, 'textureShader.prepare start');
@@ -5146,7 +5710,7 @@ function GLShader$TextureExtras_0(this$0, prog){
   this.uTexture = (loc = $glGetUniformLocation(prog.gl, prog.program, 'u_Texture') , loc < 0?null:new GL20Program$5_0(prog, loc));
 }
 
-defineSeed(229, 228, {}, GLShader$TextureExtras_0);
+defineSeed(249, 248, {}, GLShader$TextureExtras_0);
 _.lastTex = 0;
 _.this$0 = null;
 _.uTexture = null;
@@ -5172,7 +5736,7 @@ function LayerGL_0(){
   this.savedLocal = new HtmlInternalTransform_0;
 }
 
-defineSeed(232, 168, {});
+defineSeed(252, 188, {});
 _.savedLocal = null;
 function $paint_1(this$static, curTransform, curTint, curShader){
   if (!$isSet(this$static, ($clinit_AbstractLayer$Flag() , VISIBLE_1)))
@@ -5193,9 +5757,9 @@ function GroupLayerGL_0(){
   this.impl = new GroupLayerImpl_0;
 }
 
-defineSeed(231, 232, {}, GroupLayerGL_0);
-_.add_0 = function add_4(layer){
-  $add_1(this.impl, this, layer);
+defineSeed(251, 252, {}, GroupLayerGL_0);
+_.add_1 = function add_6(layer){
+  $add_2(this.impl, this, layer);
 }
 ;
 _.hitTestDefault = function hitTestDefault_1(p){
@@ -5286,7 +5850,7 @@ function convertToRepTex(ctx, tex, width, height, repeatX, repeatY, mipmapped){
   }
 }
 
-defineSeed(233, 214, {});
+defineSeed(253, 234, {});
 _.scale_0 = null;
 _.tex = 0;
 function $setImage_0(this$static, img){
@@ -5302,7 +5866,7 @@ function ImageLayerGL_0(){
   LayerGL_0.call(this);
 }
 
-defineSeed(234, 232, {}, ImageLayerGL_0);
+defineSeed(254, 252, {}, ImageLayerGL_0);
 _.height_1 = function height_2(){
   return this.heightSet?this.height_0:$height_0(this.img);
 }
@@ -5324,17 +5888,17 @@ function IndexedTrisShader_0(ctx){
   this.ctx = ctx;
 }
 
-defineSeed(235, 226, {}, IndexedTrisShader_0);
+defineSeed(255, 246, {}, IndexedTrisShader_0);
 _.createTextureCore = function createTextureCore(){
   return new IndexedTrisShader$ITCore_0(this);
 }
 ;
-_.toString$ = function toString_24(){
+_.toString$ = function toString_26(){
   return 'itris/' + this.texCore + '/' + this.colorCore;
 }
 ;
 function $addExtraVertexAttribs(this$static, vertices){
-  $add_2(vertices, this$static.arTint, this$static.gbTint);
+  $add_3(vertices, this$static.arTint, this$static.gbTint);
 }
 
 function $beginPrimitive(this$static){
@@ -5353,6 +5917,8 @@ function $beginPrimitive(this$static){
   return vertIdx;
 }
 
+--></script>
+<script><!--
 function $expandElems(this$static, elemCount){
   var newElems;
   newElems = this$static.elements.buffer_0.capacity;
@@ -5382,7 +5948,7 @@ function IndexedTrisShader$ITCore_0(this$0){
   this.elements = $createShortBuffer(this$0.ctx, 96);
 }
 
-defineSeed(236, 227, {}, IndexedTrisShader$ITCore_0);
+defineSeed(256, 247, {}, IndexedTrisShader$ITCore_0);
 _.activate = function activate(fbufWidth, fbufHeight){
   $bind_0(this.prog);
   $bind_2(this.uScreenSize, fbufWidth, fbufHeight);
@@ -5399,20 +5965,20 @@ _.activate = function activate(fbufWidth, fbufHeight){
 _.addQuad = function addQuad(m00, m01, m10, m11, tx, ty, x1, y1, sx1, sy1, x2, y2, sx2, sy2, x3, y3, sx3, sy3, x4, y4, sx4, sy4){
   var vertIdx;
   vertIdx = $beginPrimitive(this);
-  $add_2($add_2($add_3(this.vertices, m00, m01, m10, m11, tx, ty), x1, y1), sx1, sy1);
+  $add_3($add_3($add_4(this.vertices, m00, m01, m10, m11, tx, ty), x1, y1), sx1, sy1);
   $addExtraVertexAttribs(this, this.vertices);
-  $add_2($add_2($add_3(this.vertices, m00, m01, m10, m11, tx, ty), x2, y2), sx2, sy2);
+  $add_3($add_3($add_4(this.vertices, m00, m01, m10, m11, tx, ty), x2, y2), sx2, sy2);
   $addExtraVertexAttribs(this, this.vertices);
-  $add_2($add_2($add_3(this.vertices, m00, m01, m10, m11, tx, ty), x3, y3), sx3, sy3);
+  $add_3($add_3($add_4(this.vertices, m00, m01, m10, m11, tx, ty), x3, y3), sx3, sy3);
   $addExtraVertexAttribs(this, this.vertices);
-  $add_2($add_2($add_3(this.vertices, m00, m01, m10, m11, tx, ty), x4, y4), sx4, sy4);
+  $add_3($add_3($add_4(this.vertices, m00, m01, m10, m11, tx, ty), x4, y4), sx4, sy4);
   $addExtraVertexAttribs(this, this.vertices);
-  $add_4(this.elements, vertIdx);
-  $add_4(this.elements, vertIdx + 1);
-  $add_4(this.elements, vertIdx + 2);
-  $add_4(this.elements, vertIdx + 1);
-  $add_4(this.elements, vertIdx + 3);
-  $add_4(this.elements, vertIdx + 2);
+  $add_5(this.elements, vertIdx);
+  $add_5(this.elements, vertIdx + 1);
+  $add_5(this.elements, vertIdx + 2);
+  $add_5(this.elements, vertIdx + 1);
+  $add_5(this.elements, vertIdx + 3);
+  $add_5(this.elements, vertIdx + 2);
 }
 ;
 _.destroy = function destroy_0(){
@@ -5438,7 +6004,7 @@ _.prepare = function prepare(tint, justActivated){
   this.gbTint = tint & 65535;
 }
 ;
-_.toString$ = function toString_25(){
+_.toString$ = function toString_27(){
   return 'cq=' + ~~(this.elements.buffer_0.capacity / 6);
 }
 ;
@@ -5462,18 +6028,18 @@ function QuadShader_0(ctx){
   this.maxQuads = ~~(maxVecs / 3);
 }
 
-defineSeed(237, 226, {}, QuadShader_0);
+defineSeed(257, 246, {}, QuadShader_0);
 _.createTextureCore = function createTextureCore_0(){
   return new QuadShader$QuadCore_0(this, $replace_0($replace_0('uniform vec2 u_ScreenSize;\nuniform vec4 u_Data[_VEC4S_PER_QUAD_*_MAX_QUADS_];\nattribute vec3 a_Vertex;\nvarying vec2 v_TexCoord;\nvarying vec4 v_Color;\nvoid main(void) {\nint index = _VEC4S_PER_QUAD_*int(a_Vertex.z);\nvec4 mat = u_Data[index+0];\nvec4 txc = u_Data[index+1];\nvec4 tcs = u_Data[index+2];\nmat3 transform = mat3(\n  mat.x, mat.y, 0,\n  mat.z, mat.w, 0,\n  txc.x, txc.y, 1);\ngl_Position = vec4(transform * vec3(a_Vertex.xy, 1.0), 1.0);\ngl_Position.xy /= u_ScreenSize.xy;\ngl_Position.x -= 1.0;\ngl_Position.y = 1.0 - gl_Position.y;\nv_TexCoord = a_Vertex.xy * tcs.xy + txc.zw;\nfloat red = mod(tcs.z, 256.0);\nfloat alpha = (tcs.z - red) / 256.0;\nfloat blue = mod(tcs.w, 256.0);\nfloat green = (tcs.w - blue) / 256.0;\nv_Color = vec4(red / 255.0, green / 255.0, blue / 255.0, alpha / 255.0);\n}', '_MAX_QUADS_', '' + this.maxQuads), '_VEC4S_PER_QUAD_', '3'), '#ifdef GL_ES\nprecision highp float;\n#endif\nuniform sampler2D u_Texture;\nvarying vec2 v_TexCoord;\nvarying vec4 v_Color;\nvoid main(void) {\n  vec4 textureColor = texture2D(u_Texture, v_TexCoord);\n  textureColor.rgb *= v_Color.rgb;\n  gl_FragColor = textureColor * v_Color.a;\n}');
 }
 ;
-_.toString$ = function toString_26(){
+_.toString$ = function toString_28(){
   return 'quad/' + this.maxQuads;
 }
 ;
 _.maxQuads = 0;
 function $addExtraData(this$static, data){
-  $add_2(data, this$static.arTint, this$static.gbTint);
+  $add_3(data, this$static.arTint, this$static.gbTint);
 }
 
 function $destroy_1(this$static){
@@ -5494,13 +6060,13 @@ function QuadShader$QuadCore_0(this$0, vertShader, fragShader){
   this.vertices = $createShortBuffer(this$0.ctx, this$0.maxQuads * 4 * 3);
   this.elements = $createShortBuffer(this$0.ctx, this$0.maxQuads * 6);
   for (ii = 0; ii < this$0.maxQuads; ++ii) {
-    $add_4($add_5(this.vertices, 0, 0), ii);
-    $add_4($add_5(this.vertices, 1, 0), ii);
-    $add_4($add_5(this.vertices, 0, 1), ii);
-    $add_4($add_5(this.vertices, 1, 1), ii);
+    $add_5($add_6(this.vertices, 0, 0), ii);
+    $add_5($add_6(this.vertices, 1, 0), ii);
+    $add_5($add_6(this.vertices, 0, 1), ii);
+    $add_5($add_6(this.vertices, 1, 1), ii);
     base = ii * 4;
-    $add_4($add_4($add_4(this.elements, base), base + 1), base + 2);
-    $add_4($add_4($add_4(this.elements, base + 1), base + 3), base + 2);
+    $add_5($add_5($add_5(this.elements, base), base + 1), base + 2);
+    $add_5($add_5($add_5(this.elements, base + 1), base + 3), base + 2);
   }
   $bind(this.vertices, 34962);
   $send(this.vertices, 34962, 35044);
@@ -5508,7 +6074,7 @@ function QuadShader$QuadCore_0(this$0, vertShader, fragShader){
   $send(this.elements, 34963, 35044);
 }
 
-defineSeed(238, 227, {}, QuadShader$QuadCore_0);
+defineSeed(258, 247, {}, QuadShader$QuadCore_0);
 _.activate = function activate_0(fbufWidth, fbufHeight){
   $bind_0(this.prog);
   $bind_2(this.uScreenSize, fbufWidth / 2, fbufHeight / 2);
@@ -5521,9 +6087,9 @@ _.addQuad = function addQuad_0(m00, m01, m10, m11, tx, ty, x1, y1, sx1, sy1, x2,
   var dh, dw;
   dw = x2 - x1;
   dh = y3 - y1;
-  $add_3(this.data, m00 * dw, m01 * dw, m10 * dh, m11 * dh, tx + m00 * x1 + m10 * y1, ty + m01 * x1 + m11 * y1);
-  $add_2(this.data, sx1, sy1);
-  $add_2(this.data, sx2 - sx1, sy3 - sy1);
+  $add_4(this.data, m00 * dw, m01 * dw, m10 * dh, m11 * dh, tx + m00 * x1 + m10 * y1, ty + m01 * x1 + m11 * y1);
+  $add_3(this.data, sx1, sy1);
+  $add_3(this.data, sx2 - sx1, sy3 - sy1);
   $addExtraData(this, this.data);
   ++this.quadCounter;
   this.quadCounter >= this.this$0.maxQuads && $flush_0(this.this$0);
@@ -5565,6 +6131,10 @@ function $invScaled(this$static, length_0){
   return length_0 / this$static.factor;
 }
 
+function $scaled(this$static, length_0){
+  return this$static.factor * length_0;
+}
+
 function $scaledCeil(this$static, length_0){
   return iceil(this$static.factor * length_0);
 }
@@ -5574,8 +6144,8 @@ function Scale_0(factor){
   this.factor = factor;
 }
 
-defineSeed(239, 1, {}, Scale_0);
-_.toString$ = function toString_27(){
+defineSeed(259, 1, {}, Scale_0);
+_.toString$ = function toString_29(){
   return 'x' + this.factor;
 }
 ;
@@ -5588,7 +6158,7 @@ function getElementSize_3(){
 function RunQueue_0(){
 }
 
-defineSeed(241, 1, {}, RunQueue_0);
+defineSeed(261, 1, {}, RunQueue_0);
 _.head = null;
 function $clear_1(this$static){
   return $clearRect_0(this$static, $width(this$static.this$0), $height(this$static.this$0));
@@ -5614,7 +6184,7 @@ function $translate_0(this$static, x, y){
   return this$static;
 }
 
-defineSeed(242, 213, {});
+defineSeed(262, 233, {});
 _.ctx = null;
 function $init(this$static){
   this$static.random_0 = getRandom();
@@ -5624,7 +6194,7 @@ function $init(this$static){
 function HtmlAnalytics_0(){
 }
 
-defineSeed(243, 1, {}, HtmlAnalytics_0);
+defineSeed(263, 1, {}, HtmlAnalytics_0);
 _.random_0 = 0;
 function $getBundle(this$static, collection){
   var clientBundle, entry, entry$iterator, regExp;
@@ -5641,7 +6211,7 @@ function $getImage(this$static, path, scale){
   var url, img;
   url = this$static.pathPrefix + path;
   $getBundle(this$static, path);
-  return img = $doc.createElement('img') , 'crossOrigin' in img && img.setAttribute('crossOrigin', 'anonymous') , img.src = url , new HtmlImage_0(this$static.platform.graphics.ctx_0(), scale, img);
+  return img = $doc.createElement('img') , 'crossOrigin' in img && img.setAttribute('crossOrigin', 'anonymous') , img.src = url , new HtmlImage_0(this$static.platform.graphics.ctx_1(), scale, img);
 }
 
 function HtmlAssets_0(platform){
@@ -5649,7 +6219,7 @@ function HtmlAssets_0(platform){
   this.platform = platform;
 }
 
-defineSeed(244, 167, {}, HtmlAssets_0);
+defineSeed(264, 187, {}, HtmlAssets_0);
 _.pathPrefix = '';
 _.platform = null;
 function $init_0(this$static){
@@ -5675,7 +6245,7 @@ function maybeCreateAudioContext(){
   return null;
 }
 
-defineSeed(245, 1, {}, HtmlAudio_0);
+defineSeed(265, 1, {}, HtmlAudio_0);
 function $createObject(this$static, object, type){
   $push(this$static.webGLObjects, object);
   $push_0(this$static.webGLObjectTypes, type.ordinal);
@@ -5811,8 +6381,6 @@ function $glCompileShader(this$static, shader){
   $compileShader(this$static.gl, this$static.webGLObjects[shader]);
 }
 
---></script>
-<script><!--
 function $glCreateShader(this$static, type){
   return $createObject(this$static, $createShader(this$static.gl, type), ($clinit_HtmlGL20$WebGLObjectType() , SHADER));
 }
@@ -5953,7 +6521,7 @@ function HtmlGL20_0(gl){
   }
 }
 
-defineSeed(246, 1, {}, HtmlGL20_0);
+defineSeed(266, 1, {}, HtmlGL20_0);
 _.boundArrayBuffer = null;
 _.boundElementArrayBuffer = null;
 _.enabledArrays = 0;
@@ -5965,7 +6533,7 @@ _.useNioBuffer = 0;
 function HtmlGL20$VertexAttribArrayState_0(){
 }
 
-defineSeed(247, 1, makeCastMap([Q$HtmlGL20$VertexAttribArrayState]), HtmlGL20$VertexAttribArrayState_0);
+defineSeed(267, 1, makeCastMap([Q$HtmlGL20$VertexAttribArrayState]), HtmlGL20$VertexAttribArrayState_0);
 _.nioBuffer = null;
 _.nioBufferLimit = 0;
 _.nioBufferPosition = 0;
@@ -5996,7 +6564,7 @@ function values_8(){
   return $VALUES_8;
 }
 
-defineSeed(248, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$HtmlGL20$WebGLObjectType]), HtmlGL20$WebGLObjectType_0);
+defineSeed(268, 5, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$HtmlGL20$WebGLObjectType]), HtmlGL20$WebGLObjectType_0);
 var $VALUES_8, BUFFER, FRAME_BUFFER, NULL, PROGRAM, RENDER_BUFFER, SHADER, TEXTURE, UNIFORM_LOCATION;
 function $tryBasicGLCalls(this$static){
   var err, pixelData, testFloat32Array, testInt32Array, testUint16Array, testUint8Array;
@@ -6052,7 +6620,7 @@ function HtmlGLContext_0(platform, gl, canvas){
   this.glc.pixelStorei(37441, 1);
 }
 
-defineSeed(249, 218, {}, HtmlGLContext_0);
+defineSeed(269, 238, {}, HtmlGLContext_0);
 _.createTransform = function createTransform_0(){
   return new HtmlInternalTransform_0;
 }
@@ -6061,16 +6629,16 @@ _.glc = null;
 function HtmlGame$1_0(){
 }
 
-defineSeed(251, 1, {}, HtmlGame$1_0);
+defineSeed(271, 1, {}, HtmlGame$1_0);
 function HtmlGame$2_0(){
 }
 
-defineSeed(252, 1, {}, HtmlGame$2_0);
+defineSeed(272, 1, {}, HtmlGame$2_0);
 function $transformMouse(this$static, x, y){
   return $set_4(this$static.mousePoint, x / this$static.scale_1().factor, y / this$static.scale_1().factor);
 }
 
-function HtmlGraphics_0(){
+function HtmlGraphics_0(config){
   var doc;
   this.mousePoint = new Point_0;
   new HashMap_0;
@@ -6092,16 +6660,45 @@ function HtmlGraphics_0(){
   this.measureElement.style['top'] = -500 + ($clinit_Style$Unit() , 'px');
   this.measureElement.style['overflow'] = ($clinit_Style$Overflow() , 'visible');
   $appendChild(this.rootElement, this.measureElement);
+  config.experimentalFullscreen && addResizeHandler(new HtmlGraphics$1_0(this));
 }
 
-defineSeed(253, 1, {});
+defineSeed(273, 1, {});
 _.ctx_0 = function ctx_0(){
+  return this.ctx_1();
+}
+;
+_.ctx_1 = function ctx_1(){
   return null;
 }
 ;
 _.dummyCanvas = null;
 _.measureElement = null;
 _.rootElement = null;
+var experimentalScale = 1;
+function $onResize(this$static, event_0){
+  var xOfs, yOfs;
+  if ($wnd.screen.width == event_0.width_0 && $wnd.screen.height == event_0.height_0) {
+    experimentalScale = min($wnd.screen.width / this$static.this$0.width_2(), $wnd.screen.height / this$static.this$0.height_2());
+    yOfs = round_int(($wnd.screen.height - this$static.this$0.height_2() * experimentalScale) / 3);
+    xOfs = round_int(($wnd.screen.width - this$static.this$0.width_2() * experimentalScale) / 2);
+    $setAttribute(this$static.this$0.rootElement_0(), 'style', 'width:' + experimentalScale * this$static.this$0.width_2() + 'px; height:' + experimentalScale * this$static.this$0.height_2() + 'px; position:absolute; left:' + xOfs + 'px; top:' + yOfs);
+    alert_0('Switching to fullscreen mode.');
+    $addClassName($doc.body, 'fullscreen');
+  }
+   else {
+    experimentalScale = 1;
+    this$static.this$0.rootElement_0().removeAttribute('style');
+    $removeClassName($doc.body, 'fullscreen');
+  }
+}
+
+function HtmlGraphics$1_0(this$0){
+  this.this$0 = this$0;
+}
+
+defineSeed(274, 1, {}, HtmlGraphics$1_0);
+_.this$0 = null;
 function $height(this$static){
   return round_int($invScaled(this$static.scale_0, this$static.elem.offsetHeight || 0));
 }
@@ -6110,8 +6707,10 @@ function $width(this$static){
   return round_int($invScaled(this$static.scale_0, this$static.elem.offsetWidth || 0));
 }
 
-function HtmlGraphicsCanvas_0(){
-  HtmlGraphics_0.call(this);
+--></script>
+<script><!--
+function HtmlGraphicsCanvas_0(config){
+  HtmlGraphics_0.call(this, config);
   this.scale_0 = new Scale_0(1);
   this.rootLayer = new GroupLayerCanvas_0(($clinit_HtmlPlatform() , hasTypedArraySupport)?new HtmlInternalTransform_0:new StockInternalTransform_0);
   this.elem = $doc.createElement('canvas');
@@ -6123,13 +6722,17 @@ function HtmlGraphicsCanvas_0(){
   this.canvas = new HtmlGraphicsCanvas$1_0(this, this.ctx);
 }
 
-defineSeed(254, 253, {}, HtmlGraphicsCanvas_0);
+defineSeed(275, 273, {}, HtmlGraphicsCanvas_0);
 _.createGroupLayer = function createGroupLayer(){
   return new GroupLayerCanvas_0(($clinit_HtmlPlatform() , hasTypedArraySupport)?new HtmlInternalTransform_0:new StockInternalTransform_0);
 }
 ;
 _.createImageLayer = function createImageLayer(img){
   return $setImage(new ImageLayerCanvas_0(($clinit_HtmlPlatform() , hasTypedArraySupport)?new HtmlInternalTransform_0:new StockInternalTransform_0), img);
+}
+;
+_.height_2 = function height_3(){
+  return $height(this);
 }
 ;
 _.paint_1 = function paint_3(){
@@ -6150,6 +6753,10 @@ _.scale_1 = function scale_0(){
   return this.scale_0;
 }
 ;
+_.width_2 = function width_3(){
+  return $width(this);
+}
+;
 _.canvas = null;
 _.ctx = null;
 _.elem = null;
@@ -6160,11 +6767,11 @@ function HtmlGraphicsCanvas$1_0(this$0, $anonymous0){
   this.ctx = $anonymous0;
 }
 
-defineSeed(255, 242, {}, HtmlGraphicsCanvas$1_0);
+defineSeed(276, 262, {}, HtmlGraphicsCanvas$1_0);
 _.this$0 = null;
-function HtmlGraphicsGL_0(platform){
+function HtmlGraphicsGL_0(platform, config){
   var $e0, attrs, gl, re;
-  HtmlGraphics_0.call(this);
+  HtmlGraphics_0.call(this, config);
   this.canvas = $doc.createElement('canvas');
   $setWidth(this.canvas, this.rootElement.offsetWidth || 0);
   $setHeight(this.canvas, this.rootElement.offsetHeight || 0);
@@ -6172,7 +6779,7 @@ function HtmlGraphicsGL_0(platform){
   try {
     attrs = {premultipliedAlpha:false};
     attrs.alpha = false;
-    attrs.antialias = true;
+    $setAntialias(attrs, config.antiAliasing);
     gl = getContext(this.canvas, attrs);
     if (!gl || gl.getError() != 0) {
       throw new RuntimeException_1('GL context not created [err=' + (!gl?'null':valueOf(gl.getError())) + ']');
@@ -6192,7 +6799,7 @@ function HtmlGraphicsGL_0(platform){
   }
 }
 
-defineSeed(256, 253, {}, HtmlGraphicsGL_0);
+defineSeed(277, 273, {}, HtmlGraphicsGL_0);
 _.createGroupLayer = function createGroupLayer_0(){
   return new GroupLayerGL_0;
 }
@@ -6201,8 +6808,16 @@ _.createImageLayer = function createImageLayer_0(img){
   return $setImage_0(new ImageLayerGL_0, img);
 }
 ;
-_.ctx_0 = function ctx_1(){
+_.ctx_0 = function ctx_2(){
   return this.ctx;
+}
+;
+_.ctx_1 = function ctx_3(){
+  return this.ctx;
+}
+;
+_.height_2 = function height_4(){
+  return this.ctx.viewHeight;
 }
 ;
 _.paint_1 = function paint_4(){
@@ -6219,6 +6834,10 @@ _.rootLayer_0 = function rootLayer_1(){
 ;
 _.scale_1 = function scale_1(){
   return this.ctx.scale_0;
+}
+;
+_.width_2 = function width_4(){
+  return this.ctx.viewWidth;
 }
 ;
 _.canvas = null;
@@ -6247,21 +6866,21 @@ function HtmlImage_0(ctx, scale, img){
   this.img = img;
 }
 
-defineSeed(257, 233, {}, HtmlImage_0);
+defineSeed(278, 253, {}, HtmlImage_0);
 _.img = null;
 function getRelativeX(e, target){
-  return (e.clientX || 0) - $getAbsoluteLeft(target) + $getScrollLeft(target) + $getScrollLeft(target.ownerDocument.body);
+  return ((e.clientX || 0) - $getAbsoluteLeft(target) + $getScrollLeft(target) + $getScrollLeft(target.ownerDocument.body)) / experimentalScale;
 }
 
 function getRelativeY(e, target){
-  return (e.clientY || 0) - $getAbsoluteTop(target) + (target.scrollTop || 0) + (target.ownerDocument.body.scrollTop || 0);
+  return ((e.clientY || 0) - $getAbsoluteTop(target) + (target.scrollTop || 0) + (target.ownerDocument.body.scrollTop || 0)) / experimentalScale;
 }
 
 function HtmlInput$1_0(val$handler){
   this.val$handler = val$handler;
 }
 
-defineSeed(259, 1, {}, HtmlInput$1_0);
+defineSeed(280, 1, {}, HtmlInput$1_0);
 _.handleEvent = function handleEvent(evt){
   this.val$handler.handleEvent(evt);
 }
@@ -6334,7 +6953,7 @@ function multiply(am00, am01, am10, am11, atx, aty, bm00, bm01, bm10, bm11, btx,
   return into;
 }
 
-defineSeed(260, 204, {}, HtmlInternalTransform_0);
+defineSeed(281, 224, {}, HtmlInternalTransform_0);
 _.inverseTransform = function inverseTransform_0(p, into){
   var det, m00, m01, m10, m11, rdet, x, y;
   m00 = this.matrix[0];
@@ -6345,7 +6964,7 @@ _.inverseTransform = function inverseTransform_0(p, into){
   y = p.y - this.matrix[5];
   det = m00 * m11 - m01 * m10;
   if (abs(det) == 0) {
-    throw new NoninvertibleTransformException_0('affine [' + toString_31(this.matrix[0]) + ' ' + toString_31(this.matrix[1]) + ' ' + toString_31(this.matrix[2]) + ' ' + toString_31(this.matrix[3]) + ' ' + new Vector_0(this.matrix[4], this.matrix[5]) + ']');
+    throw new NoninvertibleTransformException_0('affine [' + toString_33(this.matrix[0]) + ' ' + toString_33(this.matrix[1]) + ' ' + toString_33(this.matrix[2]) + ' ' + toString_33(this.matrix[3]) + ' ' + new Vector_0(this.matrix[4], this.matrix[5]) + ']');
   }
   rdet = 1 / det;
   return into.x = (x * m11 - y * m10) * rdet , into.y = (y * m00 - x * m01) * rdet , into;
@@ -6385,8 +7004,8 @@ _.setTy = function setTy_1(ty){
   return $setTy(this, ty);
 }
 ;
-_.toString$ = function toString_28(){
-  return 'affine [' + toString_31(this.matrix[0]) + ' ' + toString_31(this.matrix[1]) + ' ' + toString_31(this.matrix[2]) + ' ' + toString_31(this.matrix[3]) + ' ' + new Vector_0(this.matrix[4], this.matrix[5]) + ']';
+_.toString$ = function toString_30(){
+  return 'affine [' + toString_33(this.matrix[0]) + ' ' + toString_33(this.matrix[1]) + ' ' + toString_33(this.matrix[2]) + ' ' + toString_33(this.matrix[3]) + ' ' + new Vector_0(this.matrix[4], this.matrix[5]) + ']';
 }
 ;
 _.tx_0 = function tx_1(){
@@ -6616,13 +7235,13 @@ function keyForCode(keyCode){
   }
 }
 
-defineSeed(261, 1, {}, HtmlKeyboard_0);
+defineSeed(282, 1, {}, HtmlKeyboard_0);
 _.listener = null;
 function HtmlKeyboard$1_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(262, 1, {}, HtmlKeyboard$1_0);
+defineSeed(283, 1, {}, HtmlKeyboard$1_0);
 _.handleEvent = function handleEvent_0(nativeEvent){
   var event_0;
   if (this.this$0.listener) {
@@ -6637,7 +7256,7 @@ function HtmlKeyboard$2_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(263, 1, {}, HtmlKeyboard$2_0);
+defineSeed(284, 1, {}, HtmlKeyboard$2_0);
 _.handleEvent = function handleEvent_1(nativeEvent){
   var event_0;
   if (this.this$0.listener) {
@@ -6651,7 +7270,7 @@ function HtmlKeyboard$3_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(264, 1, {}, HtmlKeyboard$3_0);
+defineSeed(285, 1, {}, HtmlKeyboard$3_0);
 _.handleEvent = function handleEvent_2(nativeEvent){
   var event_0;
   if (this.this$0.listener) {
@@ -6662,12 +7281,12 @@ _.handleEvent = function handleEvent_2(nativeEvent){
 }
 ;
 _.this$0 = null;
-defineSeed(265, 184, {});
+defineSeed(286, 204, {});
 function HtmlLogSimple_0(){
   this.minLevel = ($clinit_Log$Level() , DEBUG);
 }
 
-defineSeed(266, 265, {}, HtmlLogSimple_0);
+defineSeed(287, 286, {}, HtmlLogSimple_0);
 function $handleRequestsInUserEventContext(this$static){
   this$static.isRequestingMouseLock && !$isLocked() && $requestMouseLock(this$static, this$static.rootElement);
 }
@@ -6726,8 +7345,6 @@ function getMouseWheelEvent(){
   }
 }
 
---></script>
-<script><!--
 function getMouseWheelVelocity(evt){
   var delta = 0;
   var agentInfo = ($clinit_HtmlPlatform() , agentInfo_0);
@@ -6744,14 +7361,14 @@ function getMouseWheelVelocity(evt){
   return delta;
 }
 
-defineSeed(267, 188, {}, HtmlMouse_0);
+defineSeed(288, 208, {}, HtmlMouse_0);
 _.inDragSequence = false;
 _.isRequestingMouseLock = false;
 _.rootElement = null;
 function HtmlMouse$1_0(){
 }
 
-defineSeed(268, 1, {}, HtmlMouse$1_0);
+defineSeed(289, 1, {}, HtmlMouse$1_0);
 _.handleEvent = function handleEvent_3(evt){
   evt.preventDefault();
   evt.stopPropagation();
@@ -6762,7 +7379,7 @@ function HtmlMouse$1XYEventHandler_0(val$platform, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(270, 1, {});
+defineSeed(291, 1, {});
 _.handleEvent = function handleEvent_4(ev){
   var xy;
   xy = $transformMouse(this.val$platform.graphics, getRelativeX(ev, this.val$rootElement), getRelativeY(ev, this.val$rootElement));
@@ -6776,7 +7393,7 @@ function HtmlMouse$1MoveEventHandler_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1XYEventHandler_0.call(this, val$platform, val$rootElement);
 }
 
-defineSeed(269, 270, {});
+defineSeed(290, 291, {});
 _.handleEvent_0 = function handleEvent_5(ev, x, y){
   var dx, dy;
   if (this.lastX == -1) {
@@ -6807,7 +7424,7 @@ function HtmlMouse$2_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1XYEventHandler_0.call(this, val$platform, val$rootElement);
 }
 
-defineSeed(271, 270, {}, HtmlMouse$2_0);
+defineSeed(292, 291, {}, HtmlMouse$2_0);
 _.handleEvent_0 = function handleEvent_6(ev, x, y){
   this.this$0.inDragSequence = true;
   $onMouseDown(this.this$0, new Mouse$ButtonEvent$Impl_0(new Events$Flags$Impl_0, now_0(), x, y, getMouseButton(ev))) && (ev.preventDefault() , undefined);
@@ -6819,7 +7436,7 @@ function HtmlMouse$3_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1XYEventHandler_0.call(this, val$platform, val$rootElement);
 }
 
-defineSeed(272, 270, {}, HtmlMouse$3_0);
+defineSeed(293, 291, {}, HtmlMouse$3_0);
 _.handleEvent_0 = function handleEvent_7(ev, x, y){
   if (this.this$0.inDragSequence) {
     this.this$0.inDragSequence = false;
@@ -6833,7 +7450,7 @@ function HtmlMouse$4_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1MoveEventHandler_0.call(this, this$0, val$platform, val$rootElement);
 }
 
-defineSeed(273, 269, {}, HtmlMouse$4_0);
+defineSeed(294, 290, {}, HtmlMouse$4_0);
 _.wantDragSequence = function wantDragSequence(){
   return true;
 }
@@ -6842,7 +7459,7 @@ function HtmlMouse$5_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1MoveEventHandler_0.call(this, this$0, val$platform, val$rootElement);
 }
 
-defineSeed(274, 269, {}, HtmlMouse$5_0);
+defineSeed(295, 290, {}, HtmlMouse$5_0);
 _.wantDragSequence = function wantDragSequence_0(){
   return false;
 }
@@ -6851,7 +7468,7 @@ function HtmlMouse$6_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(275, 1, {}, HtmlMouse$6_0);
+defineSeed(296, 1, {}, HtmlMouse$6_0);
 _.handleEvent = function handleEvent_8(ev){
   $onMouseWheelScroll(this.this$0, new Mouse$WheelEvent$Impl_0(new Events$Flags$Impl_0, now_0(), this.this$0.lastMousePt.x, this.this$0.lastMousePt.y, getMouseWheelVelocity(ev))) && (ev.preventDefault() , undefined);
 }
@@ -6881,7 +7498,7 @@ function HtmlPattern_1(image, repeatX, repeatY){
   HtmlPattern_0.call(this, image.img, repeatX, repeatY);
 }
 
-defineSeed(276, 1, {}, HtmlPattern_1);
+defineSeed(297, 1, {}, HtmlPattern_1);
 _.patimg = null;
 _.repeatX = false;
 _.repeatY = false;
@@ -6898,11 +7515,11 @@ function $createGraphics(this$static, config){
   try {
     switch (config.mode) {
       case 1:
-        return new HtmlGraphicsCanvas_0;
+        return new HtmlGraphicsCanvas_0(config);
       case 0:
-        return new HtmlGraphicsGL_0(this$static);
+        return new HtmlGraphicsGL_0(this$static, config);
       default:case 2:
-        return !!$wnd.WebGLRenderingContext && (!/Chrome/.test(navigator.userAgent) || !/OS X 10_5/.test(navigator.userAgent))?new HtmlGraphicsGL_0(this$static):new HtmlGraphicsCanvas_0;
+        return !!$wnd.WebGLRenderingContext && (!/Chrome/.test(navigator.userAgent) || !/OS X 10_5/.test(navigator.userAgent))?new HtmlGraphicsGL_0(this$static, config):new HtmlGraphicsCanvas_0(config);
     }
   }
    catch ($e0) {
@@ -6918,7 +7535,7 @@ function $createGraphics(this$static, config){
      else 
       throw $e0;
   }
-  return new HtmlGraphicsCanvas_0;
+  return new HtmlGraphicsCanvas_0(config);
 }
 
 function $requestAnimationFrame(callback){
@@ -6931,6 +7548,7 @@ function $requestAnimationFrame(callback){
 
 function $run(this$static, game){
   new CachingAssets_0(platform_1);
+  $setTextureFilter(platform_1.graphics.ctx_0());
   $setListener(platform_1.keyboard, game);
   $setScreen(game, new TitleScreen_0(game));
   this$static.paintCallback = new HtmlPlatform$1_0(this$static, game);
@@ -6962,7 +7580,7 @@ function HtmlPlatform_0(config){
       e = $e0;
       $error_0(log_0, 'init()', e);
       alert_0('failed to init(): ' + e.getMessage());
-      throw new RuntimeException_2(e);
+      throw new RuntimeException_3(e);
     }
      else 
       throw $e0;
@@ -7001,7 +7619,7 @@ function now_0(){
   return Date.now();
 }
 
-defineSeed(277, 170, {}, HtmlPlatform_0);
+defineSeed(298, 190, {}, HtmlPlatform_0);
 _.graphics = null;
 _.paintCallback = null;
 var agentInfo_0, hasTypedArraySupport, log_0;
@@ -7010,8 +7628,8 @@ function HtmlPlatform$1_0(this$0, val$game){
   this.val$game = val$game;
 }
 
-defineSeed(278, 1, {}, HtmlPlatform$1_0);
-_.fire = function fire(){
+defineSeed(299, 1, {}, HtmlPlatform$1_0);
+_.fire = function fire_1(){
   $requestAnimationFrame(this.this$0.paintCallback);
   this.this$0.runQueue.head = null;
   $tick(this.val$game, $tick_0(this.this$0));
@@ -7024,11 +7642,13 @@ function HtmlPlatform$Config_0(){
   this.mode = requestedMode();
 }
 
-defineSeed(280, 1, {}, HtmlPlatform$Config_0);
+defineSeed(301, 1, {}, HtmlPlatform$Config_0);
+_.antiAliasing = true;
+_.experimentalFullscreen = false;
 function $eventFromMouse(this$static, rootElement, nativeEvent){
   var x, xy, y;
-  x = (nativeEvent.clientX || 0) - $getAbsoluteLeft(rootElement) + $getScrollLeft(rootElement) + $getScrollLeft(rootElement.ownerDocument.body);
-  y = (nativeEvent.clientY || 0) - $getAbsoluteTop(rootElement) + (rootElement.scrollTop || 0) + (rootElement.ownerDocument.body.scrollTop || 0);
+  x = ((nativeEvent.clientX || 0) - $getAbsoluteLeft(rootElement) + $getScrollLeft(rootElement) + $getScrollLeft(rootElement.ownerDocument.body)) / experimentalScale;
+  y = ((nativeEvent.clientY || 0) - $getAbsoluteTop(rootElement) + (rootElement.scrollTop || 0) + (rootElement.ownerDocument.body.scrollTop || 0)) / experimentalScale;
   xy = $transformMouse(this$static.platform.graphics, x, y);
   return new Pointer$Event$Impl_0(new Events$Flags$Impl_0, now_0(), xy.x, xy.y, false);
 }
@@ -7054,7 +7674,7 @@ function HtmlPointer_0(platform, rootElement){
   captureEvent_0('mousemove', new HtmlInput$1_0(new HtmlPointer$6_0(this, rootElement)));
 }
 
-defineSeed(281, 198, {}, HtmlPointer_0);
+defineSeed(302, 218, {}, HtmlPointer_0);
 _.inDragSequence = false;
 _.platform = null;
 function HtmlPointer$1_0(this$0, val$rootElement){
@@ -7062,7 +7682,7 @@ function HtmlPointer$1_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(282, 1, {}, HtmlPointer$1_0);
+defineSeed(303, 1, {}, HtmlPointer$1_0);
 _.handleEvent = function handleEvent_9(nativeEvent){
   var touches;
   touches = nativeEvent.changedTouches;
@@ -7079,7 +7699,7 @@ function HtmlPointer$2_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(283, 1, {}, HtmlPointer$2_0);
+defineSeed(304, 1, {}, HtmlPointer$2_0);
 _.handleEvent = function handleEvent_10(nativeEvent){
   var touches;
   touches = nativeEvent.changedTouches;
@@ -7094,12 +7714,14 @@ _.handleEvent = function handleEvent_10(nativeEvent){
 ;
 _.this$0 = null;
 _.val$rootElement = null;
+--></script>
+<script><!--
 function HtmlPointer$3_0(this$0, val$rootElement){
   this.this$0 = this$0;
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(284, 1, {}, HtmlPointer$3_0);
+defineSeed(305, 1, {}, HtmlPointer$3_0);
 _.handleEvent = function handleEvent_11(nativeEvent){
   var touches;
   touches = nativeEvent.changedTouches;
@@ -7113,7 +7735,7 @@ function HtmlPointer$4_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(285, 1, {}, HtmlPointer$4_0);
+defineSeed(306, 1, {}, HtmlPointer$4_0);
 _.handleEvent = function handleEvent_12(nativeEvent){
   this.this$0.inDragSequence = true;
   $onPointerStart(this.this$0, $eventFromMouse(this.this$0, this.val$rootElement, nativeEvent)) && (nativeEvent.preventDefault() , undefined);
@@ -7126,7 +7748,7 @@ function HtmlPointer$5_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(286, 1, {}, HtmlPointer$5_0);
+defineSeed(307, 1, {}, HtmlPointer$5_0);
 _.handleEvent = function handleEvent_13(nativeEvent){
   if (this.this$0.inDragSequence) {
     this.this$0.inDragSequence = false;
@@ -7141,7 +7763,7 @@ function HtmlPointer$6_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(287, 1, {}, HtmlPointer$6_0);
+defineSeed(308, 1, {}, HtmlPointer$6_0);
 _.handleEvent = function handleEvent_14(nativeEvent){
   this.this$0.inDragSequence && $onPointerDrag(this.this$0, $eventFromMouse(this.this$0, this.val$rootElement, nativeEvent), false) && (nativeEvent.preventDefault() , undefined);
 }
@@ -7154,7 +7776,7 @@ function HtmlStorage_0(){
   storage?new StorageMap_0(storage):new HashMap_0;
 }
 
-defineSeed(288, 1, {}, HtmlStorage_0);
+defineSeed(309, 1, {}, HtmlStorage_0);
 function $toEvents(this$static, nativeEvent, flags){
   var id, nativeTouches, nativeTouchesLen, t, touch, touches, x, xy, y;
   nativeTouches = nativeEvent.changedTouches;
@@ -7181,7 +7803,7 @@ function HtmlTouch_0(platform, rootElement){
   captureEvent_0('touchend', new HtmlInput$1_0(new HtmlTouch$3_0(this)));
 }
 
-defineSeed(289, 206, {}, HtmlTouch_0);
+defineSeed(310, 226, {}, HtmlTouch_0);
 _.inTouchSequence = false;
 _.platform = null;
 _.rootElement = null;
@@ -7189,7 +7811,7 @@ function HtmlTouch$1_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(290, 1, {}, HtmlTouch$1_0);
+defineSeed(311, 1, {}, HtmlTouch$1_0);
 _.handleEvent = function handleEvent_15(nativeEvent){
   var flags;
   this.this$0.inTouchSequence = true;
@@ -7203,7 +7825,7 @@ function HtmlTouch$2_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(291, 1, {}, HtmlTouch$2_0);
+defineSeed(312, 1, {}, HtmlTouch$2_0);
 _.handleEvent = function handleEvent_16(nativeEvent){
   var flags;
   if (this.this$0.inTouchSequence) {
@@ -7218,7 +7840,7 @@ function HtmlTouch$3_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(292, 1, {}, HtmlTouch$3_0);
+defineSeed(313, 1, {}, HtmlTouch$3_0);
 _.handleEvent = function handleEvent_17(nativeEvent){
   var flags;
   if (this.this$0.inTouchSequence) {
@@ -7272,7 +7894,7 @@ function $intersects(this$static, c){
   return distanceSq(this$static.x, this$static.y, c.x, c.y) < maxDist * maxDist;
 }
 
-defineSeed(295, 1, makeCastMap([Q$AbstractCircle]));
+defineSeed(316, 1, makeCastMap([Q$AbstractCircle]));
 _.equals$ = function equals_13(obj){
   var c;
   if (obj === this) {
@@ -7285,11 +7907,11 @@ _.equals$ = function equals_13(obj){
   return false;
 }
 ;
-_.hashCode$ = function hashCode_13(){
+_.hashCode$ = function hashCode_14(){
   return round_int(this.x) ^ round_int(this.y) ^ round_int(this.radius);
 }
 ;
-defineSeed(296, 1, makeCastMap([Q$AbstractPoint]));
+defineSeed(317, 1, makeCastMap([Q$AbstractPoint]));
 _.equals$ = function equals_14(obj){
   var p;
   if (obj === this) {
@@ -7302,15 +7924,15 @@ _.equals$ = function equals_14(obj){
   return false;
 }
 ;
-_.hashCode$ = function hashCode_14(){
+_.hashCode$ = function hashCode_15(){
   return round_int(this.x_0()) ^ round_int(this.y_0());
 }
 ;
-_.toString$ = function toString_29(){
+_.toString$ = function toString_31(){
   return pointToString(this.x_0(), this.y_0());
 }
 ;
-defineSeed(297, 1, makeCastMap([Q$AbstractVector]));
+defineSeed(318, 1, makeCastMap([Q$AbstractVector]));
 _.equals$ = function equals_15(obj){
   var p;
   if (obj === this) {
@@ -7323,11 +7945,11 @@ _.equals$ = function equals_15(obj){
   return false;
 }
 ;
-_.hashCode$ = function hashCode_15(){
+_.hashCode$ = function hashCode_16(){
   return round_int(this.x_0()) ^ round_int(this.y_0());
 }
 ;
-_.toString$ = function toString_30(){
+_.toString$ = function toString_32(){
   return vectorToString(this.x_0(), this.y_0());
 }
 ;
@@ -7341,12 +7963,12 @@ function $set_3(this$static, x, y, radius){
 function Circle_0(){
 }
 
-defineSeed(298, 295, makeCastMap([Q$Serializable, Q$AbstractCircle]), Circle_0);
+defineSeed(319, 316, makeCastMap([Q$Serializable, Q$AbstractCircle]), Circle_0);
 _.radius = 0;
 _.x = 0;
 _.y = 0;
 function clamp(v){
-  return v < 100?100:v > 500?500:v;
+  return v < 120?120:v > 520?520:v;
 }
 
 function iceil(v){
@@ -7359,7 +7981,7 @@ function lerp(v1, v2, t){
   return v1 + t * (v2 - v1);
 }
 
-function toString_31(value){
+function toString_33(value){
   var buf, ii, ivalue;
   buf = new StringBuilder_0;
   if (value >= 0) {
@@ -7396,7 +8018,7 @@ function Point_1(x, y){
   $set_4(this, x, y);
 }
 
-defineSeed(300, 296, makeCastMap([Q$Serializable, Q$AbstractPoint]), Point_0, Point_1);
+defineSeed(321, 317, makeCastMap([Q$Serializable, Q$AbstractPoint]), Point_0, Point_1);
 _.x_0 = function x_0(){
   return this.x;
 }
@@ -7421,7 +8043,7 @@ function distanceSq(x1, y1, x2, y2){
 
 function pointToString(x, y){
   $clinit_Points();
-  return toString_31(x) + toString_31(y);
+  return toString_33(x) + toString_33(y);
 }
 
 function multiply_0(am00, am01, am10, am11, atx, aty, bm00, bm11, into){
@@ -7434,7 +8056,7 @@ function Vector_0(x, y){
   this.y = y;
 }
 
-defineSeed(303, 297, makeCastMap([Q$AbstractVector]), Vector_0);
+defineSeed(324, 318, makeCastMap([Q$AbstractVector]), Vector_0);
 _.x_0 = function x_1(){
   return this.x;
 }
@@ -7456,15 +8078,15 @@ function $clinit_Vectors(){
 
 function vectorToString(x, y){
   $clinit_Vectors();
-  return toString_31(x) + toString_31(y);
+  return toString_33(x) + toString_33(y);
 }
 
 function NoninvertibleTransformException_0(s){
   RuntimeException_1.call(this, s);
 }
 
-defineSeed(305, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoninvertibleTransformException_0);
-defineSeed(306, 1, makeCastMap([Q$Actor]));
+defineSeed(326, 14, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoninvertibleTransformException_0);
+defineSeed(327, 1, makeCastMap([Q$Actor]));
 _.init = function init_0(){
 }
 ;
@@ -7492,8 +8114,36 @@ function BeanslingersGame_0(){
   this.updateRate = 33;
 }
 
-defineSeed(307, 177, {}, BeanslingersGame_0);
+defineSeed(328, 197, {}, BeanslingersGame_0);
 _.screen_0 = null;
+function BeanstalkActor_0(gameScreen, index){
+  this.collisionShape = new CircleCollisionShape_0;
+  this.gameScreen = gameScreen;
+  this.index_0 = index;
+}
+
+defineSeed(329, 327, makeCastMap([Q$Actor]), BeanstalkActor_0);
+_.init = function init_1(){
+  this.image = $getImage(platform_1.assets, 'images/beanstalk.png', ($clinit_Scale() , ONE));
+  this.collisionShape.userData = this;
+  $addShape(this.gameScreen.collisionDetector, this.collisionShape);
+  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setOrigin(50, 100);
+  this.imageLayer.setTranslation(this.index_0 == 0?200:936, 320);
+  this.imageLayer.setScale_0(this.index_0 == 0?4:-4, 4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+}
+;
+_.paint_2 = function paint_6(alpha){
+}
+;
+_.update = function update_0(delta){
+}
+;
+_.gameScreen = null;
+_.image = null;
+_.imageLayer = null;
+_.index_0 = 0;
 function BoulderActor_0(gameScreen, y, dx){
   this.collisionShape = new CircleCollisionShape_0;
   this.gameScreen = gameScreen;
@@ -7501,8 +8151,8 @@ function BoulderActor_0(gameScreen, y, dx){
   this.dx = dx;
 }
 
-defineSeed(308, 306, makeCastMap([Q$Actor]), BoulderActor_0);
-_.init = function init_1(){
+defineSeed(330, 327, makeCastMap([Q$Actor]), BoulderActor_0);
+_.init = function init_2(){
   this.image = $getImage(platform_1.assets, 'images/boulder.png', ($clinit_Scale() , ONE));
   this.dAngle = (Math.random() < 0.5?-1:1) * 1.5 * (1 + Math.random());
   this.flipX = Math.random() < 0.5;
@@ -7510,23 +8160,24 @@ _.init = function init_1(){
   this.collisionShape.userData = this;
   $addShape(this.gameScreen.collisionDetector, this.collisionShape);
   this.imageLayer = platform_1.graphics.createImageLayer(this.image);
-  this.imageLayer.setOrigin(75, 75);
-  this.gameScreen.groupLayer.add_0(this.imageLayer);
+  this.imageLayer.setOrigin(25, 25);
+  this.imageLayer.setScale(4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
   this.x2 = this.x1;
   this.y2 = this.y1;
-  this.removeTick = $tick_0(platform_1) + 3000;
+  this.removeTick = $tick_0(platform_1) + 5000;
 }
 ;
-_.paint_2 = function paint_6(alpha){
+_.paint_2 = function paint_7(alpha){
   var x, y;
   x = lerp(this.x2, this.x1, alpha);
   y = lerp(this.y2, this.y1, alpha);
   this.imageLayer.setTranslation(x, y);
   this.imageLayer.setRotation(this.angle);
-  this.imageLayer.setScale(this.flipX?-1:1, this.flipY?-1:1);
+  this.imageLayer.setScale_0(this.flipX?-4:4, this.flipY?-4:4);
 }
 ;
-_.update = function update_0(delta){
+_.update = function update_1(delta){
   var dt;
   if (this.removeTick <= $tick_0(platform_1)) {
     $removeActor(this.gameScreen, this);
@@ -7550,22 +8201,22 @@ _.gameScreen = null;
 _.image = null;
 _.imageLayer = null;
 _.removeTick = 0;
-_.x1 = 400;
+_.x1 = 568;
 _.x2 = 0;
-_.y1 = 300;
+_.y1 = 320;
 _.y2 = 0;
 function $setKey(this$static, key){
   this$static.key_0 = key;
 }
 
-defineSeed(310, 1, {});
+defineSeed(332, 1, {});
 _.key_0 = 0;
 _.userData = null;
 function CircleCollisionShape_0(){
   this.circle = new Circle_0;
 }
 
-defineSeed(309, 310, {}, CircleCollisionShape_0);
+defineSeed(331, 332, {}, CircleCollisionShape_0);
 function $addShape(this$static, shape){
   $setKey(shape, this$static.nextShapeKey++);
   $add_0(this$static.shapes, shape);
@@ -7597,7 +8248,7 @@ function CollisionDetector_0(){
   this.shapes = new ArrayList_0;
 }
 
-defineSeed(311, 1, {}, CollisionDetector_0);
+defineSeed(333, 1, {}, CollisionDetector_0);
 _.listener = null;
 _.nextShapeKey = 1;
 function $set_5(this$static, class1, class2){
@@ -7613,7 +8264,7 @@ function CollisionKey_1(class1, class2){
   this.class2 = class2;
 }
 
-defineSeed(312, 1, {}, CollisionKey_0, CollisionKey_1);
+defineSeed(334, 1, {}, CollisionKey_0, CollisionKey_1);
 _.equals$ = function equals_16(obj){
   var other;
   if (this === obj)
@@ -7638,7 +8289,7 @@ _.equals$ = function equals_16(obj){
   return true;
 }
 ;
-_.hashCode$ = function hashCode_16(){
+_.hashCode$ = function hashCode_17(){
   var result;
   result = 31 + (!this.class1?0:getHashCode(this.class1));
   result = 31 * result + (!this.class2?0:getHashCode(this.class2));
@@ -7647,11 +8298,11 @@ _.hashCode$ = function hashCode_16(){
 ;
 _.class1 = null;
 _.class2 = null;
-defineSeed(314, 1, {});
+defineSeed(336, 1, {});
 _.exit = function exit_0(){
 }
 ;
-_.init = function init_2(){
+_.init = function init_3(){
 }
 ;
 _.onKeyDown = function onKeyDown(event_0){
@@ -7660,12 +8311,43 @@ _.onKeyDown = function onKeyDown(event_0){
 _.onKeyUp = function onKeyUp(event_0){
 }
 ;
-_.paint_2 = function paint_7(alpha){
+_.paint_2 = function paint_8(alpha){
 }
 ;
-_.update = function update_1(delta){
+_.update = function update_2(delta){
 }
 ;
+function GameOverScreen_0(game){
+  this.game = game;
+}
+
+defineSeed(335, 336, {}, GameOverScreen_0);
+_.exit = function exit_1(){
+  platform_1.graphics.rootLayer_0().remove(this.groupLayer);
+}
+;
+_.init = function init_4(){
+  var backgroundImage, backgroundImageLayer, image, imageLayer;
+  this.groupLayer = platform_1.graphics.createGroupLayer();
+  platform_1.graphics.rootLayer_0().add_1(this.groupLayer);
+  backgroundImage = $getImage(platform_1.assets, 'images/blueSky.png', ($clinit_Scale() , ONE));
+  backgroundImageLayer = platform_1.graphics.createImageLayer(backgroundImage);
+  backgroundImageLayer.setScale(4);
+  this.groupLayer.add_1(backgroundImageLayer);
+  image = $getImage(platform_1.assets, 'images/gameOver.png', ONE);
+  imageLayer = platform_1.graphics.createImageLayer(image);
+  imageLayer.setOrigin(100, 75);
+  imageLayer.setTranslation(568, 320);
+  imageLayer.setScale(4);
+  this.groupLayer.add_1(imageLayer);
+}
+;
+_.onKeyDown = function onKeyDown_0(event_0){
+  event_0.key_0.ordinal == 98 && $setScreen(this.game, new TitleScreen_0(this.game));
+}
+;
+_.game = null;
+_.groupLayer = null;
 function $addActor(this$static, actor){
   $add_0(this$static.actors, actor);
   actor.init();
@@ -7714,27 +8396,30 @@ function GameScreen_0(game){
   this.game = game;
 }
 
-defineSeed(313, 314, {}, GameScreen_0);
-_.exit = function exit_1(){
+defineSeed(337, 336, {}, GameScreen_0);
+_.exit = function exit_2(){
   platform_1.graphics.rootLayer_0().remove(this.groupLayer);
 }
 ;
-_.init = function init_3(){
+_.init = function init_5(){
   var backgroundImage, backgroundLayer;
-  $put_1(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_PlayerActor_2_classLit, Lse_elemel_beanslingers_core_BoulderActor_2_classLit), new PlayerBoulderCollisionHandler_0);
+  $put_2(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_PlayerActor_2_classLit, Lse_elemel_beanslingers_core_BoulderActor_2_classLit), new PlayerBoulderCollisionHandler_0);
   this.collisionDetector = new CollisionDetector_0;
   this.collisionDetector.listener = this;
   this.groupLayer = platform_1.graphics.createGroupLayer();
-  platform_1.graphics.rootLayer_0().add_0(this.groupLayer);
-  backgroundImage = $getImage(platform_1.assets, 'images/background.png', ($clinit_Scale() , ONE));
+  platform_1.graphics.rootLayer_0().add_1(this.groupLayer);
+  backgroundImage = $getImage(platform_1.assets, 'images/blueSky.png', ($clinit_Scale() , ONE));
   backgroundLayer = platform_1.graphics.createImageLayer(backgroundImage);
-  this.groupLayer.add_0(backgroundLayer);
+  backgroundLayer.setScale(4);
+  this.groupLayer.add_1(backgroundLayer);
+  $addActor(this, new BeanstalkActor_0(this, 0));
+  $addActor(this, new BeanstalkActor_0(this, 1));
   $addActor(this, new PlayerActor_0(this, 0));
   $addActor(this, new PlayerActor_0(this, 1));
   $addActor(this, new GiantActor_0(this));
 }
 ;
-_.onKeyDown = function onKeyDown_0(event_0){
+_.onKeyDown = function onKeyDown_1(event_0){
   switch (event_0.key_0.ordinal) {
     case 121:
       $setScreen(this.game, new TitleScreen_0(this.game));
@@ -7755,8 +8440,6 @@ _.onKeyDown = function onKeyDown_0(event_0){
   }
 }
 ;
---></script>
-<script><!--
 _.onKeyUp = function onKeyUp_0(event_0){
   switch (event_0.key_0.ordinal) {
     case 22:
@@ -7775,7 +8458,7 @@ _.onKeyUp = function onKeyUp_0(event_0){
   }
 }
 ;
-_.paint_2 = function paint_8(alpha){
+_.paint_2 = function paint_9(alpha){
   var actor, i, n;
   n = this.actors.size;
   for (i = 0; i < n; ++i) {
@@ -7784,7 +8467,7 @@ _.paint_2 = function paint_8(alpha){
   }
 }
 ;
-_.update = function update_2(delta){
+_.update = function update_3(delta){
   var actor, i, n;
   n = this.actors.size;
   for (i = 0; i < n; ++i) {
@@ -7801,7 +8484,7 @@ _.groupLayer = null;
 function GameScreen$PlayerInput_0(){
 }
 
-defineSeed(315, 1, makeCastMap([Q$GameScreen$PlayerInput]), GameScreen$PlayerInput_0);
+defineSeed(338, 1, makeCastMap([Q$GameScreen$PlayerInput]), GameScreen$PlayerInput_0);
 _.down = false;
 _.up = false;
 function $updateBoulder(this$static){
@@ -7822,28 +8505,29 @@ function GiantActor_0(gameScreen){
   this.gameScreen = gameScreen;
 }
 
-defineSeed(316, 306, makeCastMap([Q$Actor]), GiantActor_0);
-_.init = function init_4(){
+defineSeed(339, 327, makeCastMap([Q$Actor]), GiantActor_0);
+_.init = function init_6(){
   this.image = $getImage(platform_1.assets, 'images/giant.png', ($clinit_Scale() , ONE));
   this.facingLeft = Math.random() < 0.5;
   this.imageLayer = platform_1.graphics.createImageLayer(this.image);
-  this.imageLayer.setOrigin(250, 300);
-  this.gameScreen.groupLayer.add_0(this.imageLayer);
+  this.imageLayer.setOrigin(62.5, 75);
+  this.imageLayer.setScale(4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
   this.nextBoulderTick = $tick_0(platform_1) + round_int(1500 + 1500 * Math.random());
   this.nextTurnTick = $tick_0(platform_1) + round_int(3000 + 3000 * Math.random());
 }
 ;
-_.paint_2 = function paint_9(alpha){
+_.paint_2 = function paint_10(alpha){
   var x, y;
-  x = lerp(this.x2, 400, alpha);
-  y = lerp(this.y2, 300, alpha);
+  x = lerp(this.x2, 568, alpha);
+  y = lerp(this.y2, 320, alpha);
   this.imageLayer.setTranslation(x, y);
-  this.imageLayer.setScale(this.facingLeft?-1:1, 1);
+  this.imageLayer.setScale_0(this.facingLeft?-4:4, 4);
 }
 ;
-_.update = function update_3(delta){
-  this.x2 = 400;
-  this.y2 = 300;
+_.update = function update_4(delta){
+  this.x2 = 568;
+  this.y2 = 320;
   $updateBoulder(this);
 }
 ;
@@ -7860,20 +8544,21 @@ function $hit(this$static){
     this$static.dead = true;
     this$static.dx = 150 * (this$static.facingLeft?1:-1);
     this$static.dAngle = 2 * (this$static.facingLeft?1:-1);
+    this$static.gameOverTick = $tick_0(platform_1) + 1000;
     this$static.respawnTick = $tick_0(platform_1) + 3000;
   }
 }
 
 function $resetPosition(this$static){
   if (this$static.playerIndex == 0) {
-    this$static.x1 = 100;
-    this$static.y1 = 100 + 400 * Math.random();
+    this$static.x1 = 200;
+    this$static.y1 = 120 + 400 * Math.random();
     this$static.angle1 = 0;
     this$static.facingLeft = false;
   }
    else {
-    this$static.x1 = 700;
-    this$static.y1 = 100 + 400 * Math.random();
+    this$static.x1 = 936;
+    this$static.y1 = 120 + 400 * Math.random();
     this$static.angle1 = 0;
     this$static.facingLeft = true;
   }
@@ -7885,8 +8570,8 @@ function PlayerActor_0(gameScreen, playerIndex){
   this.playerIndex = playerIndex;
 }
 
-defineSeed(317, 306, makeCastMap([Q$Actor, Q$PlayerActor]), PlayerActor_0);
-_.init = function init_5(){
+defineSeed(340, 327, makeCastMap([Q$Actor, Q$PlayerActor]), PlayerActor_0);
+_.init = function init_7(){
   this.input = $getPlayerInput(this.gameScreen, this.playerIndex);
   $setPlayerActor(this.gameScreen, this.playerIndex, this);
   this.playerIndex == 0?(this.image = $getImage(platform_1.assets, 'images/jack.png', ($clinit_Scale() , ONE))):(this.image = $getImage(platform_1.assets, 'images/david.png', ($clinit_Scale() , ONE)));
@@ -7894,22 +8579,34 @@ _.init = function init_5(){
   this.collisionShape.userData = this;
   $addShape(this.gameScreen.collisionDetector, this.collisionShape);
   this.imageLayer = platform_1.graphics.createImageLayer(this.image);
-  this.imageLayer.setOrigin(50, 50);
-  this.gameScreen.groupLayer.add_0(this.imageLayer);
+  this.imageLayer.setScale(4);
+  this.imageLayer.setOrigin(25, 25);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+  this.winTick = $tick_0(platform_1) + 10000;
 }
 ;
-_.paint_2 = function paint_10(alpha){
+_.paint_2 = function paint_11(alpha){
   var angle, x, y;
   x = lerp(this.x2, this.x1, alpha);
   y = lerp(this.y2, this.y1, alpha);
   angle = lerp(this.angle2, this.angle1, alpha);
   this.imageLayer.setTranslation(x, y);
-  this.imageLayer.setScale(this.facingLeft?-1:1, 1);
+  this.imageLayer.setScale_0(this.facingLeft?-4:4, 4);
   this.imageLayer.setRotation(this.facingLeft?-angle:angle);
 }
 ;
-_.update = function update_4(delta){
-  var dt, dt_0;
+_.update = function update_5(delta){
+  var game, dt, dt_0;
+  if (!this.dead && this.winTick <= $tick_0(platform_1)) {
+    game = this.gameScreen.game;
+    $setScreen(game, new WinScreen_0(game));
+    return;
+  }
+  if (this.dead && this.gameOverTick <= $tick_0(platform_1)) {
+    game = this.gameScreen.game;
+    $setScreen(game, new GameOverScreen_0(game));
+    return;
+  }
   if (this.dead && this.respawnTick <= $tick_0(platform_1)) {
     this.dead = false;
     $resetPosition(this);
@@ -7928,12 +8625,14 @@ _.dead = false;
 _.dx = 0;
 _.dy = 0;
 _.facingLeft = false;
+_.gameOverTick = 0;
 _.gameScreen = null;
 _.image = null;
 _.imageLayer = null;
 _.input = null;
 _.playerIndex = 0;
 _.respawnTick = 0;
+_.winTick = 0;
 _.x1 = 0;
 _.x2 = 0;
 _.y1 = 0;
@@ -7947,27 +8646,65 @@ function $onCollision_0(shape1){
 function PlayerBoulderCollisionHandler_0(){
 }
 
-defineSeed(318, 1, {}, PlayerBoulderCollisionHandler_0);
+defineSeed(341, 1, {}, PlayerBoulderCollisionHandler_0);
 function TitleScreen_0(game){
   this.game = game;
 }
 
-defineSeed(319, 314, {}, TitleScreen_0);
-_.exit = function exit_2(){
+defineSeed(342, 336, {}, TitleScreen_0);
+_.exit = function exit_3(){
   platform_1.graphics.rootLayer_0().remove(this.groupLayer);
 }
 ;
-_.init = function init_6(){
-  var titleImage, titleLayer;
+_.init = function init_8(){
+  var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.groupLayer = platform_1.graphics.createGroupLayer();
-  platform_1.graphics.rootLayer_0().add_0(this.groupLayer);
-  titleImage = $getImage(platform_1.assets, 'images/title.png', ($clinit_Scale() , ONE));
-  titleLayer = platform_1.graphics.createImageLayer(titleImage);
-  this.groupLayer.add_0(titleLayer);
+  platform_1.graphics.rootLayer_0().add_1(this.groupLayer);
+  backgroundImage = $getImage(platform_1.assets, 'images/blueSky.png', ($clinit_Scale() , ONE));
+  backgroundImageLayer = platform_1.graphics.createImageLayer(backgroundImage);
+  backgroundImageLayer.setScale(4);
+  this.groupLayer.add_1(backgroundImageLayer);
+  image = $getImage(platform_1.assets, 'images/title.png', ONE);
+  imageLayer = platform_1.graphics.createImageLayer(image);
+  imageLayer.setOrigin(100, 75);
+  imageLayer.setTranslation(568, 320);
+  imageLayer.setScale(4);
+  this.groupLayer.add_1(imageLayer);
 }
 ;
-_.onKeyDown = function onKeyDown_1(event_0){
+_.onKeyDown = function onKeyDown_2(event_0){
   event_0.key_0.ordinal == 98 && $setScreen(this.game, new GameScreen_0(this.game));
+}
+;
+_.game = null;
+_.groupLayer = null;
+function WinScreen_0(game){
+  this.game = game;
+}
+
+defineSeed(343, 336, {}, WinScreen_0);
+_.exit = function exit_4(){
+  platform_1.graphics.rootLayer_0().remove(this.groupLayer);
+}
+;
+_.init = function init_9(){
+  var backgroundImage, backgroundImageLayer, image, imageLayer;
+  this.groupLayer = platform_1.graphics.createGroupLayer();
+  platform_1.graphics.rootLayer_0().add_1(this.groupLayer);
+  backgroundImage = $getImage(platform_1.assets, 'images/blueSky.png', ($clinit_Scale() , ONE));
+  backgroundImageLayer = platform_1.graphics.createImageLayer(backgroundImage);
+  backgroundImageLayer.setScale(4);
+  this.groupLayer.add_1(backgroundImageLayer);
+  image = $getImage(platform_1.assets, 'images/win.png', ONE);
+  imageLayer = platform_1.graphics.createImageLayer(image);
+  imageLayer.setOrigin(100, 75);
+  imageLayer.setTranslation(568, 320);
+  imageLayer.setScale(4);
+  this.groupLayer.add_1(imageLayer);
+}
+;
+_.onKeyDown = function onKeyDown_3(event_0){
+  event_0.key_0.ordinal == 98 && $setScreen(this.game, new TitleScreen_0(this.game));
 }
 ;
 _.game = null;
@@ -7975,6 +8712,8 @@ _.groupLayer = null;
 function $start(){
   var config, platform, platform_0;
   config = new HtmlPlatform$Config_0;
+  config.antiAliasing = false;
+  config.experimentalFullscreen = true;
   platform = ($clinit_HtmlPlatform() , platform_0 = new HtmlPlatform_0(config) , platform_1 = platform_0 , $init(platform_0.analytics) , $init_0(platform_0.audio) , $init_1(platform_0.keyboard) , platform_0);
   platform.assets.pathPrefix = 'beanslingers/';
   run(new BeanslingersGame_0);
@@ -7996,7 +8735,9 @@ function gwtOnLoad(errFn, modName, modBase, softPermutationId){
   }
 }
 
-var Ljava_lang_Object_2_classLit = createForClass(1), Lcom_google_gwt_core_client_JavaScriptObject_2_classLit = createForClass(8), Ljava_lang_Throwable_2_classLit = createForClass(16), Ljava_lang_Exception_2_classLit = createForClass(15), Ljava_lang_RuntimeException_2_classLit = createForClass(14), Ljava_lang_StackTraceElement_2_classLit = createForClass(140), _3Ljava_lang_StackTraceElement_2_classLit = createForArray(326), _3I_classLit = createForArray(327), Lcom_google_gwt_lang_SeedUtil_2_classLit = createForClass(80), Ljava_lang_Enum_2_classLit = createForClass(5), Ljava_lang_Number_2_classLit = createForClass(130), _3C_classLit = createForArray(328), Ljava_lang_Class_2_classLit = createForClass(128), Ljava_lang_Float_2_classLit = createForClass(129), Ljava_lang_Integer_2_classLit = createForClass(134), _3Ljava_lang_Integer_2_classLit = createForArray(329), Ljava_lang_String_2_classLit = createForClass(2), _3Ljava_lang_String_2_classLit = createForArray(325), Lplayn_html_HtmlGame$1_2_classLit = createForClass(251), Lplayn_html_HtmlGame$2_2_classLit = createForClass(252), Lcom_google_gwt_core_client_Scheduler_2_classLit = createForClass(22), Ljava_lang_StringBuilder_2_classLit = createForClass(143), Ljava_lang_ArrayStoreException_2_classLit = createForClass(127), Lcom_google_gwt_core_client_JavaScriptException_2_classLit = createForClass(13), Lcom_google_gwt_core_client_impl_StringBufferImpl_2_classLit = createForClass(33), Lcom_google_gwt_core_client_impl_SchedulerImpl_2_classLit = createForClass(24), Lcom_google_gwt_core_client_impl_SchedulerImpl$Flusher_2_classLit = createForClass(25), Lcom_google_gwt_core_client_impl_SchedulerImpl$Rescuer_2_classLit = createForClass(26), Lcom_google_gwt_core_client_impl_StackTraceCreator$Collector_2_classLit = createForClass(29), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorMoz_2_classLit = createForClass(31), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChrome_2_classLit = createForClass(30), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChromeNoSourceMap_2_classLit = createForClass(32), Lcom_google_gwt_core_client_impl_StringBufferImplAppend_2_classLit = createForClass(34), Lplayn_core_LogImpl_2_classLit = createForClass(184), Lplayn_core_Log$Level_2_classLit = createForEnum(183, values_7), _3Lplayn_core_Log$Level_2_classLit = createForArray(330), Lplayn_core_AbstractPlatform_2_classLit = createForClass(170), Lplayn_html_HtmlPlatform_2_classLit = createForClass(277), Lplayn_html_HtmlPlatform$Config_2_classLit = createForClass(280), Lplayn_html_HtmlPlatform$1_2_classLit = createForClass(278), Lplayn_html_HtmlLog_2_classLit = createForClass(265), Ljava_lang_NullPointerException_2_classLit = createForClass(137), Ljava_lang_IllegalArgumentException_2_classLit = createForClass(131), Lplayn_html_HtmlLogSimple_2_classLit = createForClass(266), Ljava_lang_StringBuffer_2_classLit = createForClass(142), Lplayn_core_AbstractAssets_2_classLit = createForClass(167), Lplayn_html_HtmlAssets_2_classLit = createForClass(244), Lplayn_core_Game$Default_2_classLit = createForClass(177), Lse_elemel_beanslingers_core_BeanslingersGame_2_classLit = createForClass(307), Lplayn_core_Events$Input$Impl_2_classLit = createForClass(175), Lplayn_core_Keyboard$Event$Impl_2_classLit = createForClass(180), Lplayn_core_Keyboard$TypedEvent$Impl_2_classLit = createForClass(181), Lplayn_core_Events$Flags$Impl_2_classLit = createForClass(174), Lplayn_core_Events$Position$Impl_2_classLit = createForClass(176), Lplayn_html_HtmlGraphics_2_classLit = createForClass(253), Lplayn_core_PointerImpl_2_classLit = createForClass(198), Lplayn_html_HtmlPointer_2_classLit = createForClass(281), Lplayn_html_HtmlPointer$1_2_classLit = createForClass(282), Lplayn_html_HtmlPointer$2_2_classLit = createForClass(283), Lplayn_html_HtmlPointer$3_2_classLit = createForClass(284), Lplayn_html_HtmlPointer$4_2_classLit = createForClass(285), Lplayn_html_HtmlPointer$5_2_classLit = createForClass(286), Lplayn_html_HtmlPointer$6_2_classLit = createForClass(287), Lplayn_core_PointerImpl$1_2_classLit = createForClass(199), Lplayn_core_PointerImpl$2_2_classLit = createForClass(200), Lplayn_core_PointerImpl$3_2_classLit = createForClass(201), Lplayn_core_Pointer$Event$Impl_2_classLit = createForClass(197), Lplayn_core_AbstractLayer_2_classLit = createForClass(168), _3Ljava_lang_Object_2_classLit = createForArray(324), Lplayn_core_AbstractLayer$Flag_2_classLit = createForEnum(169, values_5), _3Lplayn_core_AbstractLayer$Flag_2_classLit = createForArray(331), Lplayn_core_MouseImpl_2_classLit = createForClass(188), Lplayn_html_HtmlMouse_2_classLit = createForClass(267), Lplayn_html_HtmlMouse$1_2_classLit = createForClass(268), Lplayn_html_HtmlMouse$1XYEventHandler_2_classLit = createForClass(270), Lplayn_html_HtmlMouse$1MoveEventHandler_2_classLit = createForClass(269), Lplayn_html_HtmlMouse$2_2_classLit = createForClass(271), Lplayn_html_HtmlMouse$3_2_classLit = createForClass(272), Lplayn_html_HtmlMouse$4_2_classLit = createForClass(273), Lplayn_html_HtmlMouse$5_2_classLit = createForClass(274), Lplayn_html_HtmlMouse$6_2_classLit = createForClass(275), Lplayn_core_MouseImpl$1_2_classLit = createForClass(189), Lplayn_core_MouseImpl$2_2_classLit = createForClass(190), Lplayn_core_MouseImpl$3_2_classLit = createForClass(191), Lplayn_core_MouseImpl$4_2_classLit = createForClass(192), Lplayn_core_MouseImpl$5_2_classLit = createForClass(193), Lplayn_core_MouseImpl$6_2_classLit = createForClass(194), Lplayn_core_MouseImpl$7_2_classLit = createForClass(195), Lplayn_core_Mouse$ButtonEvent$Impl_2_classLit = createForClass(185), Lplayn_core_Mouse$MotionEvent$Impl_2_classLit = createForClass(186), Lplayn_core_Mouse$WheelEvent$Impl_2_classLit = createForClass(187), Lplayn_core_TouchImpl_2_classLit = createForClass(206), Lplayn_html_HtmlTouch_2_classLit = createForClass(289), Lplayn_core_Touch$Event$Impl_2_classLit = createForClass(205), _3Lplayn_core_Touch$Event$Impl_2_classLit = createForArray(332), Lplayn_html_HtmlTouch$1_2_classLit = createForClass(290), Lplayn_html_HtmlTouch$2_2_classLit = createForClass(291), Lplayn_html_HtmlTouch$3_2_classLit = createForClass(292), Lplayn_core_TouchImpl$1_2_classLit = createForClass(207), Lplayn_core_TouchImpl$2_2_classLit = createForClass(208), Lplayn_core_TouchImpl$3_2_classLit = createForClass(209), Lplayn_html_HtmlAnalytics_2_classLit = createForClass(243), Lplayn_html_HtmlAudio_2_classLit = createForClass(245), Lplayn_html_HtmlKeyboard_2_classLit = createForClass(261), Lplayn_html_HtmlKeyboard$1_2_classLit = createForClass(262), Lplayn_html_HtmlKeyboard$2_2_classLit = createForClass(263), Lplayn_html_HtmlKeyboard$3_2_classLit = createForClass(264), Lplayn_core_CachingAssets_2_classLit = createForClass(171), Lse_elemel_beanslingers_core_Screen_2_classLit = createForClass(314), Lse_elemel_beanslingers_core_TitleScreen_2_classLit = createForClass(319), Lplayn_core_util_RunQueue_2_classLit = createForClass(241), Lplayn_html_HtmlStorage_2_classLit = createForClass(288), Lplayn_html_HtmlGraphicsCanvas_2_classLit = createForClass(254), Lplayn_core_gl_AbstractCanvasGL_2_classLit = createForClass(213), Lplayn_html_AbstractHtmlCanvas_2_classLit = createForClass(242), Lplayn_html_HtmlGraphicsCanvas$1_2_classLit = createForClass(255), Lplayn_html_HtmlGraphicsGL_2_classLit = createForClass(256), Lplayn_html_HtmlInput$1_2_classLit = createForClass(259), Lcom_allen_1sauer_gwt_voices_client_SoundController_2_classLit = createForClass(3), Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForEnum(4, values), _3Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForArray(333), Lcom_google_gwt_storage_client_Storage_2_classLit = createForClass(85), Lcom_google_gwt_storage_client_Storage$StorageSupportDetector_2_classLit = createForClass(86), Ljava_util_AbstractMap_2_classLit = createForClass(90), Lcom_google_gwt_storage_client_StorageMap_2_classLit = createForClass(89), Lcom_google_gwt_storage_client_StorageMap$StorageEntry_2_classLit = createForClass(91), Lcom_google_gwt_storage_client_StorageMap$StorageEntryIterator_2_classLit = createForClass(92), Ljava_util_AbstractCollection_2_classLit = createForClass(95), Ljava_util_AbstractSet_2_classLit = createForClass(94), Lcom_google_gwt_storage_client_StorageMap$StorageEntrySet_2_classLit = createForClass(93), Ljava_util_AbstractMap$1_2_classLit = createForClass(159), Ljava_util_AbstractMap$1$1_2_classLit = createForClass(160), Ljava_util_AbstractHashMap_2_classLit = createForClass(151), Ljava_util_HashMap_2_classLit = createForClass(162), Ljava_util_AbstractHashMap$EntrySet_2_classLit = createForClass(152), Ljava_util_AbstractHashMap$EntrySetIterator_2_classLit = createForClass(153), Ljava_util_AbstractMapEntry_2_classLit = createForClass(155), Ljava_util_AbstractHashMap$MapEntryNull_2_classLit = createForClass(154), Ljava_util_AbstractHashMap$MapEntryString_2_classLit = createForClass(156), Lplayn_core_gl_Scale_2_classLit = createForClass(239), Lplayn_core_canvas_LayerCanvas_2_classLit = createForClass(211), Lplayn_core_canvas_GroupLayerCanvas_2_classLit = createForClass(210), Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForEnum(10, values_0), _3Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForArray(334), Lplayn_core_gl_GLContext_2_classLit = createForClass(219), Lplayn_core_gl_GL20Context_2_classLit = createForClass(218), Lplayn_html_HtmlGLContext_2_classLit = createForClass(249), _3F_classLit = createForArray(335), Lplayn_core_gl_GLContext$Stats_2_classLit = createForClass(225), Lplayn_core_gl_LayerGL_2_classLit = createForClass(232), Lplayn_core_gl_GroupLayerGL_2_classLit = createForClass(231), Lpythagoras_f_AbstractPoint_2_classLit = createForClass(296), Lpythagoras_f_Point_2_classLit = createForClass(300), Ljava_lang_NumberFormatException_2_classLit = createForClass(139), Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForEnum(58, values_3), _3Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForArray(336), Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForEnum(48, values_1), _3Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForArray(337), Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForEnum(53, values_2), _3Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForArray(338), Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForEnum(68, values_4), _3Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForArray(339), Lcom_google_gwt_dom_client_Style$Unit$1_2_classLit = createForEnum(59, null), Lcom_google_gwt_dom_client_Style$Unit$2_2_classLit = createForEnum(60, null), Lcom_google_gwt_dom_client_Style$Unit$3_2_classLit = createForEnum(61, null), Lcom_google_gwt_dom_client_Style$Unit$4_2_classLit = createForEnum(62, null), Lcom_google_gwt_dom_client_Style$Unit$5_2_classLit = createForEnum(63, null), Lcom_google_gwt_dom_client_Style$Unit$6_2_classLit = createForEnum(64, null), Lcom_google_gwt_dom_client_Style$Unit$7_2_classLit = createForEnum(65, null), Lcom_google_gwt_dom_client_Style$Unit$8_2_classLit = createForEnum(66, null), Lcom_google_gwt_dom_client_Style$Unit$9_2_classLit = createForEnum(67, null), Lcom_google_gwt_dom_client_Style$Overflow$1_2_classLit = createForEnum(49, null), Lcom_google_gwt_dom_client_Style$Overflow$2_2_classLit = createForEnum(50, null), Lcom_google_gwt_dom_client_Style$Overflow$3_2_classLit = createForEnum(51, null), Lcom_google_gwt_dom_client_Style$Overflow$4_2_classLit = createForEnum(52, null), Lcom_google_gwt_dom_client_Style$Position$1_2_classLit = createForEnum(54, null), Lcom_google_gwt_dom_client_Style$Position$2_2_classLit = createForEnum(55, null), Lcom_google_gwt_dom_client_Style$Position$3_2_classLit = createForEnum(56, null), Lcom_google_gwt_dom_client_Style$Position$4_2_classLit = createForEnum(57, null), Lcom_google_gwt_dom_client_Style$Visibility$1_2_classLit = createForEnum(69, null), Lcom_google_gwt_dom_client_Style$Visibility$2_2_classLit = createForEnum(70, null), Lpythagoras_f_AbstractTransform_2_classLit = createForClass(204), Lplayn_html_HtmlInternalTransform_2_classLit = createForClass(260), Lpythagoras_f_AffineTransform_2_classLit = createForClass(203), Lplayn_core_StockInternalTransform_2_classLit = createForClass(202), Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForClass(247), _3Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForArray(340), Lplayn_html_HtmlGL20_2_classLit = createForClass(246), Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForEnum(248, values_8), _3Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForArray(341), Lplayn_core_Key_2_classLit = createForEnum(179, values_6), _3Lplayn_core_Key_2_classLit = createForArray(342), Lplayn_core_gl_AbstractImageGL_2_classLit = createForClass(214), Lplayn_core_gl_ImageGL_2_classLit = createForClass(233), Lplayn_html_HtmlImage_2_classLit = createForClass(257), Lplayn_core_gl_ImageLayerGL_2_classLit = createForClass(234), Ljava_lang_UnsupportedOperationException_2_classLit = createForClass(144), Lplayn_core_GroupLayerImpl_2_classLit = createForClass(178), Lplayn_core_gl_GLShader_2_classLit = createForClass(226), Lplayn_core_gl_GLShader$Core_2_classLit = createForClass(227), Lplayn_core_gl_GLShader$Extras_2_classLit = createForClass(228), Lplayn_core_gl_GLShader$TextureExtras_2_classLit = createForClass(229), Lplayn_core_gl_IndexedTrisShader_2_classLit = createForClass(235), Lplayn_core_gl_IndexedTrisShader$ITCore_2_classLit = createForClass(236), Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForClass(315), _3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForArray(343), Lse_elemel_beanslingers_core_Actor_2_classLit = createForClass(306), Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForClass(317), _3Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForArray(344), Lse_elemel_beanslingers_core_GameScreen_2_classLit = createForClass(313), Lse_elemel_beanslingers_core_BoulderActor_2_classLit = createForClass(308), Lse_elemel_beanslingers_core_CollisionDetector_2_classLit = createForClass(311), Lplayn_core_canvas_ImageLayerCanvas_2_classLit = createForClass(212), Ljava_util_MapEntryImpl_2_classLit = createForClass(164), Lpythagoras_f_AbstractVector_2_classLit = createForClass(297), Lpythagoras_f_Vector_2_classLit = createForClass(303), Lplayn_core_gl_QuadShader_2_classLit = createForClass(237), Lplayn_core_gl_QuadShader$QuadCore_2_classLit = createForClass(238), Lpythagoras_util_NoninvertibleTransformException_2_classLit = createForClass(305), Ljava_util_HashSet_2_classLit = createForClass(163), Ljava_util_AbstractList_2_classLit = createForClass(157), Ljava_util_ArrayList_2_classLit = createForClass(161), Ljava_util_AbstractList$IteratorImpl_2_classLit = createForClass(158), Ljava_lang_IllegalStateException_2_classLit = createForClass(132), Lse_elemel_beanslingers_core_CollisionKey_2_classLit = createForClass(312), Lse_elemel_beanslingers_core_PlayerBoulderCollisionHandler_2_classLit = createForClass(318), Lse_elemel_beanslingers_core_GiantActor_2_classLit = createForClass(316), Lse_elemel_beanslingers_core_CollisionShape_2_classLit = createForClass(310), Lplayn_html_HtmlPattern_2_classLit = createForClass(276), Lse_elemel_beanslingers_core_CircleCollisionShape_2_classLit = createForClass(309), Lpythagoras_f_AbstractCircle_2_classLit = createForClass(295), Lpythagoras_f_Circle_2_classLit = createForClass(298), Ljava_lang_IndexOutOfBoundsException_2_classLit = createForClass(133), Lplayn_core_gl_GL20Buffer_2_classLit = createForClass(215), Lplayn_core_gl_GL20Buffer$FloatImpl_2_classLit = createForClass(216), Lplayn_core_gl_GL20Buffer$ShortImpl_2_classLit = createForClass(217), Ljava_util_NoSuchElementException_2_classLit = createForClass(165), Lplayn_core_gl_GL20Program_2_classLit = createForClass(220), Lplayn_core_gl_GL20Program$2_2_classLit = createForClass(222), Lplayn_core_gl_GL20Program$5_2_classLit = createForClass(223), Lplayn_core_gl_GL20Program$8_2_classLit = createForClass(224), Lplayn_core_gl_GL20Program$10_2_classLit = createForClass(221), Ljava_nio_Buffer_2_classLit = createForClass(145), Ljava_nio_ByteBuffer_2_classLit = createForClass(146), Ljava_nio_FloatBuffer_2_classLit = createForClass(148), Ljava_nio_ByteOrder_2_classLit = createForClass(147), Ljava_nio_IntBuffer_2_classLit = createForClass(149), Ljava_nio_ShortBuffer_2_classLit = createForClass(150);
+--></script>
+<script><!--
+var Ljava_lang_Object_2_classLit = createForClass(1), Lcom_google_gwt_core_client_JavaScriptObject_2_classLit = createForClass(8), Ljava_lang_Throwable_2_classLit = createForClass(16), Ljava_lang_Exception_2_classLit = createForClass(15), Ljava_lang_RuntimeException_2_classLit = createForClass(14), Ljava_lang_StackTraceElement_2_classLit = createForClass(157), _3Ljava_lang_StackTraceElement_2_classLit = createForArray(350), _3I_classLit = createForArray(351), Lcom_google_gwt_lang_SeedUtil_2_classLit = createForClass(93), Ljava_lang_Enum_2_classLit = createForClass(5), Ljava_lang_Number_2_classLit = createForClass(147), _3C_classLit = createForArray(352), Ljava_lang_Class_2_classLit = createForClass(145), Ljava_lang_Float_2_classLit = createForClass(146), Ljava_lang_Integer_2_classLit = createForClass(151), _3Ljava_lang_Integer_2_classLit = createForArray(353), Ljava_lang_String_2_classLit = createForClass(2), _3Ljava_lang_String_2_classLit = createForArray(349), Lplayn_html_HtmlGame$1_2_classLit = createForClass(271), Lplayn_html_HtmlGame$2_2_classLit = createForClass(272), Lcom_google_gwt_core_client_Scheduler_2_classLit = createForClass(22), Ljava_lang_StringBuilder_2_classLit = createForClass(160), Ljava_lang_ArrayStoreException_2_classLit = createForClass(144), Lcom_google_gwt_core_client_JavaScriptException_2_classLit = createForClass(13), Lcom_google_gwt_core_client_impl_StringBufferImpl_2_classLit = createForClass(33), Lcom_google_gwt_core_client_impl_SchedulerImpl_2_classLit = createForClass(24), Lcom_google_gwt_core_client_impl_SchedulerImpl$Flusher_2_classLit = createForClass(25), Lcom_google_gwt_core_client_impl_SchedulerImpl$Rescuer_2_classLit = createForClass(26), Lcom_google_gwt_core_client_impl_StackTraceCreator$Collector_2_classLit = createForClass(29), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorMoz_2_classLit = createForClass(31), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChrome_2_classLit = createForClass(30), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChromeNoSourceMap_2_classLit = createForClass(32), Lcom_google_gwt_core_client_impl_StringBufferImplAppend_2_classLit = createForClass(34), Lplayn_core_LogImpl_2_classLit = createForClass(204), Lplayn_core_Log$Level_2_classLit = createForEnum(203, values_7), _3Lplayn_core_Log$Level_2_classLit = createForArray(354), Lplayn_core_AbstractPlatform_2_classLit = createForClass(190), Lplayn_html_HtmlPlatform_2_classLit = createForClass(298), Lplayn_html_HtmlPlatform$Config_2_classLit = createForClass(301), Lplayn_html_HtmlPlatform$1_2_classLit = createForClass(299), Lplayn_html_HtmlLog_2_classLit = createForClass(286), Ljava_lang_NullPointerException_2_classLit = createForClass(154), Ljava_lang_IllegalArgumentException_2_classLit = createForClass(148), Lplayn_html_HtmlLogSimple_2_classLit = createForClass(287), Ljava_lang_StringBuffer_2_classLit = createForClass(159), Lplayn_core_AbstractAssets_2_classLit = createForClass(187), Lplayn_html_HtmlAssets_2_classLit = createForClass(264), Lplayn_core_Game$Default_2_classLit = createForClass(197), Lse_elemel_beanslingers_core_BeanslingersGame_2_classLit = createForClass(328), Lplayn_core_Events$Input$Impl_2_classLit = createForClass(195), Lplayn_core_Keyboard$Event$Impl_2_classLit = createForClass(200), Lplayn_core_Keyboard$TypedEvent$Impl_2_classLit = createForClass(201), Lplayn_core_Events$Flags$Impl_2_classLit = createForClass(194), Lplayn_core_Events$Position$Impl_2_classLit = createForClass(196), Lplayn_html_HtmlGraphics_2_classLit = createForClass(273), Lplayn_html_HtmlGraphics$1_2_classLit = createForClass(274), Lplayn_core_PointerImpl_2_classLit = createForClass(218), Lplayn_html_HtmlPointer_2_classLit = createForClass(302), Lplayn_html_HtmlPointer$1_2_classLit = createForClass(303), Lplayn_html_HtmlPointer$2_2_classLit = createForClass(304), Lplayn_html_HtmlPointer$3_2_classLit = createForClass(305), Lplayn_html_HtmlPointer$4_2_classLit = createForClass(306), Lplayn_html_HtmlPointer$5_2_classLit = createForClass(307), Lplayn_html_HtmlPointer$6_2_classLit = createForClass(308), Lplayn_core_PointerImpl$1_2_classLit = createForClass(219), Lplayn_core_PointerImpl$2_2_classLit = createForClass(220), Lplayn_core_PointerImpl$3_2_classLit = createForClass(221), Lplayn_core_Pointer$Event$Impl_2_classLit = createForClass(217), Lplayn_core_AbstractLayer_2_classLit = createForClass(188), _3Ljava_lang_Object_2_classLit = createForArray(348), Lplayn_core_AbstractLayer$Flag_2_classLit = createForEnum(189, values_5), _3Lplayn_core_AbstractLayer$Flag_2_classLit = createForArray(355), Lplayn_core_MouseImpl_2_classLit = createForClass(208), Lplayn_html_HtmlMouse_2_classLit = createForClass(288), Lplayn_html_HtmlMouse$1_2_classLit = createForClass(289), Lplayn_html_HtmlMouse$1XYEventHandler_2_classLit = createForClass(291), Lplayn_html_HtmlMouse$1MoveEventHandler_2_classLit = createForClass(290), Lplayn_html_HtmlMouse$2_2_classLit = createForClass(292), Lplayn_html_HtmlMouse$3_2_classLit = createForClass(293), Lplayn_html_HtmlMouse$4_2_classLit = createForClass(294), Lplayn_html_HtmlMouse$5_2_classLit = createForClass(295), Lplayn_html_HtmlMouse$6_2_classLit = createForClass(296), Lplayn_core_MouseImpl$1_2_classLit = createForClass(209), Lplayn_core_MouseImpl$2_2_classLit = createForClass(210), Lplayn_core_MouseImpl$3_2_classLit = createForClass(211), Lplayn_core_MouseImpl$4_2_classLit = createForClass(212), Lplayn_core_MouseImpl$5_2_classLit = createForClass(213), Lplayn_core_MouseImpl$6_2_classLit = createForClass(214), Lplayn_core_MouseImpl$7_2_classLit = createForClass(215), Lplayn_core_Mouse$ButtonEvent$Impl_2_classLit = createForClass(205), Lplayn_core_Mouse$MotionEvent$Impl_2_classLit = createForClass(206), Lplayn_core_Mouse$WheelEvent$Impl_2_classLit = createForClass(207), Lplayn_core_TouchImpl_2_classLit = createForClass(226), Lplayn_html_HtmlTouch_2_classLit = createForClass(310), Lplayn_core_Touch$Event$Impl_2_classLit = createForClass(225), _3Lplayn_core_Touch$Event$Impl_2_classLit = createForArray(356), Lplayn_html_HtmlTouch$1_2_classLit = createForClass(311), Lplayn_html_HtmlTouch$2_2_classLit = createForClass(312), Lplayn_html_HtmlTouch$3_2_classLit = createForClass(313), Lplayn_core_TouchImpl$1_2_classLit = createForClass(227), Lplayn_core_TouchImpl$2_2_classLit = createForClass(228), Lplayn_core_TouchImpl$3_2_classLit = createForClass(229), Lcom_google_web_bindery_event_shared_Event_2_classLit = createForClass(74), Lcom_google_gwt_event_shared_GwtEvent_2_classLit = createForClass(73), Lcom_google_gwt_user_client_Window$ClosingEvent_2_classLit = createForClass(121), Lcom_google_gwt_event_shared_HandlerManager_2_classLit = createForClass(78), Lcom_google_gwt_user_client_Window$WindowHandlers_2_classLit = createForClass(123), Lcom_google_web_bindery_event_shared_Event$Type_2_classLit = createForClass(77), Lcom_google_gwt_event_shared_GwtEvent$Type_2_classLit = createForClass(76), Lcom_google_web_bindery_event_shared_EventBus_2_classLit = createForClass(81), Lcom_google_web_bindery_event_shared_SimpleEventBus_2_classLit = createForClass(80), Lcom_google_gwt_event_shared_HandlerManager$Bus_2_classLit = createForClass(79), Lcom_google_web_bindery_event_shared_SimpleEventBus$1_2_classLit = createForClass(142), Lcom_google_web_bindery_event_shared_SimpleEventBus$2_2_classLit = createForClass(143), Lplayn_html_HtmlAnalytics_2_classLit = createForClass(263), Lplayn_html_HtmlAudio_2_classLit = createForClass(265), Lplayn_html_HtmlKeyboard_2_classLit = createForClass(282), Lplayn_html_HtmlKeyboard$1_2_classLit = createForClass(283), Lplayn_html_HtmlKeyboard$2_2_classLit = createForClass(284), Lplayn_html_HtmlKeyboard$3_2_classLit = createForClass(285), Lplayn_core_CachingAssets_2_classLit = createForClass(191), Lplayn_core_gl_GLContext_2_classLit = createForClass(239), Lplayn_core_gl_GLContext$Stats_2_classLit = createForClass(245), Lse_elemel_beanslingers_core_Screen_2_classLit = createForClass(336), Lse_elemel_beanslingers_core_TitleScreen_2_classLit = createForClass(342), Lplayn_core_util_RunQueue_2_classLit = createForClass(261), Lplayn_html_HtmlStorage_2_classLit = createForClass(309), Lplayn_html_HtmlGraphicsCanvas_2_classLit = createForClass(275), Lplayn_core_gl_AbstractCanvasGL_2_classLit = createForClass(233), Lplayn_html_AbstractHtmlCanvas_2_classLit = createForClass(262), Lplayn_html_HtmlGraphicsCanvas$1_2_classLit = createForClass(276), Lplayn_html_HtmlGraphicsGL_2_classLit = createForClass(277), Lplayn_html_HtmlInput$1_2_classLit = createForClass(280), Lcom_allen_1sauer_gwt_voices_client_SoundController_2_classLit = createForClass(3), Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForEnum(4, values), _3Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForArray(357), Lcom_google_gwt_storage_client_Storage_2_classLit = createForClass(98), Lcom_google_gwt_storage_client_Storage$StorageSupportDetector_2_classLit = createForClass(99), Ljava_util_AbstractMap_2_classLit = createForClass(103), Lcom_google_gwt_storage_client_StorageMap_2_classLit = createForClass(102), Lcom_google_gwt_storage_client_StorageMap$StorageEntry_2_classLit = createForClass(104), Lcom_google_gwt_storage_client_StorageMap$StorageEntryIterator_2_classLit = createForClass(105), Ljava_util_AbstractCollection_2_classLit = createForClass(108), Ljava_util_AbstractSet_2_classLit = createForClass(107), Lcom_google_gwt_storage_client_StorageMap$StorageEntrySet_2_classLit = createForClass(106), Ljava_util_AbstractMap$1_2_classLit = createForClass(177), Ljava_util_AbstractMap$1$1_2_classLit = createForClass(178), Ljava_util_AbstractHashMap_2_classLit = createForClass(168), Ljava_util_HashMap_2_classLit = createForClass(182), Ljava_util_AbstractHashMap$EntrySet_2_classLit = createForClass(169), Ljava_util_AbstractHashMap$EntrySetIterator_2_classLit = createForClass(170), Ljava_util_AbstractMapEntry_2_classLit = createForClass(172), Ljava_util_AbstractHashMap$MapEntryNull_2_classLit = createForClass(171), Ljava_util_AbstractHashMap$MapEntryString_2_classLit = createForClass(173), Lplayn_core_gl_Scale_2_classLit = createForClass(259), Lplayn_core_canvas_LayerCanvas_2_classLit = createForClass(231), Lplayn_core_canvas_GroupLayerCanvas_2_classLit = createForClass(230), Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForEnum(10, values_0), _3Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForArray(358), Lplayn_core_gl_GL20Context_2_classLit = createForClass(238), Lplayn_html_HtmlGLContext_2_classLit = createForClass(269), _3F_classLit = createForArray(359), Lplayn_core_gl_LayerGL_2_classLit = createForClass(252), Lplayn_core_gl_GroupLayerGL_2_classLit = createForClass(251), Lpythagoras_f_AbstractPoint_2_classLit = createForClass(317), Lpythagoras_f_Point_2_classLit = createForClass(321), Ljava_lang_NumberFormatException_2_classLit = createForClass(156), Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForEnum(58, values_3), _3Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForArray(360), Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForEnum(48, values_1), _3Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForArray(361), Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForEnum(53, values_2), _3Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForArray(362), Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForEnum(68, values_4), _3Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForArray(363), Lcom_google_gwt_dom_client_Style$Unit$1_2_classLit = createForEnum(59, null), Lcom_google_gwt_dom_client_Style$Unit$2_2_classLit = createForEnum(60, null), Lcom_google_gwt_dom_client_Style$Unit$3_2_classLit = createForEnum(61, null), Lcom_google_gwt_dom_client_Style$Unit$4_2_classLit = createForEnum(62, null), Lcom_google_gwt_dom_client_Style$Unit$5_2_classLit = createForEnum(63, null), Lcom_google_gwt_dom_client_Style$Unit$6_2_classLit = createForEnum(64, null), Lcom_google_gwt_dom_client_Style$Unit$7_2_classLit = createForEnum(65, null), Lcom_google_gwt_dom_client_Style$Unit$8_2_classLit = createForEnum(66, null), Lcom_google_gwt_dom_client_Style$Unit$9_2_classLit = createForEnum(67, null), Lcom_google_gwt_dom_client_Style$Overflow$1_2_classLit = createForEnum(49, null), Lcom_google_gwt_dom_client_Style$Overflow$2_2_classLit = createForEnum(50, null), Lcom_google_gwt_dom_client_Style$Overflow$3_2_classLit = createForEnum(51, null), Lcom_google_gwt_dom_client_Style$Overflow$4_2_classLit = createForEnum(52, null), Lcom_google_gwt_dom_client_Style$Position$1_2_classLit = createForEnum(54, null), Lcom_google_gwt_dom_client_Style$Position$2_2_classLit = createForEnum(55, null), Lcom_google_gwt_dom_client_Style$Position$3_2_classLit = createForEnum(56, null), Lcom_google_gwt_dom_client_Style$Position$4_2_classLit = createForEnum(57, null), Lcom_google_gwt_dom_client_Style$Visibility$1_2_classLit = createForEnum(69, null), Lcom_google_gwt_dom_client_Style$Visibility$2_2_classLit = createForEnum(70, null), Lpythagoras_f_AbstractTransform_2_classLit = createForClass(224), Lplayn_html_HtmlInternalTransform_2_classLit = createForClass(281), Lpythagoras_f_AffineTransform_2_classLit = createForClass(223), Lplayn_core_StockInternalTransform_2_classLit = createForClass(222), Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForClass(267), _3Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForArray(364), Lplayn_html_HtmlGL20_2_classLit = createForClass(266), Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForEnum(268, values_8), _3Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForArray(365), Lplayn_core_Key_2_classLit = createForEnum(199, values_6), _3Lplayn_core_Key_2_classLit = createForArray(366), Lplayn_core_gl_AbstractImageGL_2_classLit = createForClass(234), Lplayn_core_gl_ImageGL_2_classLit = createForClass(253), Lplayn_html_HtmlImage_2_classLit = createForClass(278), Lplayn_core_gl_ImageLayerGL_2_classLit = createForClass(254), Ljava_lang_UnsupportedOperationException_2_classLit = createForClass(161), Lcom_google_gwt_event_logical_shared_ResizeEvent_2_classLit = createForClass(75), Lplayn_core_GroupLayerImpl_2_classLit = createForClass(198), Lplayn_core_gl_GLShader_2_classLit = createForClass(246), Lplayn_core_gl_GLShader$Core_2_classLit = createForClass(247), Lplayn_core_gl_GLShader$Extras_2_classLit = createForClass(248), Lplayn_core_gl_GLShader$TextureExtras_2_classLit = createForClass(249), Lplayn_core_gl_IndexedTrisShader_2_classLit = createForClass(255), Lplayn_core_gl_IndexedTrisShader$ITCore_2_classLit = createForClass(256), Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForClass(338), _3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForArray(367), Lse_elemel_beanslingers_core_Actor_2_classLit = createForClass(327), Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForClass(340), _3Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForArray(368), Lse_elemel_beanslingers_core_GameScreen_2_classLit = createForClass(337), Lse_elemel_beanslingers_core_BoulderActor_2_classLit = createForClass(330), Lse_elemel_beanslingers_core_CollisionDetector_2_classLit = createForClass(333), Lplayn_core_canvas_ImageLayerCanvas_2_classLit = createForClass(232), Lcom_google_web_bindery_event_shared_UmbrellaException_2_classLit = createForClass(84), Lcom_google_gwt_event_shared_UmbrellaException_2_classLit = createForClass(83), Ljava_util_MapEntryImpl_2_classLit = createForClass(184), Lpythagoras_f_AbstractVector_2_classLit = createForClass(318), Lpythagoras_f_Vector_2_classLit = createForClass(324), Lplayn_core_gl_QuadShader_2_classLit = createForClass(257), Lplayn_core_gl_QuadShader$QuadCore_2_classLit = createForClass(258), Lpythagoras_util_NoninvertibleTransformException_2_classLit = createForClass(326), Ljava_util_HashSet_2_classLit = createForClass(183), Lcom_google_gwt_event_shared_LegacyHandlerWrapper_2_classLit = createForClass(82), Ljava_util_AbstractList_2_classLit = createForClass(174), Ljava_util_ArrayList_2_classLit = createForClass(179), Ljava_util_AbstractList$IteratorImpl_2_classLit = createForClass(175), Ljava_util_AbstractList$ListIteratorImpl_2_classLit = createForClass(176), Ljava_lang_IllegalStateException_2_classLit = createForClass(149), Lse_elemel_beanslingers_core_CollisionKey_2_classLit = createForClass(334), Lse_elemel_beanslingers_core_PlayerBoulderCollisionHandler_2_classLit = createForClass(341), Lse_elemel_beanslingers_core_BeanstalkActor_2_classLit = createForClass(329), Lse_elemel_beanslingers_core_GiantActor_2_classLit = createForClass(339), Lse_elemel_beanslingers_core_CollisionShape_2_classLit = createForClass(332), Lplayn_html_HtmlPattern_2_classLit = createForClass(297), Lse_elemel_beanslingers_core_CircleCollisionShape_2_classLit = createForClass(331), Lse_elemel_beanslingers_core_WinScreen_2_classLit = createForClass(343), Lse_elemel_beanslingers_core_GameOverScreen_2_classLit = createForClass(335), Lpythagoras_f_AbstractCircle_2_classLit = createForClass(316), Lpythagoras_f_Circle_2_classLit = createForClass(319), Ljava_lang_IndexOutOfBoundsException_2_classLit = createForClass(150), Lplayn_core_gl_GL20Buffer_2_classLit = createForClass(235), Lplayn_core_gl_GL20Buffer$FloatImpl_2_classLit = createForClass(236), Lplayn_core_gl_GL20Buffer$ShortImpl_2_classLit = createForClass(237), Ljava_util_NoSuchElementException_2_classLit = createForClass(185), Lplayn_core_gl_GL20Program_2_classLit = createForClass(240), Lplayn_core_gl_GL20Program$2_2_classLit = createForClass(242), Lplayn_core_gl_GL20Program$5_2_classLit = createForClass(243), Lplayn_core_gl_GL20Program$8_2_classLit = createForClass(244), Lplayn_core_gl_GL20Program$10_2_classLit = createForClass(241), Ljava_nio_Buffer_2_classLit = createForClass(162), Ljava_nio_ByteBuffer_2_classLit = createForClass(163), Ljava_nio_FloatBuffer_2_classLit = createForClass(165), Ljava_nio_ByteOrder_2_classLit = createForClass(164), Ljava_nio_IntBuffer_2_classLit = createForClass(166), Ljava_nio_ShortBuffer_2_classLit = createForClass(167), Ljava_util_Collections$EmptyList_2_classLit = createForClass(181);
 $stats && $stats({moduleName:'beanslingers',sessionId:$sessionId,subSystem:'startup',evtGroup:'moduleStartup',millis:(new Date()).getTime(),type:'moduleEvalEnd'});
 if ($wnd.beanslingers) $wnd.beanslingers.onScriptLoad();
 --></script></body></html>
