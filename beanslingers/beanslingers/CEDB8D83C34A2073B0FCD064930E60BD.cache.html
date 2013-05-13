@@ -4,7 +4,7 @@ var $gwt_version = "2.5.0";
 var $wnd = parent;
 var $doc = $wnd.document;
 var $moduleName, $moduleBase;
-var $strongName = 'B8AD2EDAFEA77F3452A8718E1F947A6E';
+var $strongName = 'CEDB8D83C34A2073B0FCD064930E60BD';
 var $stats = $wnd.__gwtStatsEvent ? function(a) {return $wnd.__gwtStatsEvent(a);} : null,
 $sessionId = $wnd.__gwtStatsSessionId ? $wnd.__gwtStatsSessionId : null;
 $stats && $stats({moduleName:'beanslingers',sessionId:$sessionId,subSystem:'startup',evtGroup:'moduleStartup',millis:(new Date()).getTime(),type:'moduleEvalStart'});
@@ -3907,10 +3907,6 @@ function toJsArray_0(data){
   return jsan;
 }
 
-function $setAntialias(this$static, antialias){
-  this$static.antialias = antialias;
-}
-
 function $attachShader(this$static, program, shader){
   this$static.attachShader(program, shader);
 }
@@ -4078,12 +4074,12 @@ function getContext(canvas, attributes){
   return null;
 }
 
---></script>
-<script><!--
 function $removeHandler(this$static){
   $doRemove(this$static.this$0, this$static.val$type, this$static.val$source, this$static.val$handler);
 }
 
+--></script>
+<script><!--
 function SimpleEventBus$1_0(this$0, val$type, val$handler){
   this.this$0 = this$0;
   this.val$type = val$type;
@@ -5704,6 +5700,14 @@ _.parent_1 = function parent_1(){
   return this.parent_0;
 }
 ;
+_.setAlpha = function setAlpha(alpha){
+  var ialpha;
+  this.alpha_0 = alpha;
+  ialpha = ~~Math.max(Math.min(255 * (alpha < 0?0:alpha > 1?1:alpha), 2147483647), -2147483648);
+  this.tint = ialpha << 24 | this.tint & 16777215;
+  return this;
+}
+;
 _.setInteractive = function setInteractive(interactive){
   if ($isSet(this, ($clinit_AbstractLayer$Flag() , INTERACTIVE)) != interactive) {
     interactive && !!this.parent_0 && this.parent_0.setInteractive(true);
@@ -5756,6 +5760,7 @@ _.width_1 = function width_0(){
   return 0;
 }
 ;
+_.alpha_0 = 1;
 _.depth = 0;
 _.flags = 0;
 _.originX = 0;
@@ -5764,6 +5769,7 @@ _.parent_0 = null;
 _.rotation = 0;
 _.scaleX = 1;
 _.scaleY = 1;
+_.tint = -1;
 _.transform_0 = null;
 function $clinit_AbstractLayer$Flag(){
   $clinit_AbstractLayer$Flag = nullMethod;
@@ -5796,11 +5802,18 @@ function AbstractPlatform_0(log){
 defineSeed(245, 1, {});
 _.log_0 = null;
 _.runQueue = null;
-function $onLoadError(){
+function $addCallback(this$static, callback){
+  this$static.impl?++callback.this$0.successCount:this$static.error?++callback.this$0.errorsCount:(this$static.callbacks = createAdd(this$static.callbacks, callback));
+}
+
+function $onLoadError(this$static, error){
+  this$static.error = error;
+  this$static.callbacks = dispatchFailureClear(this$static.callbacks);
 }
 
 function $onLoaded(this$static, impl){
   this$static.impl = impl;
+  this$static.callbacks = dispatchSuccessClear(this$static.callbacks);
   this$static.impl.setVolume_0(100);
   $setLoopingImpl(this$static, this$static.looping);
   this$static.playing && this$static.impl.play_0();
@@ -5812,13 +5825,15 @@ function $play_0(this$static){
 }
 
 defineSeed(246, 1, {});
+_.callbacks = null;
+_.error = null;
 _.impl = null;
 _.looping = false;
 _.playing = false;
 function $getImage(this$static, path){
   var object;
   if ((object = $get_5(this$static.cache, path)) == null) {
-    object = $getImage_0(this$static.delegate, path, ($clinit_Scale() , ONE));
+    object = $getImage_1(this$static.delegate, path, ($clinit_Scale() , ONE));
     $put_2(this$static.cache, path, object);
   }
   return object;
@@ -5827,7 +5842,7 @@ function $getImage(this$static, path){
 function $getSound(this$static, path){
   var object;
   if ((object = $get_5(this$static.cache, path)) == null) {
-    object = $getSound_0(this$static.delegate, path);
+    object = $getSound_1(this$static.delegate, path);
     $put_2(this$static.cache, path, object);
   }
   return object;
@@ -6734,6 +6749,18 @@ _.m11_0 = function m11_0(){
   return this.m11;
 }
 ;
+function combine(curTint, tint){
+  var newA, newB, newG, newR;
+  newA = ((~~curTint >> 24 & 255) * ((~~tint >> 24 & 255) + 1) & 65280) << 16;
+  if ((tint & 16777215) == 16777215) {
+    return newA | curTint & 16777215;
+  }
+  newR = ((~~curTint >> 16 & 255) * ((~~tint >> 16 & 255) + 1) & 65280) << 8;
+  newG = (~~curTint >> 8 & 255) * ((~~tint >> 8 & 255) + 1) & 65280;
+  newB = ~~((curTint & 255) * ((tint & 255) + 1)) >> 8 & 255;
+  return newA | newR | newG | newB;
+}
+
 function Touch$Event$Impl_0(flags, time, x, y, id){
   Touch$Event$Impl_1.call(this, null, flags, time, x, y, id, -1, -1);
 }
@@ -6745,7 +6772,7 @@ function Touch$Event$Impl_1(hit, flags, time, x, y, id, pressure, size){
   this.size = size;
 }
 
-defineSeed(281, 252, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl, Q$Touch$Event, Q$Touch$Event$Impl]), Touch$Event$Impl_0, Touch$Event$Impl_1);
+defineSeed(282, 252, makeCastMap([Q$Events$Input, Q$Events$Input$Impl, Q$Events$Position, Q$Events$Position$Impl, Q$Touch$Event, Q$Touch$Event$Impl]), Touch$Event$Impl_0, Touch$Event$Impl_1);
 _.addFields = function addFields_5(builder){
   $append_10($append_11($append_7((builder.impl.string += 'time=' , builder), this.time), ', flags='), this.flags);
   $append_10($append_11($append_8($append_11($append_8((builder.impl.string += ', x=' , builder), this.x), ', y='), this.y), ', hit='), this.hit);
@@ -6810,20 +6837,62 @@ function $onTouchStart(this$static, touches){
   }
 }
 
-defineSeed(282, 1, {});
+defineSeed(283, 1, {});
 var END_0, MOVE, START;
 function TouchImpl$1_0(){
 }
 
-defineSeed(283, 1, {}, TouchImpl$1_0);
+defineSeed(284, 1, {}, TouchImpl$1_0);
 function TouchImpl$2_0(){
 }
 
-defineSeed(284, 1, {}, TouchImpl$2_0);
+defineSeed(285, 1, {}, TouchImpl$2_0);
 function TouchImpl$3_0(){
 }
 
-defineSeed(285, 1, {}, TouchImpl$3_0);
+defineSeed(286, 1, {}, TouchImpl$3_0);
+function $getImage_0(this$static, path){
+  var image;
+  ++this$static.totalRequestsCount;
+  image = $getImage(this$static.delegate, path);
+  $addCallback_0(image, this$static.callback);
+  return image;
+}
+
+function $getPendingRequestCount(this$static){
+  return this$static.totalRequestsCount - this$static.errorsCount - this$static.successCount;
+}
+
+function $getSound_0(this$static, path){
+  var sound;
+  ++this$static.totalRequestsCount;
+  sound = $getSound(this$static.delegate, path);
+  $addCallback(sound, this$static.callback);
+  return sound;
+}
+
+--></script>
+<script><!--
+function WatchedAssets_0(delegate){
+  this.callback = new WatchedAssets$1_0(this);
+  this.delegate = delegate;
+}
+
+defineSeed(287, 1, {}, WatchedAssets_0);
+_.delegate = null;
+_.errorsCount = 0;
+_.successCount = 0;
+_.totalRequestsCount = 0;
+function $onFailure(this$static){
+  ++this$static.this$0.errorsCount;
+}
+
+function WatchedAssets$1_0(this$0){
+  this.this$0 = this$0;
+}
+
+defineSeed(288, 1, {}, WatchedAssets$1_0);
+_.this$0 = null;
 function $transform_1(this$static, canvas){
   var transform;
   $translate_0(canvas, this$static.originX, this$static.originY);
@@ -6836,13 +6905,13 @@ function LayerCanvas_0(xform){
   AbstractLayer_0.call(this, xform);
 }
 
-defineSeed(287, 243, {});
+defineSeed(290, 243, {});
 function $paint(this$static, canvas, parentAlpha){
   if (!$isSet(this$static, ($clinit_AbstractLayer$Flag() , VISIBLE_1)))
     return;
   canvas.ctx.save();
   $transform_1(this$static, canvas);
-  $paintChildren(this$static, canvas, parentAlpha);
+  $paintChildren(this$static, canvas, parentAlpha * this$static.alpha_0);
   canvas.ctx.restore();
 }
 
@@ -6854,14 +6923,12 @@ function $paintChildren(this$static, canvas, alpha){
   }
 }
 
---></script>
-<script><!--
 function GroupLayerCanvas_0(xform){
   LayerCanvas_0.call(this, xform);
   this.impl = new GroupLayerImpl_0;
 }
 
-defineSeed(286, 287, {}, GroupLayerCanvas_0);
+defineSeed(289, 290, {}, GroupLayerCanvas_0);
 _.add_1 = function add_5(layer){
   $add_5(this.impl, this, layer);
 }
@@ -6896,7 +6963,7 @@ function ImageLayerCanvas_0(xform){
   LayerCanvas_0.call(this, xform);
 }
 
-defineSeed(288, 287, {}, ImageLayerCanvas_0);
+defineSeed(291, 290, {}, ImageLayerCanvas_0);
 _.height_1 = function height_1(){
   return this.heightSet?this.height_0:$height_0(this.img);
 }
@@ -6906,7 +6973,7 @@ _.paint = function paint_0(canvas, parentAlpha){
   if (!$isSet(this, ($clinit_AbstractLayer$Flag() , VISIBLE_1)) || !this.img || !this.img.img.complete)
     return;
   canvas.ctx.save();
-  $setGlobalAlpha(canvas.ctx, parentAlpha);
+  $setAlpha(canvas, parentAlpha * this.alpha_0);
   $transform_1(this, canvas);
   width = this.widthSet?this.width_0:$width_0(this.img);
   height = this.heightSet?this.height_0:$height_0(this.img);
@@ -6947,7 +7014,7 @@ function $drawImage_0(this$static, img, w, h){
   return this$static;
 }
 
-defineSeed(289, 1, {});
+defineSeed(292, 1, {});
 function $draw(this$static, shader, xform, tint, dw, dh){
   $draw_0(this$static, shader, xform, tint, dw, dh, this$static.repeatX?dw:!this$static.img?0:$invScaled(this$static.scale_0, this$static.img.width), this$static.repeatY?dh:!this$static.img?0:$invScaled(this$static.scale_0, this$static.img.height));
 }
@@ -6967,7 +7034,7 @@ function $release(this$static){
   --this$static.refs == 0 && !!this$static.ctx && $clearTexture(this$static);
 }
 
-defineSeed(290, 1, {});
+defineSeed(293, 1, {});
 _.ctx = null;
 _.mipmapped = false;
 _.refs = 0;
@@ -6997,7 +7064,7 @@ function GL20Buffer_0(gl){
   this.bufferId = (ids = initDim(_3I_classLit, makeCastMap([Q$Serializable]), -1, 1, 1) , $genObjects(gl, ids, ($clinit_HtmlGL20$WebGLObjectType() , BUFFER)) , ids[0]);
 }
 
-defineSeed(291, 1, {});
+defineSeed(294, 1, {});
 _.bufferId = 0;
 _.gl = null;
 function $add_6(this$static, x, y){
@@ -7022,7 +7089,7 @@ function GL20Buffer$FloatImpl_0(gl, capacity){
   $expand(this, capacity);
 }
 
-defineSeed(292, 291, {}, GL20Buffer$FloatImpl_0);
+defineSeed(295, 294, {}, GL20Buffer$FloatImpl_0);
 _.buffer_1 = function buffer_0(){
   return this.buffer_0;
 }
@@ -7059,7 +7126,7 @@ function GL20Buffer$ShortImpl_0(gl, capacity){
   this.buffer_0 = $asShortBuffer($order(allocateDirect(capacity * 2), ($clinit_ByteOrder() , $clinit_ByteOrder() , NATIVE_ORDER)));
 }
 
-defineSeed(293, 291, {}, GL20Buffer$ShortImpl_0);
+defineSeed(296, 294, {}, GL20Buffer$ShortImpl_0);
 _.buffer_1 = function buffer_1(){
   return this.buffer_0;
 }
@@ -7131,7 +7198,7 @@ function $useShader(this$static, shader, forceFlush){
   return true;
 }
 
-defineSeed(295, 1, {});
+defineSeed(298, 1, {});
 _.createTransform = function createTransform(){
   return new StockInternalTransform_0;
 }
@@ -7259,7 +7326,7 @@ function toGL(filter){
   }
 }
 
-defineSeed(294, 295, {});
+defineSeed(297, 298, {});
 _.checkErrors = false;
 _.gl = null;
 _.magFilter = 9729;
@@ -7349,7 +7416,7 @@ function GL20Program_0(ctx, gl, vertexSource, fragmentSource){
   }
 }
 
-defineSeed(296, 1, {}, GL20Program_0);
+defineSeed(299, 1, {}, GL20Program_0);
 _.fragmentShader = 0;
 _.gl = null;
 _.program = 0;
@@ -7366,7 +7433,7 @@ function GL20Program$10_0(this$0, val$loc, val$size, val$type){
   this.val$type = val$type;
 }
 
-defineSeed(297, 1, {}, GL20Program$10_0);
+defineSeed(300, 1, {}, GL20Program$10_0);
 _.this$0 = null;
 _.val$loc = 0;
 _.val$size = 0;
@@ -7380,7 +7447,7 @@ function GL20Program$2_0(this$0, val$loc){
   this.val$loc = val$loc;
 }
 
-defineSeed(298, 1, {}, GL20Program$2_0);
+defineSeed(301, 1, {}, GL20Program$2_0);
 _.this$0 = null;
 _.val$loc = 0;
 function $bind_3(this$static){
@@ -7392,7 +7459,7 @@ function GL20Program$5_0(this$0, val$loc){
   this.val$loc = val$loc;
 }
 
-defineSeed(299, 1, {}, GL20Program$5_0);
+defineSeed(302, 1, {}, GL20Program$5_0);
 _.this$0 = null;
 _.val$loc = 0;
 function $bind_4(this$static, data, count){
@@ -7407,13 +7474,13 @@ function GL20Program$8_0(this$0, val$loc){
   this.val$loc = val$loc;
 }
 
-defineSeed(300, 1, {}, GL20Program$8_0);
+defineSeed(303, 1, {}, GL20Program$8_0);
 _.this$0 = null;
 _.val$loc = 0;
 function GLContext$Stats_0(){
 }
 
-defineSeed(301, 1, {}, GLContext$Stats_0);
+defineSeed(304, 1, {}, GLContext$Stats_0);
 _.frameBufferBinds = 0;
 _.frameBufferCreates = 0;
 _.frames_0 = 0;
@@ -7471,7 +7538,7 @@ function $prepareTexture(this$static, tex, tint){
   return this$static;
 }
 
-defineSeed(302, 1, {});
+defineSeed(305, 1, {});
 _.colorCore = null;
 _.ctx = null;
 _.curCore = null;
@@ -7483,13 +7550,13 @@ function GLShader$Core_0(this$0, vertShader, fragShader){
   this.prog = $createProgram(this$0.ctx, vertShader, fragShader);
 }
 
-defineSeed(303, 1, {});
+defineSeed(306, 1, {});
 _.destroy = function destroy(){
   $destroy_0(this.prog);
 }
 ;
 _.prog = null;
-defineSeed(304, 1, {});
+defineSeed(307, 1, {});
 function $prepare(this$static, tex, justActivated){
   var stateChanged;
   $checkGLError(this$static.this$0.ctx, 'textureShader.prepare start');
@@ -7518,7 +7585,7 @@ function GLShader$TextureExtras_0(this$0, prog){
   this.uTexture = (loc = $glGetUniformLocation(prog.gl, prog.program, 'u_Texture') , loc < 0?null:new GL20Program$5_0(prog, loc));
 }
 
-defineSeed(305, 304, {}, GLShader$TextureExtras_0);
+defineSeed(308, 307, {}, GLShader$TextureExtras_0);
 _.lastTex = 0;
 _.this$0 = null;
 _.uTexture = null;
@@ -7544,11 +7611,12 @@ function LayerGL_0(){
   this.savedLocal = new HtmlInternalTransform_0;
 }
 
-defineSeed(308, 243, {});
+defineSeed(311, 243, {});
 _.savedLocal = null;
 function $paint_1(this$static, curTransform, curTint, curShader){
   if (!$isSet(this$static, ($clinit_AbstractLayer$Flag() , VISIBLE_1)))
     return;
+  this$static.tint != -1 && (curTint = combine(curTint, this$static.tint));
   $render(this$static, ($set_2(this$static.savedLocal, curTransform) , $concatenate_0(this$static.savedLocal, $transform_0(this$static), this$static.originX, this$static.originY)), curTint, curShader);
 }
 
@@ -7565,7 +7633,7 @@ function GroupLayerGL_0(){
   this.impl = new GroupLayerImpl_0;
 }
 
-defineSeed(307, 308, {}, GroupLayerGL_0);
+defineSeed(310, 311, {}, GroupLayerGL_0);
 _.add_1 = function add_6(layer){
   $add_5(this.impl, this, layer);
 }
@@ -7658,7 +7726,7 @@ function convertToRepTex(ctx, tex, width, height, repeatX, repeatY, mipmapped){
   }
 }
 
-defineSeed(309, 290, {});
+defineSeed(312, 293, {});
 _.scale_0 = null;
 _.tex = 0;
 function $setImage_0(this$static, img){
@@ -7674,13 +7742,18 @@ function ImageLayerGL_0(){
   LayerGL_0.call(this);
 }
 
-defineSeed(310, 308, {}, ImageLayerGL_0);
+defineSeed(313, 311, {}, ImageLayerGL_0);
 _.height_1 = function height_2(){
   return this.heightSet?this.height_0:$height_0(this.img);
 }
 ;
+--></script>
+<script><!--
 _.paint_0 = function paint_2(curTransform, curTint, curShader){
-  $isSet(this, ($clinit_AbstractLayer$Flag() , VISIBLE_1)) && !!this.img && $draw(this.img, curShader, ($set_2(this.savedLocal, curTransform) , $concatenate_0(this.savedLocal, $transform_0(this), this.originX, this.originY)), curTint, this.widthSet?this.width_0:$width_0(this.img), this.heightSet?this.height_0:$height_0(this.img));
+  if ($isSet(this, ($clinit_AbstractLayer$Flag() , VISIBLE_1)) && !!this.img) {
+    this.tint != -1 && (curTint = combine(curTint, this.tint));
+    $draw(this.img, curShader, ($set_2(this.savedLocal, curTransform) , $concatenate_0(this.savedLocal, $transform_0(this), this.originX, this.originY)), curTint, this.widthSet?this.width_0:$width_0(this.img), this.heightSet?this.height_0:$height_0(this.img));
+  }
 }
 ;
 _.width_1 = function width_2(){
@@ -7696,7 +7769,7 @@ function IndexedTrisShader_0(ctx){
   this.ctx = ctx;
 }
 
-defineSeed(311, 302, {}, IndexedTrisShader_0);
+defineSeed(314, 305, {}, IndexedTrisShader_0);
 _.createTextureCore = function createTextureCore(){
   return new IndexedTrisShader$ITCore_0(this);
 }
@@ -7725,8 +7798,6 @@ function $beginPrimitive(this$static){
   return vertIdx;
 }
 
---></script>
-<script><!--
 function $expandElems(this$static, elemCount){
   var newElems;
   newElems = this$static.elements.buffer_0.capacity;
@@ -7756,7 +7827,7 @@ function IndexedTrisShader$ITCore_0(this$0){
   this.elements = $createShortBuffer(this$0.ctx, 96);
 }
 
-defineSeed(312, 303, {}, IndexedTrisShader$ITCore_0);
+defineSeed(315, 306, {}, IndexedTrisShader$ITCore_0);
 _.activate = function activate(fbufWidth, fbufHeight){
   $bind_0(this.prog);
   $bind_2(this.uScreenSize, fbufWidth, fbufHeight);
@@ -7836,7 +7907,7 @@ function QuadShader_0(ctx){
   this.maxQuads = ~~(maxVecs / 3);
 }
 
-defineSeed(313, 302, {}, QuadShader_0);
+defineSeed(316, 305, {}, QuadShader_0);
 _.createTextureCore = function createTextureCore_0(){
   return new QuadShader$QuadCore_0(this, $replace_0($replace_0('uniform vec2 u_ScreenSize;\nuniform vec4 u_Data[_VEC4S_PER_QUAD_*_MAX_QUADS_];\nattribute vec3 a_Vertex;\nvarying vec2 v_TexCoord;\nvarying vec4 v_Color;\nvoid main(void) {\nint index = _VEC4S_PER_QUAD_*int(a_Vertex.z);\nvec4 mat = u_Data[index+0];\nvec4 txc = u_Data[index+1];\nvec4 tcs = u_Data[index+2];\nmat3 transform = mat3(\n  mat.x, mat.y, 0,\n  mat.z, mat.w, 0,\n  txc.x, txc.y, 1);\ngl_Position = vec4(transform * vec3(a_Vertex.xy, 1.0), 1.0);\ngl_Position.xy /= u_ScreenSize.xy;\ngl_Position.x -= 1.0;\ngl_Position.y = 1.0 - gl_Position.y;\nv_TexCoord = a_Vertex.xy * tcs.xy + txc.zw;\nfloat red = mod(tcs.z, 256.0);\nfloat alpha = (tcs.z - red) / 256.0;\nfloat blue = mod(tcs.w, 256.0);\nfloat green = (tcs.w - blue) / 256.0;\nv_Color = vec4(red / 255.0, green / 255.0, blue / 255.0, alpha / 255.0);\n}', '_MAX_QUADS_', '' + this.maxQuads), '_VEC4S_PER_QUAD_', '3'), '#ifdef GL_ES\nprecision highp float;\n#endif\nuniform sampler2D u_Texture;\nvarying vec2 v_TexCoord;\nvarying vec4 v_Color;\nvoid main(void) {\n  vec4 textureColor = texture2D(u_Texture, v_TexCoord);\n  textureColor.rgb *= v_Color.rgb;\n  gl_FragColor = textureColor * v_Color.a;\n}');
 }
@@ -7882,7 +7953,7 @@ function QuadShader$QuadCore_0(this$0, vertShader, fragShader){
   $send(this.elements, 34963, 35044);
 }
 
-defineSeed(314, 303, {}, QuadShader$QuadCore_0);
+defineSeed(317, 306, {}, QuadShader$QuadCore_0);
 _.activate = function activate_0(fbufWidth, fbufHeight){
   $bind_0(this.prog);
   $bind_2(this.uScreenSize, fbufWidth / 2, fbufHeight / 2);
@@ -7952,7 +8023,7 @@ function Scale_0(factor){
   this.factor = factor;
 }
 
-defineSeed(315, 1, {}, Scale_0);
+defineSeed(318, 1, {}, Scale_0);
 _.toString$ = function toString_33(){
   return 'x' + this.factor;
 }
@@ -7963,10 +8034,34 @@ function getElementSize_3(){
   throw new RuntimeException_1('Unrecognized buffer type: ' + null.nullMethod());
 }
 
+function createAdd(list, callback){
+  !list && (list = new ArrayList_0);
+  list.add(callback);
+  return list;
+}
+
+function dispatchFailureClear(list){
+  var ii, ll;
+  if (list) {
+    for (ii = 0 , ll = list.size_0(); ii < ll; ++ii)
+      ++list.get(ii).this$0.errorsCount;
+  }
+  return null;
+}
+
+function dispatchSuccessClear(list){
+  var ii, ll;
+  if (list) {
+    for (ii = 0 , ll = list.size_0(); ii < ll; ++ii)
+      ++list.get(ii).this$0.successCount;
+  }
+  return null;
+}
+
 function RunQueue_0(){
 }
 
-defineSeed(317, 1, {}, RunQueue_0);
+defineSeed(321, 1, {}, RunQueue_0);
 _.head = null;
 function $clear_1(this$static){
   return $clearRect_0(this$static, $width(this$static.this$0), $height(this$static.this$0));
@@ -7974,6 +8069,11 @@ function $clear_1(this$static){
 
 function $clearRect_0(this$static, width, height){
   $clearRect(this$static.ctx, 0, 0, width, height);
+  return this$static;
+}
+
+function $setAlpha(this$static, alpha){
+  $setGlobalAlpha(this$static.ctx, alpha);
   return this$static;
 }
 
@@ -7992,7 +8092,7 @@ function $translate_0(this$static, x, y){
   return this$static;
 }
 
-defineSeed(318, 289, {});
+defineSeed(322, 292, {});
 _.ctx = null;
 function $init(this$static){
   this$static.random_0 = getRandom();
@@ -8002,7 +8102,7 @@ function $init(this$static){
 function HtmlAnalytics_0(){
 }
 
-defineSeed(319, 1, {}, HtmlAnalytics_0);
+defineSeed(323, 1, {}, HtmlAnalytics_0);
 _.random_0 = 0;
 function $getBundle(this$static, collection){
   var clientBundle, entry, entry$iterator, regExp;
@@ -8015,14 +8115,14 @@ function $getBundle(this$static, collection){
   return clientBundle;
 }
 
-function $getImage_0(this$static, path, scale){
+function $getImage_1(this$static, path, scale){
   var url, img;
   url = this$static.pathPrefix + path;
   $getBundle(this$static, path);
   return img = $doc.createElement('img') , 'crossOrigin' in img && img.setAttribute('crossOrigin', 'anonymous') , img.src = url , new HtmlImage_0(this$static.platform.graphics.ctx_1(), scale, img);
 }
 
-function $getSound_0(this$static, path){
+function $getSound_1(this$static, path){
   var url, audio, sound;
   url = this$static.pathPrefix + path;
   $getBundle(this$static, path);
@@ -8035,7 +8135,7 @@ function HtmlAssets_0(platform){
   this.platform = platform;
 }
 
-defineSeed(320, 242, {}, HtmlAssets_0);
+defineSeed(324, 242, {}, HtmlAssets_0);
 _.pathPrefix = '';
 _.platform = null;
 function $init_0(this$static){
@@ -8061,7 +8161,7 @@ function maybeCreateAudioContext(){
   return null;
 }
 
-defineSeed(321, 1, {}, HtmlAudio_0);
+defineSeed(325, 1, {}, HtmlAudio_0);
 function $createObject(this$static, object, type){
   $push(this$static.webGLObjects, object);
   $push_0(this$static.webGLObjectTypes, type.ordinal);
@@ -8337,7 +8437,7 @@ function HtmlGL20_0(gl){
   }
 }
 
-defineSeed(322, 1, {}, HtmlGL20_0);
+defineSeed(326, 1, {}, HtmlGL20_0);
 _.boundArrayBuffer = null;
 _.boundElementArrayBuffer = null;
 _.enabledArrays = 0;
@@ -8349,7 +8449,7 @@ _.useNioBuffer = 0;
 function HtmlGL20$VertexAttribArrayState_0(){
 }
 
-defineSeed(323, 1, makeCastMap([Q$HtmlGL20$VertexAttribArrayState]), HtmlGL20$VertexAttribArrayState_0);
+defineSeed(327, 1, makeCastMap([Q$HtmlGL20$VertexAttribArrayState]), HtmlGL20$VertexAttribArrayState_0);
 _.nioBuffer = null;
 _.nioBufferLimit = 0;
 _.nioBufferPosition = 0;
@@ -8380,7 +8480,7 @@ function values_10(){
   return $VALUES_10;
 }
 
-defineSeed(324, 11, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$HtmlGL20$WebGLObjectType]), HtmlGL20$WebGLObjectType_0);
+defineSeed(328, 11, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$HtmlGL20$WebGLObjectType]), HtmlGL20$WebGLObjectType_0);
 var $VALUES_10, BUFFER, FRAME_BUFFER, NULL, PROGRAM, RENDER_BUFFER, SHADER, TEXTURE, UNIFORM_LOCATION;
 function $tryBasicGLCalls(this$static){
   var err, pixelData, testFloat32Array, testInt32Array, testUint16Array, testUint8Array;
@@ -8436,7 +8536,7 @@ function HtmlGLContext_0(platform, gl, canvas){
   this.glc.pixelStorei(37441, 1);
 }
 
-defineSeed(325, 294, {}, HtmlGLContext_0);
+defineSeed(329, 297, {}, HtmlGLContext_0);
 _.createTransform = function createTransform_0(){
   return new HtmlInternalTransform_0;
 }
@@ -8445,15 +8545,16 @@ _.glc = null;
 function HtmlGame$1_0(){
 }
 
-defineSeed(327, 1, {}, HtmlGame$1_0);
+defineSeed(331, 1, {}, HtmlGame$1_0);
 function HtmlGame$2_0(){
 }
 
-defineSeed(328, 1, {}, HtmlGame$2_0);
+defineSeed(332, 1, {}, HtmlGame$2_0);
+--></script>
+<script><!--
 _.execute = function execute_10(){
   var config, platform, platform_0;
   config = new HtmlPlatform$Config_0;
-  config.antiAliasing = false;
   platform = ($clinit_HtmlPlatform() , platform_0 = new HtmlPlatform_0(config) , platform_1 = platform_0 , $init(platform_0.analytics) , $init_0(platform_0.audio) , $init_1(platform_0.keyboard) , platform_0);
   platform.assets.pathPrefix = 'beanslingers/';
   run(new BeanslingersGame_0);
@@ -8487,7 +8588,7 @@ function HtmlGraphics_0(){
   $appendChild(this.rootElement, this.measureElement);
 }
 
-defineSeed(329, 1, {});
+defineSeed(333, 1, {});
 _.ctx_0 = function ctx_0(){
   return this.ctx_1();
 }
@@ -8520,9 +8621,7 @@ function HtmlGraphicsCanvas_0(){
   this.canvas = new HtmlGraphicsCanvas$1_0(this, this.ctx);
 }
 
-defineSeed(330, 329, {}, HtmlGraphicsCanvas_0);
---></script>
-<script><!--
+defineSeed(334, 333, {}, HtmlGraphicsCanvas_0);
 _.createGroupLayer = function createGroupLayer(){
   return new GroupLayerCanvas_0(($clinit_HtmlPlatform() , hasTypedArraySupport)?new HtmlInternalTransform_0:new StockInternalTransform_0);
 }
@@ -8534,7 +8633,7 @@ _.createImageLayer = function createImageLayer(img){
 _.paint_1 = function paint_3(){
   $clear_1(this.canvas);
   $paint(this.rootLayer, this.canvas, 1);
-  this.canvas.ctx.globalAlpha = 1;
+  $setAlpha(this.canvas, 1);
 }
 ;
 _.rootElement_0 = function rootElement_0(){
@@ -8559,9 +8658,9 @@ function HtmlGraphicsCanvas$1_0(this$0, $anonymous0){
   this.ctx = $anonymous0;
 }
 
-defineSeed(331, 318, {}, HtmlGraphicsCanvas$1_0);
+defineSeed(335, 322, {}, HtmlGraphicsCanvas$1_0);
 _.this$0 = null;
-function HtmlGraphicsGL_0(platform, config){
+function HtmlGraphicsGL_0(platform){
   var $e0, attrs, gl, re;
   HtmlGraphics_0.call(this);
   this.canvas = $doc.createElement('canvas');
@@ -8571,7 +8670,7 @@ function HtmlGraphicsGL_0(platform, config){
   try {
     attrs = {premultipliedAlpha:false};
     attrs.alpha = false;
-    $setAntialias(attrs, config.antiAliasing);
+    attrs.antialias = true;
     gl = getContext(this.canvas, attrs);
     if (!gl || gl.getError() != 0) {
       throw new RuntimeException_1('GL context not created [err=' + (!gl?'null':valueOf(gl.getError())) + ']');
@@ -8591,7 +8690,7 @@ function HtmlGraphicsGL_0(platform, config){
   }
 }
 
-defineSeed(332, 329, {}, HtmlGraphicsGL_0);
+defineSeed(336, 333, {}, HtmlGraphicsGL_0);
 _.createGroupLayer = function createGroupLayer_0(){
   return new GroupLayerGL_0;
 }
@@ -8627,6 +8726,16 @@ _.scale_1 = function scale_1(){
 _.canvas = null;
 _.ctx = null;
 _.rootLayer = null;
+function $addCallback_0(this$static, callback){
+  if (this$static.img.complete) {
+    ++callback.this$0.successCount;
+  }
+   else {
+    addEventListener_0(this$static.img, 'load', new HtmlImage$1_0(callback), false);
+    addEventListener_0(this$static.img, 'error', new HtmlImage$2_0(this$static, callback), false);
+  }
+}
+
 function $draw_1(this$static, ctx, width, height){
   $drawImage(ctx, this$static.img, 0, 0, width, height);
 }
@@ -8650,8 +8759,30 @@ function HtmlImage_0(ctx, scale, img){
   this.img = img;
 }
 
-defineSeed(333, 309, {}, HtmlImage_0);
+defineSeed(337, 312, {}, HtmlImage_0);
 _.img = null;
+function HtmlImage$1_0(val$callback){
+  this.val$callback = val$callback;
+}
+
+defineSeed(338, 1, {}, HtmlImage$1_0);
+_.handleEvent = function handleEvent(evt){
+  ++this.val$callback.this$0.successCount;
+}
+;
+_.val$callback = null;
+function HtmlImage$2_0(this$0, val$callback){
+  this.this$0 = this$0;
+  this.val$callback = val$callback;
+}
+
+defineSeed(339, 1, {}, HtmlImage$2_0);
+_.handleEvent = function handleEvent_0(evt){
+  $onFailure(this.val$callback, new RuntimeException_1('Error loading image ' + this.this$0.img.src));
+}
+;
+_.this$0 = null;
+_.val$callback = null;
 function getRelativeX(e, target){
   return (e.clientX || 0) - $getAbsoluteLeft(target) + $getScrollLeft(target) + $getScrollLeft(target.ownerDocument.body);
 }
@@ -8664,8 +8795,8 @@ function HtmlInput$1_0(val$handler){
   this.val$handler = val$handler;
 }
 
-defineSeed(335, 1, {}, HtmlInput$1_0);
-_.handleEvent = function handleEvent(evt){
+defineSeed(341, 1, {}, HtmlInput$1_0);
+_.handleEvent = function handleEvent_1(evt){
   this.val$handler.handleEvent(evt);
 }
 ;
@@ -8737,7 +8868,7 @@ function multiply(am00, am01, am10, am11, atx, aty, bm00, bm01, bm10, bm11, btx,
   return into;
 }
 
-defineSeed(336, 280, {}, HtmlInternalTransform_0);
+defineSeed(342, 280, {}, HtmlInternalTransform_0);
 _.inverseTransform = function inverseTransform_0(p, into){
   var det, m00, m01, m10, m11, rdet, x, y;
   m00 = this.matrix[0];
@@ -9019,14 +9150,14 @@ function keyForCode(keyCode){
   }
 }
 
-defineSeed(337, 1, {}, HtmlKeyboard_0);
+defineSeed(343, 1, {}, HtmlKeyboard_0);
 _.listener = null;
 function HtmlKeyboard$1_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(338, 1, {}, HtmlKeyboard$1_0);
-_.handleEvent = function handleEvent_0(nativeEvent){
+defineSeed(344, 1, {}, HtmlKeyboard$1_0);
+_.handleEvent = function handleEvent_2(nativeEvent){
   var event_0;
   if (this.this$0.listener) {
     event_0 = new Keyboard$Event$Impl_0(new Events$Flags$Impl_0, now_0(), keyForCode(nativeEvent.keyCode || 0));
@@ -9040,8 +9171,8 @@ function HtmlKeyboard$2_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(339, 1, {}, HtmlKeyboard$2_0);
-_.handleEvent = function handleEvent_1(nativeEvent){
+defineSeed(345, 1, {}, HtmlKeyboard$2_0);
+_.handleEvent = function handleEvent_3(nativeEvent){
   var event_0;
   if (this.this$0.listener) {
     event_0 = new Keyboard$TypedEvent$Impl_0(new Events$Flags$Impl_0, now_0(), (nativeEvent.charCode || 0) & 65535);
@@ -9054,8 +9185,8 @@ function HtmlKeyboard$3_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(340, 1, {}, HtmlKeyboard$3_0);
-_.handleEvent = function handleEvent_2(nativeEvent){
+defineSeed(346, 1, {}, HtmlKeyboard$3_0);
+_.handleEvent = function handleEvent_4(nativeEvent){
   var event_0;
   if (this.this$0.listener) {
     event_0 = new Keyboard$Event$Impl_0(new Events$Flags$Impl_0, now_0(), keyForCode(nativeEvent.keyCode || 0));
@@ -9065,12 +9196,12 @@ _.handleEvent = function handleEvent_2(nativeEvent){
 }
 ;
 _.this$0 = null;
-defineSeed(341, 260, {});
+defineSeed(347, 260, {});
 function HtmlLogSimple_0(){
   this.minLevel = ($clinit_Log$Level() , DEBUG);
 }
 
-defineSeed(342, 341, {}, HtmlLogSimple_0);
+defineSeed(348, 347, {}, HtmlLogSimple_0);
 function $handleRequestsInUserEventContext(this$static){
   this$static.isRequestingMouseLock && !$isLocked() && $requestMouseLock(this$static, this$static.rootElement);
 }
@@ -9145,15 +9276,15 @@ function getMouseWheelVelocity(evt){
   return delta;
 }
 
-defineSeed(343, 264, {}, HtmlMouse_0);
+defineSeed(349, 264, {}, HtmlMouse_0);
 _.inDragSequence = false;
 _.isRequestingMouseLock = false;
 _.rootElement = null;
 function HtmlMouse$1_0(){
 }
 
-defineSeed(344, 1, {}, HtmlMouse$1_0);
-_.handleEvent = function handleEvent_3(evt){
+defineSeed(350, 1, {}, HtmlMouse$1_0);
+_.handleEvent = function handleEvent_5(evt){
   evt.preventDefault();
   evt.stopPropagation();
 }
@@ -9163,8 +9294,8 @@ function HtmlMouse$1XYEventHandler_0(val$platform, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(346, 1, {});
-_.handleEvent = function handleEvent_4(ev){
+defineSeed(352, 1, {});
+_.handleEvent = function handleEvent_6(ev){
   var xy;
   xy = $transformMouse(this.val$platform.graphics, getRelativeX(ev, this.val$rootElement), getRelativeY(ev, this.val$rootElement));
   this.handleEvent_0(ev, xy.x, xy.y);
@@ -9177,8 +9308,8 @@ function HtmlMouse$1MoveEventHandler_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1XYEventHandler_0.call(this, val$platform, val$rootElement);
 }
 
-defineSeed(345, 346, {});
-_.handleEvent_0 = function handleEvent_5(ev, x, y){
+defineSeed(351, 352, {});
+_.handleEvent_0 = function handleEvent_7(ev, x, y){
   var dx, dy;
   if (this.lastX == -1) {
     this.lastX = x;
@@ -9208,8 +9339,8 @@ function HtmlMouse$2_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1XYEventHandler_0.call(this, val$platform, val$rootElement);
 }
 
-defineSeed(347, 346, {}, HtmlMouse$2_0);
-_.handleEvent_0 = function handleEvent_6(ev, x, y){
+defineSeed(353, 352, {}, HtmlMouse$2_0);
+_.handleEvent_0 = function handleEvent_8(ev, x, y){
   this.this$0.inDragSequence = true;
   $onMouseDown(this.this$0, new Mouse$ButtonEvent$Impl_0(new Events$Flags$Impl_0, now_0(), x, y, getMouseButton(ev))) && (ev.preventDefault() , undefined);
 }
@@ -9220,8 +9351,8 @@ function HtmlMouse$3_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1XYEventHandler_0.call(this, val$platform, val$rootElement);
 }
 
-defineSeed(348, 346, {}, HtmlMouse$3_0);
-_.handleEvent_0 = function handleEvent_7(ev, x, y){
+defineSeed(354, 352, {}, HtmlMouse$3_0);
+_.handleEvent_0 = function handleEvent_9(ev, x, y){
   if (this.this$0.inDragSequence) {
     this.this$0.inDragSequence = false;
     $onMouseUp(this.this$0, new Mouse$ButtonEvent$Impl_0(new Events$Flags$Impl_0, now_0(), x, y, getMouseButton(ev))) && (ev.preventDefault() , undefined);
@@ -9234,7 +9365,7 @@ function HtmlMouse$4_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1MoveEventHandler_0.call(this, this$0, val$platform, val$rootElement);
 }
 
-defineSeed(349, 345, {}, HtmlMouse$4_0);
+defineSeed(355, 351, {}, HtmlMouse$4_0);
 _.wantDragSequence = function wantDragSequence(){
   return true;
 }
@@ -9243,7 +9374,7 @@ function HtmlMouse$5_0(this$0, val$platform, val$rootElement){
   HtmlMouse$1MoveEventHandler_0.call(this, this$0, val$platform, val$rootElement);
 }
 
-defineSeed(350, 345, {}, HtmlMouse$5_0);
+defineSeed(356, 351, {}, HtmlMouse$5_0);
 _.wantDragSequence = function wantDragSequence_0(){
   return false;
 }
@@ -9252,8 +9383,8 @@ function HtmlMouse$6_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(351, 1, {}, HtmlMouse$6_0);
-_.handleEvent = function handleEvent_8(ev){
+defineSeed(357, 1, {}, HtmlMouse$6_0);
+_.handleEvent = function handleEvent_10(ev){
   $onMouseWheelScroll(this.this$0, new Mouse$WheelEvent$Impl_0(new Events$Flags$Impl_0, now_0(), this.this$0.lastMousePt.x, this.this$0.lastMousePt.y, getMouseWheelVelocity(ev))) && (ev.preventDefault() , undefined);
 }
 ;
@@ -9282,7 +9413,7 @@ function HtmlPattern_1(image, repeatX, repeatY){
   HtmlPattern_0.call(this, image.img, repeatX, repeatY);
 }
 
-defineSeed(352, 1, {}, HtmlPattern_1);
+defineSeed(358, 1, {}, HtmlPattern_1);
 _.patimg = null;
 _.repeatX = false;
 _.repeatY = false;
@@ -9301,9 +9432,9 @@ function $createGraphics(this$static, config){
       case 1:
         return new HtmlGraphicsCanvas_0;
       case 0:
-        return new HtmlGraphicsGL_0(this$static, config);
+        return new HtmlGraphicsGL_0(this$static);
       default:case 2:
-        return !!$wnd.WebGLRenderingContext && (!/Chrome/.test(navigator.userAgent) || !/OS X 10_5/.test(navigator.userAgent))?new HtmlGraphicsGL_0(this$static, config):new HtmlGraphicsCanvas_0;
+        return !!$wnd.WebGLRenderingContext && (!/Chrome/.test(navigator.userAgent) || !/OS X 10_5/.test(navigator.userAgent))?new HtmlGraphicsGL_0(this$static):new HtmlGraphicsCanvas_0;
     }
   }
    catch ($e0) {
@@ -9332,7 +9463,7 @@ function $requestAnimationFrame(callback){
 
 function $run(this$static, game){
   game.assets = new CachingAssets_0(platform_1.assets);
-  $setTextureFilter(platform_1.graphics.ctx_0());
+  !!platform_1.graphics.ctx_0() && $setTextureFilter(platform_1.graphics.ctx_0());
   $setListener(platform_1.keyboard, game);
   $setScreen(game, new TitleScreen_0(game));
   this$static.paintCallback = new HtmlPlatform$1_0(this$static, game);
@@ -9403,7 +9534,7 @@ function now_0(){
   return Date.now();
 }
 
-defineSeed(353, 245, {}, HtmlPlatform_0);
+defineSeed(359, 245, {}, HtmlPlatform_0);
 _.graphics = null;
 _.paintCallback = null;
 var agentInfo_0, hasTypedArraySupport, log_0;
@@ -9412,7 +9543,7 @@ function HtmlPlatform$1_0(this$0, val$game){
   this.val$game = val$game;
 }
 
-defineSeed(354, 1, {}, HtmlPlatform$1_0);
+defineSeed(360, 1, {}, HtmlPlatform$1_0);
 _.fire = function fire_0(){
   $requestAnimationFrame(this.this$0.paintCallback);
   this.this$0.runQueue.head = null;
@@ -9426,8 +9557,7 @@ function HtmlPlatform$Config_0(){
   this.mode = requestedMode();
 }
 
-defineSeed(356, 1, {}, HtmlPlatform$Config_0);
-_.antiAliasing = true;
+defineSeed(362, 1, {}, HtmlPlatform$Config_0);
 function $eventFromMouse(this$static, rootElement, nativeEvent){
   var x, xy, y;
   x = (nativeEvent.clientX || 0) - $getAbsoluteLeft(rootElement) + $getScrollLeft(rootElement) + $getScrollLeft(rootElement.ownerDocument.body);
@@ -9436,6 +9566,8 @@ function $eventFromMouse(this$static, rootElement, nativeEvent){
   return new Pointer$Event$Impl_0(new Events$Flags$Impl_0, now_0(), xy.x, xy.y, false);
 }
 
+--></script>
+<script><!--
 function $eventFromTouch(this$static, rootElement, touch){
   var x, xy, y;
   x = touch.clientX - $getAbsoluteLeft(rootElement) + $getScrollLeft(rootElement) + $getScrollLeft(rootElement.ownerDocument.body);
@@ -9457,7 +9589,7 @@ function HtmlPointer_0(platform, rootElement){
   captureEvent_0('mousemove', new HtmlInput$1_0(new HtmlPointer$6_0(this, rootElement)));
 }
 
-defineSeed(357, 274, {}, HtmlPointer_0);
+defineSeed(363, 274, {}, HtmlPointer_0);
 _.inDragSequence = false;
 _.platform = null;
 function HtmlPointer$1_0(this$0, val$rootElement){
@@ -9465,8 +9597,8 @@ function HtmlPointer$1_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(358, 1, {}, HtmlPointer$1_0);
-_.handleEvent = function handleEvent_9(nativeEvent){
+defineSeed(364, 1, {}, HtmlPointer$1_0);
+_.handleEvent = function handleEvent_11(nativeEvent){
   var touches;
   touches = nativeEvent.changedTouches;
   if (touches.length > 0) {
@@ -9482,8 +9614,8 @@ function HtmlPointer$2_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(359, 1, {}, HtmlPointer$2_0);
-_.handleEvent = function handleEvent_10(nativeEvent){
+defineSeed(365, 1, {}, HtmlPointer$2_0);
+_.handleEvent = function handleEvent_12(nativeEvent){
   var touches;
   touches = nativeEvent.changedTouches;
   if (this.this$0.inDragSequence && touches.length > 0) {
@@ -9502,8 +9634,8 @@ function HtmlPointer$3_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(360, 1, {}, HtmlPointer$3_0);
-_.handleEvent = function handleEvent_11(nativeEvent){
+defineSeed(366, 1, {}, HtmlPointer$3_0);
+_.handleEvent = function handleEvent_13(nativeEvent){
   var touches;
   touches = nativeEvent.changedTouches;
   this.this$0.inDragSequence && touches.length > 0?$onPointerDrag(this.this$0, $eventFromTouch(this.this$0, this.val$rootElement, touches[0]), true) && (nativeEvent.preventDefault() , undefined):(nativeEvent.preventDefault() , undefined);
@@ -9516,23 +9648,21 @@ function HtmlPointer$4_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(361, 1, {}, HtmlPointer$4_0);
-_.handleEvent = function handleEvent_12(nativeEvent){
+defineSeed(367, 1, {}, HtmlPointer$4_0);
+_.handleEvent = function handleEvent_14(nativeEvent){
   this.this$0.inDragSequence = true;
   $onPointerStart(this.this$0, $eventFromMouse(this.this$0, this.val$rootElement, nativeEvent)) && (nativeEvent.preventDefault() , undefined);
 }
 ;
 _.this$0 = null;
 _.val$rootElement = null;
---></script>
-<script><!--
 function HtmlPointer$5_0(this$0, val$rootElement){
   this.this$0 = this$0;
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(362, 1, {}, HtmlPointer$5_0);
-_.handleEvent = function handleEvent_13(nativeEvent){
+defineSeed(368, 1, {}, HtmlPointer$5_0);
+_.handleEvent = function handleEvent_15(nativeEvent){
   if (this.this$0.inDragSequence) {
     this.this$0.inDragSequence = false;
     $onPointerEnd(this.this$0, $eventFromMouse(this.this$0, this.val$rootElement, nativeEvent), false) && (nativeEvent.preventDefault() , undefined);
@@ -9546,8 +9676,8 @@ function HtmlPointer$6_0(this$0, val$rootElement){
   this.val$rootElement = val$rootElement;
 }
 
-defineSeed(363, 1, {}, HtmlPointer$6_0);
-_.handleEvent = function handleEvent_14(nativeEvent){
+defineSeed(369, 1, {}, HtmlPointer$6_0);
+_.handleEvent = function handleEvent_16(nativeEvent){
   this.this$0.inDragSequence && $onPointerDrag(this.this$0, $eventFromMouse(this.this$0, this.val$rootElement, nativeEvent), false) && (nativeEvent.preventDefault() , undefined);
 }
 ;
@@ -9561,7 +9691,7 @@ function HtmlSound_0(sound){
   $addEventHandler(sound, new HtmlSound$1_0(this, sound));
 }
 
-defineSeed(364, 246, {}, HtmlSound_0);
+defineSeed(370, 246, {}, HtmlSound_0);
 function $onSoundLoadStateChange(this$static, event_0){
   var loadState;
   loadState = event_0.loadState;
@@ -9575,7 +9705,7 @@ function $onSoundLoadStateChange(this$static, event_0){
       $onLoaded(this$static.this$0, this$static.val$sound);
       break;
     case 0:
-      $onLoadError(new RuntimeException_1(loadState.name_0));
+      $onLoadError(this$static.this$0, new RuntimeException_1(loadState.name_0));
       break;
     default:throw new RuntimeException_1('Unrecognized sound load state ' + loadState.name_0);
   }
@@ -9586,7 +9716,7 @@ function HtmlSound$1_0(this$0, val$sound){
   this.val$sound = val$sound;
 }
 
-defineSeed(365, 1, {}, HtmlSound$1_0);
+defineSeed(371, 1, {}, HtmlSound$1_0);
 _.this$0 = null;
 _.val$sound = null;
 function HtmlStorage_0(){
@@ -9595,7 +9725,7 @@ function HtmlStorage_0(){
   storage?new StorageMap_0(storage):new HashMap_0;
 }
 
-defineSeed(366, 1, {}, HtmlStorage_0);
+defineSeed(372, 1, {}, HtmlStorage_0);
 function $toEvents(this$static, nativeEvent, flags){
   var id, nativeTouches, nativeTouchesLen, t, touch, touches, x, xy, y;
   nativeTouches = nativeEvent.changedTouches;
@@ -9622,7 +9752,7 @@ function HtmlTouch_0(platform, rootElement){
   captureEvent_0('touchend', new HtmlInput$1_0(new HtmlTouch$3_0(this)));
 }
 
-defineSeed(367, 282, {}, HtmlTouch_0);
+defineSeed(373, 283, {}, HtmlTouch_0);
 _.inTouchSequence = false;
 _.platform = null;
 _.rootElement = null;
@@ -9630,8 +9760,8 @@ function HtmlTouch$1_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(368, 1, {}, HtmlTouch$1_0);
-_.handleEvent = function handleEvent_15(nativeEvent){
+defineSeed(374, 1, {}, HtmlTouch$1_0);
+_.handleEvent = function handleEvent_17(nativeEvent){
   var flags;
   this.this$0.inTouchSequence = true;
   flags = new Events$Flags$Impl_0;
@@ -9644,8 +9774,8 @@ function HtmlTouch$2_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(369, 1, {}, HtmlTouch$2_0);
-_.handleEvent = function handleEvent_16(nativeEvent){
+defineSeed(375, 1, {}, HtmlTouch$2_0);
+_.handleEvent = function handleEvent_18(nativeEvent){
   var flags;
   if (this.this$0.inTouchSequence) {
     flags = new Events$Flags$Impl_0;
@@ -9659,8 +9789,8 @@ function HtmlTouch$3_0(this$0){
   this.this$0 = this$0;
 }
 
-defineSeed(370, 1, {}, HtmlTouch$3_0);
-_.handleEvent = function handleEvent_17(nativeEvent){
+defineSeed(376, 1, {}, HtmlTouch$3_0);
+_.handleEvent = function handleEvent_19(nativeEvent){
   var flags;
   if (this.this$0.inTouchSequence) {
     flags = new Events$Flags$Impl_0;
@@ -9713,7 +9843,7 @@ function $intersects(this$static, c){
   return distanceSq(this$static.x, this$static.y, c.x, c.y) < maxDist * maxDist;
 }
 
-defineSeed(373, 1, makeCastMap([Q$AbstractCircle]));
+defineSeed(379, 1, makeCastMap([Q$AbstractCircle]));
 _.equals$ = function equals_13(obj){
   var c;
   if (obj === this) {
@@ -9730,7 +9860,7 @@ _.hashCode$ = function hashCode_14(){
   return round_int(this.x) ^ round_int(this.y) ^ round_int(this.radius);
 }
 ;
-defineSeed(374, 1, makeCastMap([Q$AbstractPoint]));
+defineSeed(380, 1, makeCastMap([Q$AbstractPoint]));
 _.equals$ = function equals_14(obj){
   var p;
   if (obj === this) {
@@ -9751,7 +9881,7 @@ _.toString$ = function toString_35(){
   return pointToString(this.x_0(), this.y_0());
 }
 ;
-defineSeed(375, 1, makeCastMap([Q$AbstractVector]));
+defineSeed(381, 1, makeCastMap([Q$AbstractVector]));
 _.equals$ = function equals_15(obj){
   var p;
   if (obj === this) {
@@ -9782,7 +9912,7 @@ function $set_3(this$static, x, y, radius){
 function Circle_0(){
 }
 
-defineSeed(376, 373, makeCastMap([Q$Serializable, Q$AbstractCircle]), Circle_0);
+defineSeed(382, 379, makeCastMap([Q$Serializable, Q$AbstractCircle]), Circle_0);
 _.radius = 0;
 _.x = 0;
 _.y = 0;
@@ -9837,7 +9967,7 @@ function Point_1(x, y){
   $set_4(this, x, y);
 }
 
-defineSeed(378, 374, makeCastMap([Q$Serializable, Q$AbstractPoint]), Point_0, Point_1);
+defineSeed(384, 380, makeCastMap([Q$Serializable, Q$AbstractPoint]), Point_0, Point_1);
 _.x_0 = function x_0(){
   return this.x;
 }
@@ -9875,7 +10005,7 @@ function Vector_0(x, y){
   this.y = y;
 }
 
-defineSeed(381, 375, makeCastMap([Q$AbstractVector]), Vector_0);
+defineSeed(387, 381, makeCastMap([Q$AbstractVector]), Vector_0);
 _.x_0 = function x_1(){
   return this.x;
 }
@@ -9904,8 +10034,11 @@ function NoninvertibleTransformException_0(s){
   RuntimeException_1.call(this, s);
 }
 
-defineSeed(383, 44, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoninvertibleTransformException_0);
-defineSeed(384, 1, makeCastMap([Q$Actor]));
+defineSeed(389, 44, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoninvertibleTransformException_0);
+defineSeed(390, 1, makeCastMap([Q$Actor]));
+_.exit = function exit_0(){
+}
+;
 _.init = function init_0(){
 }
 ;
@@ -9915,6 +10048,84 @@ _.paint_2 = function paint_5(alpha){
 _.update = function update(delta){
 }
 ;
+function BeanActor_0(gameScreen, x, y, dx){
+  this.collisionShape = new CircleCollisionShape_0;
+  this.gameScreen = gameScreen;
+  this.x1 = x;
+  this.y1 = y;
+  this.dx = dx;
+}
+
+defineSeed(391, 390, makeCastMap([Q$Actor]), BeanActor_0);
+_.exit = function exit_1(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+}
+;
+_.init = function init_1(){
+  this.assets = this.gameScreen.assets;
+  this.creationTick = $tick_0(platform_1);
+  this.image = $getImage(this.assets, 'images/bean.png');
+  this.sound = $getSound(this.assets, 'sounds/shootBean');
+  this.dAngle = (Math.random() < 0.5?-1:1) * 5 * (1 + Math.random());
+  this.flipX = Math.random() < 0.5;
+  this.flipY = Math.random() < 0.5;
+  this.collisionShape.userData = this;
+  $addShape(this.gameScreen.collisionDetector, this.collisionShape);
+  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setOrigin(12.5, 12.5);
+  this.imageLayer.setScale(4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+  this.removeTick = $tick_0(platform_1) + 5000;
+  this.x2 = this.x1;
+  this.y2 = this.y1;
+  $play_0(this.sound);
+}
+;
+_.paint_2 = function paint_6(alpha){
+  var creationTickDiff, imageAlpha, x, y;
+  x = lerp(this.x2, this.x1, alpha);
+  y = lerp(this.y2, this.y1, alpha);
+  imageAlpha = 1;
+  creationTickDiff = $tick_0(platform_1) - this.creationTick;
+  creationTickDiff < 100 && (imageAlpha = creationTickDiff / 100);
+  this.imageLayer.setTranslation(x, y);
+  this.imageLayer.setRotation(this.angle);
+  this.imageLayer.setScale_0(this.flipX?-4:4, this.flipY?-4:4);
+  this.imageLayer.setAlpha(imageAlpha);
+}
+;
+_.update = function update_0(delta){
+  var dt;
+  if (this.removeTick <= $tick_0(platform_1)) {
+    $removeActor(this.gameScreen, this);
+    return;
+  }
+  dt = 0.0010000000474974513 * delta;
+  this.x2 = this.x1;
+  this.y2 = this.y1;
+  this.x1 += this.dx * dt;
+  this.y1 += 0;
+  this.angle += this.dAngle * dt;
+  $set_3(this.collisionShape.circle, this.x1, this.y1, 5);
+}
+;
+_.angle = 0;
+_.assets = null;
+_.creationTick = 0;
+_.dAngle = 0;
+_.dx = 0;
+_.flipX = false;
+_.flipY = false;
+_.gameScreen = null;
+_.image = null;
+_.imageLayer = null;
+_.removeTick = 0;
+_.sound = null;
+_.x1 = 568;
+_.x2 = 0;
+_.y1 = 320;
+_.y2 = 0;
 function $onKeyDown(this$static, event_0){
   !!this$static.screen_0 && this$static.screen_0.onKeyDown(event_0);
 }
@@ -9933,7 +10144,7 @@ function BeanslingersGame_0(){
   this.updateRate = 33;
 }
 
-defineSeed(385, 253, {}, BeanslingersGame_0);
+defineSeed(392, 253, {}, BeanslingersGame_0);
 _.assets = null;
 _.screen_0 = null;
 function BeanstalkActor_0(gameScreen, index){
@@ -9942,8 +10153,13 @@ function BeanstalkActor_0(gameScreen, index){
   this.index_0 = index;
 }
 
-defineSeed(386, 384, makeCastMap([Q$Actor]), BeanstalkActor_0);
-_.init = function init_1(){
+defineSeed(393, 390, makeCastMap([Q$Actor]), BeanstalkActor_0);
+_.exit = function exit_2(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+}
+;
+_.init = function init_2(){
   this.assets = this.gameScreen.assets;
   this.image = $getImage(this.assets, 'images/beanstalk.png');
   this.collisionShape.userData = this;
@@ -9955,10 +10171,10 @@ _.init = function init_1(){
   this.gameScreen.groupLayer.add_1(this.imageLayer);
 }
 ;
-_.paint_2 = function paint_6(alpha){
+_.paint_2 = function paint_7(alpha){
 }
 ;
-_.update = function update_0(delta){
+_.update = function update_1(delta){
 }
 ;
 _.assets = null;
@@ -9973,9 +10189,15 @@ function BoulderActor_0(gameScreen, y, dx){
   this.dx = dx;
 }
 
-defineSeed(387, 384, makeCastMap([Q$Actor]), BoulderActor_0);
-_.init = function init_2(){
+defineSeed(394, 390, makeCastMap([Q$Actor]), BoulderActor_0);
+_.exit = function exit_3(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+}
+;
+_.init = function init_3(){
   this.assets = this.gameScreen.assets;
+  this.creationTick = $tick_0(platform_1);
   this.image = $getImage(this.assets, 'images/boulder.png');
   this.sound = $getSound(this.assets, 'sounds/shootBoulder');
   this.dAngle = (Math.random() < 0.5?-1:1) * 1.5 * (1 + Math.random());
@@ -9993,16 +10215,20 @@ _.init = function init_2(){
   $play_0(this.sound);
 }
 ;
-_.paint_2 = function paint_7(alpha){
-  var x, y;
+_.paint_2 = function paint_8(alpha){
+  var creationTickDiff, imageAlpha, x, y;
   x = lerp(this.x2, this.x1, alpha);
   y = lerp(this.y2, this.y1, alpha);
+  imageAlpha = 1;
+  creationTickDiff = $tick_0(platform_1) - this.creationTick;
+  creationTickDiff < 200 && (imageAlpha = creationTickDiff / 200);
   this.imageLayer.setTranslation(x, y);
   this.imageLayer.setRotation(this.angle);
   this.imageLayer.setScale_0(this.flipX?-4:4, this.flipY?-4:4);
+  this.imageLayer.setAlpha(imageAlpha);
 }
 ;
-_.update = function update_1(delta){
+_.update = function update_2(delta){
   var dt;
   if (this.removeTick <= $tick_0(platform_1)) {
     $removeActor(this.gameScreen, this);
@@ -10019,6 +10245,7 @@ _.update = function update_1(delta){
 ;
 _.angle = 0;
 _.assets = null;
+_.creationTick = 0;
 _.dAngle = 0;
 _.dx = 0;
 _.flipX = false;
@@ -10036,14 +10263,14 @@ function $setKey(this$static, key){
   this$static.key_0 = key;
 }
 
-defineSeed(389, 1, {});
+defineSeed(396, 1, {});
 _.key_0 = 0;
 _.userData = null;
 function CircleCollisionShape_0(){
   this.circle = new Circle_0;
 }
 
-defineSeed(388, 389, {}, CircleCollisionShape_0);
+defineSeed(395, 396, {}, CircleCollisionShape_0);
 function $addShape(this$static, shape){
   $setKey(shape, this$static.nextShapeKey++);
   $add_0(this$static.shapes, shape);
@@ -10075,7 +10302,7 @@ function CollisionDetector_0(){
   this.shapes = new ArrayList_0;
 }
 
-defineSeed(390, 1, {}, CollisionDetector_0);
+defineSeed(397, 1, {}, CollisionDetector_0);
 _.listener = null;
 _.nextShapeKey = 1;
 function $set_5(this$static, class1, class2){
@@ -10091,7 +10318,7 @@ function CollisionKey_1(class1, class2){
   this.class2 = class2;
 }
 
-defineSeed(391, 1, {}, CollisionKey_0, CollisionKey_1);
+defineSeed(398, 1, {}, CollisionKey_0, CollisionKey_1);
 _.equals$ = function equals_16(obj){
   var other;
   if (this === obj)
@@ -10125,11 +10352,11 @@ _.hashCode$ = function hashCode_17(){
 ;
 _.class1 = null;
 _.class2 = null;
-defineSeed(393, 1, {});
-_.exit = function exit_0(){
+defineSeed(400, 1, {});
+_.exit = function exit_4(){
 }
 ;
-_.init = function init_3(){
+_.init = function init_4(){
 }
 ;
 _.onKeyDown = function onKeyDown(event_0){
@@ -10138,22 +10365,22 @@ _.onKeyDown = function onKeyDown(event_0){
 _.onKeyUp = function onKeyUp(event_0){
 }
 ;
-_.paint_2 = function paint_8(alpha){
+_.paint_2 = function paint_9(alpha){
 }
 ;
-_.update = function update_2(delta){
+_.update = function update_3(delta){
 }
 ;
 function GameOverScreen_0(game){
   this.game = game;
 }
 
-defineSeed(392, 393, {}, GameOverScreen_0);
-_.exit = function exit_1(){
+defineSeed(399, 400, {}, GameOverScreen_0);
+_.exit = function exit_5(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_4(){
+_.init = function init_5(){
   var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.assets = this.game.assets;
   this.groupLayer = platform_1.graphics.createGroupLayer();
@@ -10211,8 +10438,7 @@ function $onCollision(this$static, shape1, shape2){
 function $removeActor(this$static, actor){
   var i;
   i = $lastIndexOf(this$static.actors, actor);
-  actor.gameScreen.groupLayer.remove_4(actor.imageLayer);
-  $removeShape(actor.gameScreen.collisionDetector, actor.collisionShape);
+  actor.exit();
   $set(this$static.actors, i);
 }
 
@@ -10229,12 +10455,12 @@ function GameScreen_0(game){
   this.game = game;
 }
 
-defineSeed(394, 393, {}, GameScreen_0);
-_.exit = function exit_2(){
+defineSeed(401, 400, {}, GameScreen_0);
+_.exit = function exit_6(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_5(){
+_.init = function init_6(){
   var backgroundImage, backgroundLayer;
   this.assets = this.game.assets;
   $put_2(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_PlayerActor_2_classLit, Lse_elemel_beanslingers_core_BoulderActor_2_classLit), new PlayerBoulderCollisionHandler_0);
@@ -10261,16 +10487,30 @@ _.onKeyDown = function onKeyDown_1(event_0){
     case 22:
       this.playerInputs[0].up = true;
       break;
+    case 0:
+      this.playerInputs[0].left_0 = true;
+      break;
     case 18:
       this.playerInputs[0].down = true;
+      break;
+    case 3:
+      this.playerInputs[0].right = true;
       break;
     case 8:
     case 115:
       this.playerInputs[1].up = true;
       break;
+    case 9:
+    case 111:
+      this.playerInputs[1].left_0 = true;
+      break;
     case 10:
     case 108:
       this.playerInputs[1].down = true;
+      break;
+    case 11:
+    case 114:
+      this.playerInputs[1].right = true;
   }
 }
 ;
@@ -10279,20 +10519,34 @@ _.onKeyUp = function onKeyUp_0(event_0){
     case 22:
       this.playerInputs[0].up = false;
       break;
+    case 0:
+      this.playerInputs[0].left_0 = false;
+      break;
     case 18:
       this.playerInputs[0].down = false;
+      break;
+    case 3:
+      this.playerInputs[0].right = false;
       break;
     case 8:
     case 115:
       this.playerInputs[1].up = false;
       break;
+    case 9:
+    case 111:
+      this.playerInputs[1].left_0 = false;
+      break;
     case 10:
     case 108:
       this.playerInputs[1].down = false;
+      break;
+    case 11:
+    case 114:
+      this.playerInputs[1].right = false;
   }
 }
 ;
-_.paint_2 = function paint_9(alpha){
+_.paint_2 = function paint_10(alpha){
   var actor, i, n;
   n = this.actors.size;
   for (i = 0; i < n; ++i) {
@@ -10301,7 +10555,7 @@ _.paint_2 = function paint_9(alpha){
   }
 }
 ;
-_.update = function update_3(delta){
+_.update = function update_4(delta){
   var actor, i, n;
   n = this.actors.size;
   for (i = 0; i < n; ++i) {
@@ -10319,8 +10573,10 @@ _.groupLayer = null;
 function GameScreen$PlayerInput_0(){
 }
 
-defineSeed(395, 1, makeCastMap([Q$GameScreen$PlayerInput]), GameScreen$PlayerInput_0);
+defineSeed(402, 1, makeCastMap([Q$GameScreen$PlayerInput]), GameScreen$PlayerInput_0);
 _.down = false;
+_.left_0 = false;
+_.right = false;
 _.up = false;
 function $aim(this$static){
   var target;
@@ -10349,8 +10605,12 @@ function GiantActor_0(gameScreen){
   this.gameScreen = gameScreen;
 }
 
-defineSeed(396, 384, makeCastMap([Q$Actor]), GiantActor_0);
-_.init = function init_6(){
+defineSeed(403, 390, makeCastMap([Q$Actor]), GiantActor_0);
+_.exit = function exit_7(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+}
+;
+_.init = function init_7(){
   this.assets = this.gameScreen.assets;
   this.image = $getImage(this.assets, 'images/giant.png');
   this.facingLeft = Math.random() < 0.5;
@@ -10363,11 +10623,11 @@ _.init = function init_6(){
   this.nextTurnTick = $tick_0(platform_1) + round_int(3000 + 3000 * Math.random());
 }
 ;
-_.paint_2 = function paint_10(alpha){
+_.paint_2 = function paint_11(alpha){
   this.imageLayer.setScale_0(this.facingLeft?-4:4, 4);
 }
 ;
-_.update = function update_4(delta){
+_.update = function update_5(delta){
   $updateBoulder(this);
 }
 ;
@@ -10378,6 +10638,8 @@ _.image = null;
 _.imageLayer = null;
 _.nextBoulderTick = 0;
 _.nextTurnTick = 0;
+--></script>
+<script><!--
 function $hit(this$static){
   if (!this$static.dead) {
     this$static.dead = true;
@@ -10404,14 +10666,29 @@ function $resetPosition(this$static){
   }
 }
 
+function $updateBean(this$static){
+  var dx;
+  if (this$static.nextBeanTick < $tick_0(platform_1) && !this$static.dead && this$static.input.left_0 ^ this$static.input.right) {
+    dx = (this$static.input.left_0?-1:1) * 500;
+    $addActor(this$static.gameScreen, new BeanActor_0(this$static.gameScreen, this$static.x1, this$static.y1, dx));
+    this$static.nextBeanTick = $tick_0(platform_1) + 200;
+  }
+}
+
 function PlayerActor_0(gameScreen, playerIndex){
   this.collisionShape = new CircleCollisionShape_0;
   this.gameScreen = gameScreen;
   this.playerIndex = playerIndex;
 }
 
-defineSeed(397, 384, makeCastMap([Q$Actor, Q$PlayerActor]), PlayerActor_0);
-_.init = function init_7(){
+defineSeed(404, 390, makeCastMap([Q$Actor, Q$PlayerActor]), PlayerActor_0);
+_.exit = function exit_8(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+  $setPlayerActor(this.gameScreen, this.playerIndex, null);
+}
+;
+_.init = function init_8(){
   this.assets = this.gameScreen.assets;
   this.input = $getPlayerInput(this.gameScreen, this.playerIndex);
   $setPlayerActor(this.gameScreen, this.playerIndex, this);
@@ -10423,13 +10700,14 @@ _.init = function init_7(){
   this.imageLayer.setScale(4);
   this.imageLayer.setOrigin(25, 25);
   this.gameScreen.groupLayer.add_1(this.imageLayer);
-  this.winTick = $tick_0(platform_1) + 10000;
+  this.winTick = $tick_0(platform_1) + 20000;
+  this.nextBeanTick = $tick_0(platform_1) + 500;
   this.hitBoulderSound = $getSound(this.assets, 'sounds/hitBoulder');
   this.x2 = this.x1;
   this.y2 = this.y1;
 }
 ;
-_.paint_2 = function paint_11(alpha){
+_.paint_2 = function paint_12(alpha){
   var angle, x, y;
   x = lerp(this.x2, this.x1, alpha);
   y = lerp(this.y2, this.y1, alpha);
@@ -10439,7 +10717,7 @@ _.paint_2 = function paint_11(alpha){
   this.imageLayer.setRotation(this.facingLeft?-angle:angle);
 }
 ;
-_.update = function update_5(delta){
+_.update = function update_6(delta){
   var game, dt, dt_0;
   if (!this.dead && this.winTick <= $tick_0(platform_1)) {
     game = this.gameScreen.game;
@@ -10460,6 +10738,7 @@ _.update = function update_5(delta){
   this.angle2 = this.angle1;
   this.dead?(dt = 0.0010000000474974513 * delta , this.x1 += this.dx * dt , this.angle1 += this.dAngle * dt , this.dy += 300 * dt , this.y1 += this.dy * dt , undefined):(dt_0 = 0.0010000000474974513 * delta , this.dy = (this.input.down?1:0) - (this.input.up?1:0) , this.y1 += 200 * this.dy * dt_0 , this.y1 = clamp(this.y1) , undefined);
   $set_3(this.collisionShape.circle, this.x1, this.y1, 25);
+  $updateBean(this);
 }
 ;
 _.angle1 = 0;
@@ -10476,6 +10755,7 @@ _.hitBoulderSound = null;
 _.image = null;
 _.imageLayer = null;
 _.input = null;
+_.nextBeanTick = 0;
 _.playerIndex = 0;
 _.respawnTick = 0;
 _.winTick = 0;
@@ -10492,19 +10772,24 @@ function $onCollision_0(shape1){
 function PlayerBoulderCollisionHandler_0(){
 }
 
-defineSeed(398, 1, {}, PlayerBoulderCollisionHandler_0);
+defineSeed(405, 1, {}, PlayerBoulderCollisionHandler_0);
+function $getPercentage(current, total){
+  return 100 * current / total < 0?round_int(100 * current / total - 0.5):round_int(100 * current / total + 0.5);
+}
+
 function TitleScreen_0(game){
   this.game = game;
 }
 
-defineSeed(399, 393, {}, TitleScreen_0);
-_.exit = function exit_3(){
+defineSeed(406, 400, {}, TitleScreen_0);
+_.exit = function exit_9(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_8(){
+_.init = function init_9(){
   var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.assets = this.game.assets;
+  this.watchedAssets = new WatchedAssets_0(this.assets);
   this.groupLayer = platform_1.graphics.createGroupLayer();
   platform_1.graphics.rootLayer_0().add_1(this.groupLayer);
   backgroundImage = $getImage(this.assets, 'images/blueSky.png');
@@ -10517,25 +10802,54 @@ _.init = function init_8(){
   imageLayer.setTranslation(568, 320);
   imageLayer.setScale(4);
   this.groupLayer.add_1(imageLayer);
+  $getImage_0(this.watchedAssets, 'images/background.png');
+  $getImage_0(this.watchedAssets, 'images/bean.png');
+  $getImage_0(this.watchedAssets, 'images/beanstalk.png');
+  $getImage_0(this.watchedAssets, 'images/blueSky.png');
+  $getImage_0(this.watchedAssets, 'images/boulder.png');
+  $getImage_0(this.watchedAssets, 'images/david.png');
+  $getImage_0(this.watchedAssets, 'images/gameOver.png');
+  $getImage_0(this.watchedAssets, 'images/giant.png');
+  $getImage_0(this.watchedAssets, 'images/jack.png');
+  $getImage_0(this.watchedAssets, 'images/title.png');
+  $getImage_0(this.watchedAssets, 'images/win.png');
+  $getSound_0(this.watchedAssets, 'sounds/hitBean');
+  $getSound_0(this.watchedAssets, 'sounds/hitBoulder');
+  $getSound_0(this.watchedAssets, 'sounds/shootBean');
+  $getSound_0(this.watchedAssets, 'sounds/shootBoulder');
+  this.totalRequestCount = 15;
+  this.pendingRequestCount = $getPendingRequestCount(this.watchedAssets);
 }
 ;
 _.onKeyDown = function onKeyDown_2(event_0){
   event_0.key_0.ordinal == 98 && $setScreen(this.game, new GameScreen_0(this.game));
 }
 ;
+_.update = function update_7(delta){
+  var percentage;
+  if (this.pendingRequestCount != $getPendingRequestCount(this.watchedAssets)) {
+    this.pendingRequestCount = $getPendingRequestCount(this.watchedAssets);
+    percentage = $getPercentage(this.totalRequestCount - this.pendingRequestCount, this.totalRequestCount);
+    $debug(platform_1.log_0, 'Loading... ' + percentage + '%');
+  }
+}
+;
 _.assets = null;
 _.game = null;
 _.groupLayer = null;
+_.pendingRequestCount = 0;
+_.totalRequestCount = 0;
+_.watchedAssets = null;
 function WinScreen_0(game){
   this.game = game;
 }
 
-defineSeed(400, 393, {}, WinScreen_0);
-_.exit = function exit_4(){
+defineSeed(407, 400, {}, WinScreen_0);
+_.exit = function exit_10(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_9(){
+_.init = function init_10(){
   var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.assets = this.game.assets;
   this.groupLayer = platform_1.graphics.createGroupLayer();
@@ -10577,7 +10891,7 @@ function gwtOnLoad(errFn, modName, modBase, softPermutationId){
 
 --></script>
 <script><!--
-var Ljava_lang_Object_2_classLit = createForClass(1), Lcom_google_gwt_core_client_JavaScriptObject_2_classLit = createForClass(38), Ljava_lang_Throwable_2_classLit = createForClass(46), Ljava_lang_Exception_2_classLit = createForClass(45), Ljava_lang_RuntimeException_2_classLit = createForClass(44), Ljava_lang_StackTraceElement_2_classLit = createForClass(214), _3Ljava_lang_StackTraceElement_2_classLit = createForArray(407), _3I_classLit = createForArray(408), Lcom_google_gwt_lang_SeedUtil_2_classLit = createForClass(130), Ljava_lang_Enum_2_classLit = createForClass(11), Ljava_lang_Number_2_classLit = createForClass(204), _3C_classLit = createForArray(409), Ljava_lang_Class_2_classLit = createForClass(202), Ljava_lang_Float_2_classLit = createForClass(203), Ljava_lang_Integer_2_classLit = createForClass(208), _3Ljava_lang_Integer_2_classLit = createForArray(410), Ljava_lang_String_2_classLit = createForClass(2), _3Ljava_lang_String_2_classLit = createForArray(406), Lplayn_html_HtmlGame$1_2_classLit = createForClass(327), Lplayn_html_HtmlGame$2_2_classLit = createForClass(328), Lcom_google_gwt_core_client_Scheduler_2_classLit = createForClass(52), Ljava_lang_StringBuilder_2_classLit = createForClass(217), Ljava_lang_ArrayStoreException_2_classLit = createForClass(200), Lcom_google_gwt_core_client_JavaScriptException_2_classLit = createForClass(43), Lcom_google_gwt_core_client_impl_StringBufferImpl_2_classLit = createForClass(63), Lcom_google_gwt_core_client_impl_SchedulerImpl_2_classLit = createForClass(54), Lcom_google_gwt_core_client_impl_SchedulerImpl$Flusher_2_classLit = createForClass(55), Lcom_google_gwt_core_client_impl_SchedulerImpl$Rescuer_2_classLit = createForClass(56), Lcom_google_gwt_core_client_impl_StackTraceCreator$Collector_2_classLit = createForClass(59), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorMoz_2_classLit = createForClass(61), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChrome_2_classLit = createForClass(60), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChromeNoSourceMap_2_classLit = createForClass(62), Lcom_google_gwt_core_client_impl_StringBufferImplAppend_2_classLit = createForClass(64), Lplayn_core_LogImpl_2_classLit = createForClass(260), Lplayn_core_Log$Level_2_classLit = createForEnum(259, values_9), _3Lplayn_core_Log$Level_2_classLit = createForArray(411), Lplayn_core_AbstractPlatform_2_classLit = createForClass(245), Lplayn_html_HtmlPlatform_2_classLit = createForClass(353), Lplayn_html_HtmlPlatform$Config_2_classLit = createForClass(356), Lplayn_html_HtmlPlatform$1_2_classLit = createForClass(354), Lplayn_html_HtmlLog_2_classLit = createForClass(341), Ljava_lang_NullPointerException_2_classLit = createForClass(211), Ljava_lang_IllegalArgumentException_2_classLit = createForClass(205), Lplayn_html_HtmlLogSimple_2_classLit = createForClass(342), Ljava_lang_StringBuffer_2_classLit = createForClass(216), Lplayn_core_AbstractAssets_2_classLit = createForClass(242), Lplayn_html_HtmlAssets_2_classLit = createForClass(320), Lplayn_core_Game$Default_2_classLit = createForClass(253), Lse_elemel_beanslingers_core_BeanslingersGame_2_classLit = createForClass(385), Lplayn_core_Events$Input$Impl_2_classLit = createForClass(251), Lplayn_core_Keyboard$Event$Impl_2_classLit = createForClass(256), Lplayn_core_Keyboard$TypedEvent$Impl_2_classLit = createForClass(257), Lplayn_core_Events$Flags$Impl_2_classLit = createForClass(250), Lplayn_core_Events$Position$Impl_2_classLit = createForClass(252), Lplayn_html_HtmlGraphics_2_classLit = createForClass(329), Lplayn_core_PointerImpl_2_classLit = createForClass(274), Lplayn_html_HtmlPointer_2_classLit = createForClass(357), Lplayn_html_HtmlPointer$1_2_classLit = createForClass(358), Lplayn_html_HtmlPointer$2_2_classLit = createForClass(359), Lplayn_html_HtmlPointer$3_2_classLit = createForClass(360), Lplayn_html_HtmlPointer$4_2_classLit = createForClass(361), Lplayn_html_HtmlPointer$5_2_classLit = createForClass(362), Lplayn_html_HtmlPointer$6_2_classLit = createForClass(363), Lplayn_core_PointerImpl$1_2_classLit = createForClass(275), Lplayn_core_PointerImpl$2_2_classLit = createForClass(276), Lplayn_core_PointerImpl$3_2_classLit = createForClass(277), Lplayn_core_Pointer$Event$Impl_2_classLit = createForClass(273), Lplayn_core_AbstractLayer_2_classLit = createForClass(243), _3Ljava_lang_Object_2_classLit = createForArray(405), Lplayn_core_AbstractLayer$Flag_2_classLit = createForEnum(244, values_7), _3Lplayn_core_AbstractLayer$Flag_2_classLit = createForArray(412), Lplayn_core_MouseImpl_2_classLit = createForClass(264), Lplayn_html_HtmlMouse_2_classLit = createForClass(343), Lplayn_html_HtmlMouse$1_2_classLit = createForClass(344), Lplayn_html_HtmlMouse$1XYEventHandler_2_classLit = createForClass(346), Lplayn_html_HtmlMouse$1MoveEventHandler_2_classLit = createForClass(345), Lplayn_html_HtmlMouse$2_2_classLit = createForClass(347), Lplayn_html_HtmlMouse$3_2_classLit = createForClass(348), Lplayn_html_HtmlMouse$4_2_classLit = createForClass(349), Lplayn_html_HtmlMouse$5_2_classLit = createForClass(350), Lplayn_html_HtmlMouse$6_2_classLit = createForClass(351), Lplayn_core_MouseImpl$1_2_classLit = createForClass(265), Lplayn_core_MouseImpl$2_2_classLit = createForClass(266), Lplayn_core_MouseImpl$3_2_classLit = createForClass(267), Lplayn_core_MouseImpl$4_2_classLit = createForClass(268), Lplayn_core_MouseImpl$5_2_classLit = createForClass(269), Lplayn_core_MouseImpl$6_2_classLit = createForClass(270), Lplayn_core_MouseImpl$7_2_classLit = createForClass(271), Lplayn_core_Mouse$ButtonEvent$Impl_2_classLit = createForClass(261), Lplayn_core_Mouse$MotionEvent$Impl_2_classLit = createForClass(262), Lplayn_core_Mouse$WheelEvent$Impl_2_classLit = createForClass(263), Lplayn_core_TouchImpl_2_classLit = createForClass(282), Lplayn_html_HtmlTouch_2_classLit = createForClass(367), Lplayn_core_Touch$Event$Impl_2_classLit = createForClass(281), _3Lplayn_core_Touch$Event$Impl_2_classLit = createForArray(413), Lplayn_html_HtmlTouch$1_2_classLit = createForClass(368), Lplayn_html_HtmlTouch$2_2_classLit = createForClass(369), Lplayn_html_HtmlTouch$3_2_classLit = createForClass(370), Lplayn_core_TouchImpl$1_2_classLit = createForClass(283), Lplayn_core_TouchImpl$2_2_classLit = createForClass(284), Lplayn_core_TouchImpl$3_2_classLit = createForClass(285), Lcom_google_web_bindery_event_shared_Event_2_classLit = createForClass(107), Lcom_google_gwt_event_shared_GwtEvent_2_classLit = createForClass(106), Lcom_google_gwt_user_client_Window$ClosingEvent_2_classLit = createForClass(166), Lcom_google_gwt_event_shared_HandlerManager_2_classLit = createForClass(115), Lcom_google_gwt_user_client_Window$WindowHandlers_2_classLit = createForClass(169), Lcom_google_web_bindery_event_shared_Event$Type_2_classLit = createForClass(110), Lcom_google_gwt_event_shared_GwtEvent$Type_2_classLit = createForClass(109), Lcom_google_web_bindery_event_shared_EventBus_2_classLit = createForClass(118), Lcom_google_web_bindery_event_shared_SimpleEventBus_2_classLit = createForClass(117), Lcom_google_gwt_event_shared_HandlerManager$Bus_2_classLit = createForClass(116), Lcom_google_web_bindery_event_shared_SimpleEventBus$1_2_classLit = createForClass(197), Lcom_google_web_bindery_event_shared_SimpleEventBus$2_2_classLit = createForClass(198), Lcom_google_web_bindery_event_shared_SimpleEventBus$3_2_classLit = createForClass(199), Lplayn_html_HtmlAnalytics_2_classLit = createForClass(319), Lplayn_html_HtmlAudio_2_classLit = createForClass(321), Lplayn_html_HtmlKeyboard_2_classLit = createForClass(337), Lplayn_html_HtmlKeyboard$1_2_classLit = createForClass(338), Lplayn_html_HtmlKeyboard$2_2_classLit = createForClass(339), Lplayn_html_HtmlKeyboard$3_2_classLit = createForClass(340), Lplayn_core_CachingAssets_2_classLit = createForClass(247), Lplayn_core_gl_GLContext_2_classLit = createForClass(295), Lplayn_core_gl_GLContext$Stats_2_classLit = createForClass(301), Lse_elemel_beanslingers_core_Screen_2_classLit = createForClass(393), Lse_elemel_beanslingers_core_TitleScreen_2_classLit = createForClass(399), Lplayn_core_util_RunQueue_2_classLit = createForClass(317), Lplayn_html_HtmlStorage_2_classLit = createForClass(366), Lplayn_html_HtmlGraphicsCanvas_2_classLit = createForClass(330), Lplayn_core_gl_AbstractCanvasGL_2_classLit = createForClass(289), Lplayn_html_AbstractHtmlCanvas_2_classLit = createForClass(318), Lplayn_html_HtmlGraphicsCanvas$1_2_classLit = createForClass(331), Lplayn_html_HtmlGraphicsGL_2_classLit = createForClass(332), Lplayn_html_HtmlInput$1_2_classLit = createForClass(335), Lcom_allen_1sauer_gwt_voices_client_SoundController_2_classLit = createForClass(12), Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForEnum(14, values_1), _3Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForArray(414), Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForEnum(13, values_0), _3Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForArray(415), Lcom_google_gwt_storage_client_Storage_2_classLit = createForClass(142), Lcom_google_gwt_storage_client_Storage$StorageSupportDetector_2_classLit = createForClass(143), Ljava_util_AbstractMap_2_classLit = createForClass(147), Lcom_google_gwt_storage_client_StorageMap_2_classLit = createForClass(146), Lcom_google_gwt_storage_client_StorageMap$StorageEntry_2_classLit = createForClass(148), Lcom_google_gwt_storage_client_StorageMap$StorageEntryIterator_2_classLit = createForClass(149), Ljava_util_AbstractCollection_2_classLit = createForClass(21), Ljava_util_AbstractSet_2_classLit = createForClass(151), Lcom_google_gwt_storage_client_StorageMap$StorageEntrySet_2_classLit = createForClass(150), Ljava_util_AbstractMap$1_2_classLit = createForClass(233), Ljava_util_AbstractMap$1$1_2_classLit = createForClass(234), Ljava_util_AbstractHashMap_2_classLit = createForClass(225), Ljava_util_HashMap_2_classLit = createForClass(237), Ljava_util_AbstractHashMap$EntrySet_2_classLit = createForClass(226), Ljava_util_AbstractHashMap$EntrySetIterator_2_classLit = createForClass(227), Ljava_util_AbstractMapEntry_2_classLit = createForClass(229), Ljava_util_AbstractHashMap$MapEntryNull_2_classLit = createForClass(228), Ljava_util_AbstractHashMap$MapEntryString_2_classLit = createForClass(230), Lplayn_core_gl_Scale_2_classLit = createForClass(315), Lplayn_core_canvas_LayerCanvas_2_classLit = createForClass(287), Lplayn_core_canvas_GroupLayerCanvas_2_classLit = createForClass(286), Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForEnum(40, values_2), _3Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForArray(416), Lplayn_core_gl_GL20Context_2_classLit = createForClass(294), Lplayn_html_HtmlGLContext_2_classLit = createForClass(325), _3F_classLit = createForArray(417), Lplayn_core_gl_LayerGL_2_classLit = createForClass(308), Lplayn_core_gl_GroupLayerGL_2_classLit = createForClass(307), Lpythagoras_f_AbstractPoint_2_classLit = createForClass(374), Lpythagoras_f_Point_2_classLit = createForClass(378), Ljava_lang_NumberFormatException_2_classLit = createForClass(213), Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForEnum(91, values_5), _3Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForArray(418), Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForEnum(81, values_3), _3Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForArray(419), Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForEnum(86, values_4), _3Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForArray(420), Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForEnum(101, values_6), _3Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForArray(421), Lcom_google_gwt_dom_client_Style$Unit$1_2_classLit = createForEnum(92, null), Lcom_google_gwt_dom_client_Style$Unit$2_2_classLit = createForEnum(93, null), Lcom_google_gwt_dom_client_Style$Unit$3_2_classLit = createForEnum(94, null), Lcom_google_gwt_dom_client_Style$Unit$4_2_classLit = createForEnum(95, null), Lcom_google_gwt_dom_client_Style$Unit$5_2_classLit = createForEnum(96, null), Lcom_google_gwt_dom_client_Style$Unit$6_2_classLit = createForEnum(97, null), Lcom_google_gwt_dom_client_Style$Unit$7_2_classLit = createForEnum(98, null), Lcom_google_gwt_dom_client_Style$Unit$8_2_classLit = createForEnum(99, null), Lcom_google_gwt_dom_client_Style$Unit$9_2_classLit = createForEnum(100, null), Lcom_google_gwt_dom_client_Style$Overflow$1_2_classLit = createForEnum(82, null), Lcom_google_gwt_dom_client_Style$Overflow$2_2_classLit = createForEnum(83, null), Lcom_google_gwt_dom_client_Style$Overflow$3_2_classLit = createForEnum(84, null), Lcom_google_gwt_dom_client_Style$Overflow$4_2_classLit = createForEnum(85, null), Lcom_google_gwt_dom_client_Style$Position$1_2_classLit = createForEnum(87, null), Lcom_google_gwt_dom_client_Style$Position$2_2_classLit = createForEnum(88, null), Lcom_google_gwt_dom_client_Style$Position$3_2_classLit = createForEnum(89, null), Lcom_google_gwt_dom_client_Style$Position$4_2_classLit = createForEnum(90, null), Lcom_google_gwt_dom_client_Style$Visibility$1_2_classLit = createForEnum(102, null), Lcom_google_gwt_dom_client_Style$Visibility$2_2_classLit = createForEnum(103, null), Lpythagoras_f_AbstractTransform_2_classLit = createForClass(280), Lplayn_html_HtmlInternalTransform_2_classLit = createForClass(336), Lpythagoras_f_AffineTransform_2_classLit = createForClass(279), Lplayn_core_StockInternalTransform_2_classLit = createForClass(278), Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForClass(323), _3Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForArray(422), Lplayn_html_HtmlGL20_2_classLit = createForClass(322), Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForEnum(324, values_10), _3Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForArray(423), Lplayn_core_Key_2_classLit = createForEnum(255, values_8), _3Lplayn_core_Key_2_classLit = createForArray(424), Lplayn_core_gl_AbstractImageGL_2_classLit = createForClass(290), Lplayn_core_gl_ImageGL_2_classLit = createForClass(309), Lplayn_html_HtmlImage_2_classLit = createForClass(333), Lplayn_core_gl_ImageLayerGL_2_classLit = createForClass(310), Ljava_lang_UnsupportedOperationException_2_classLit = createForClass(218), Lplayn_core_GroupLayerImpl_2_classLit = createForClass(254), Lplayn_core_gl_GLShader_2_classLit = createForClass(302), Lplayn_core_gl_GLShader$Core_2_classLit = createForClass(303), Lplayn_core_gl_GLShader$Extras_2_classLit = createForClass(304), Lplayn_core_gl_GLShader$TextureExtras_2_classLit = createForClass(305), Lplayn_core_gl_IndexedTrisShader_2_classLit = createForClass(311), Lplayn_core_gl_IndexedTrisShader$ITCore_2_classLit = createForClass(312), Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForClass(395), _3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForArray(425), Lse_elemel_beanslingers_core_Actor_2_classLit = createForClass(384), Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForClass(397), _3Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForArray(426), Lse_elemel_beanslingers_core_GameScreen_2_classLit = createForClass(394), Lse_elemel_beanslingers_core_BoulderActor_2_classLit = createForClass(387), Lse_elemel_beanslingers_core_CollisionDetector_2_classLit = createForClass(390), Lplayn_core_canvas_ImageLayerCanvas_2_classLit = createForClass(288), Lcom_google_gwt_user_client_ui_UIObject_2_classLit = createForClass(137), Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForClass(136), Lcom_google_gwt_user_client_ui_Panel_2_classLit = createForClass(175), Lcom_google_gwt_user_client_ui_ComplexPanel_2_classLit = createForClass(174), Lcom_google_gwt_user_client_ui_AbsolutePanel_2_classLit = createForClass(173), Lcom_google_gwt_user_client_ui_RootPanel_2_classLit = createForClass(180), Lcom_google_gwt_user_client_ui_RootPanel$DefaultRootPanel_2_classLit = createForClass(183), Lcom_google_gwt_user_client_ui_RootPanel$1_2_classLit = createForClass(181), Lcom_google_gwt_user_client_ui_RootPanel$2_2_classLit = createForClass(182), Lcom_google_web_bindery_event_shared_UmbrellaException_2_classLit = createForClass(121), Lcom_google_gwt_event_shared_UmbrellaException_2_classLit = createForClass(120), Lcom_google_gwt_user_client_ui_AttachDetachException_2_classLit = createForClass(176), Lcom_google_gwt_user_client_ui_AttachDetachException$1_2_classLit = createForClass(177), Lcom_google_gwt_user_client_ui_AttachDetachException$2_2_classLit = createForClass(178), Ljava_util_MapEntryImpl_2_classLit = createForClass(239), Lpythagoras_f_AbstractVector_2_classLit = createForClass(375), Lpythagoras_f_Vector_2_classLit = createForClass(381), Lplayn_core_gl_QuadShader_2_classLit = createForClass(313), Lplayn_core_gl_QuadShader$QuadCore_2_classLit = createForClass(314), Lpythagoras_util_NoninvertibleTransformException_2_classLit = createForClass(383), Ljava_util_HashSet_2_classLit = createForClass(238), Lcom_google_gwt_event_shared_LegacyHandlerWrapper_2_classLit = createForClass(119), Ljava_util_AbstractList_2_classLit = createForClass(20), Ljava_util_ArrayList_2_classLit = createForClass(19), Ljava_util_AbstractList$IteratorImpl_2_classLit = createForClass(231), Ljava_util_AbstractList$ListIteratorImpl_2_classLit = createForClass(232), Ljava_lang_IllegalStateException_2_classLit = createForClass(206), Lse_elemel_beanslingers_core_CollisionKey_2_classLit = createForClass(391), Lse_elemel_beanslingers_core_PlayerBoulderCollisionHandler_2_classLit = createForClass(398), Lse_elemel_beanslingers_core_BeanstalkActor_2_classLit = createForClass(386), Lse_elemel_beanslingers_core_GiantActor_2_classLit = createForClass(396), Lcom_google_gwt_event_logical_shared_CloseEvent_2_classLit = createForClass(114), Lse_elemel_beanslingers_core_CollisionShape_2_classLit = createForClass(389), Lplayn_html_HtmlPattern_2_classLit = createForClass(352), Lse_elemel_beanslingers_core_CircleCollisionShape_2_classLit = createForClass(388), Lse_elemel_beanslingers_core_WinScreen_2_classLit = createForClass(400), Lse_elemel_beanslingers_core_GameOverScreen_2_classLit = createForClass(392), Lpythagoras_f_AbstractCircle_2_classLit = createForClass(373), Lpythagoras_f_Circle_2_classLit = createForClass(376), Ljava_lang_IndexOutOfBoundsException_2_classLit = createForClass(207), Lplayn_core_gl_GL20Buffer_2_classLit = createForClass(291), Lplayn_core_gl_GL20Buffer$FloatImpl_2_classLit = createForClass(292), Lplayn_core_gl_GL20Buffer$ShortImpl_2_classLit = createForClass(293), Ljava_util_NoSuchElementException_2_classLit = createForClass(240), Lplayn_core_gl_GL20Program_2_classLit = createForClass(296), Lplayn_core_gl_GL20Program$2_2_classLit = createForClass(298), Lplayn_core_gl_GL20Program$5_2_classLit = createForClass(299), Lplayn_core_gl_GL20Program$8_2_classLit = createForClass(300), Lplayn_core_gl_GL20Program$10_2_classLit = createForClass(297), Lplayn_core_AbstractSound_2_classLit = createForClass(246), Lplayn_html_HtmlSound_2_classLit = createForClass(364), Lplayn_html_HtmlSound$1_2_classLit = createForClass(365), Ljava_nio_Buffer_2_classLit = createForClass(219), Ljava_nio_ByteBuffer_2_classLit = createForClass(220), Ljava_nio_FloatBuffer_2_classLit = createForClass(222), Ljava_nio_ByteOrder_2_classLit = createForClass(221), Ljava_nio_IntBuffer_2_classLit = createForClass(223), Ljava_nio_ShortBuffer_2_classLit = createForClass(224), Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForEnum(10, values), _3Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForArray(427), Ljava_util_Collections$EmptyList_2_classLit = createForClass(236), Lcom_allen_1sauer_gwt_voices_client_AbstractSound_2_classLit = createForClass(3), Lcom_allen_1sauer_gwt_voices_client_FlashSound_2_classLit = createForClass(4), Lcom_allen_1sauer_gwt_voices_client_FlashSound$1_2_classLit = createForClass(5), Lcom_allen_1sauer_gwt_voices_client_FlashSound$2_2_classLit = createForClass(6), Lcom_allen_1sauer_gwt_voices_client_NativeSound_2_classLit = createForClass(9), Lcom_allen_1sauer_gwt_voices_client_Html5Sound_2_classLit = createForClass(7), Lcom_allen_1sauer_gwt_voices_client_Html5Sound$1_2_classLit = createForClass(8), Lcom_allen_1sauer_gwt_voices_client_ui_FlashMovie_2_classLit = createForClass(23), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie_2_classLit = createForClass(24), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie$1_2_classLit = createForClass(25), Lcom_allen_1sauer_gwt_voices_client_WebAudioSound_2_classLit = createForClass(15), Lcom_google_gwt_user_client_ui_FocusWidget_2_classLit = createForClass(135), Lcom_google_gwt_media_client_MediaBase_2_classLit = createForClass(134), Lcom_google_gwt_media_client_Audio_2_classLit = createForClass(133), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetector_2_classLit = createForClass(139), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetectedMaybe_2_classLit = createForClass(138), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImpl_2_classLit = createForClass(26), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplPlayN_2_classLit = createForClass(28), Lcom_allen_1sauer_gwt_voices_client_handler_SoundHandlerCollection_2_classLit = createForClass(18), Ljava_util_EventObject_2_classLit = createForClass(17), Lcom_allen_1sauer_gwt_voices_client_handler_SoundLoadStateChangeEvent_2_classLit = createForClass(22), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplIE6_2_classLit = createForClass(27), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplStandard_2_classLit = createForClass(30), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplSafari_2_classLit = createForClass(29), Lcom_google_gwt_event_dom_client_DomEvent_2_classLit = createForClass(105), Lcom_google_gwt_event_dom_client_EndedEvent_2_classLit = createForClass(111), Lcom_google_gwt_event_dom_client_DomEvent$Type_2_classLit = createForClass(108), Lcom_google_gwt_user_client_ui_WidgetCollection_2_classLit = createForClass(184), _3Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForArray(428), Lcom_google_gwt_user_client_ui_WidgetCollection$WidgetIterator_2_classLit = createForClass(185), Lcom_allen_1sauer_gwt_voices_client_handler_PlaybackCompleteEvent_2_classLit = createForClass(16), Lcom_google_gwt_event_dom_client_PrivateMap_2_classLit = createForClass(112);
+var Ljava_lang_Object_2_classLit = createForClass(1), Lcom_google_gwt_core_client_JavaScriptObject_2_classLit = createForClass(38), Ljava_lang_Throwable_2_classLit = createForClass(46), Ljava_lang_Exception_2_classLit = createForClass(45), Ljava_lang_RuntimeException_2_classLit = createForClass(44), Ljava_lang_StackTraceElement_2_classLit = createForClass(214), _3Ljava_lang_StackTraceElement_2_classLit = createForArray(414), _3I_classLit = createForArray(415), Lcom_google_gwt_lang_SeedUtil_2_classLit = createForClass(130), Ljava_lang_Enum_2_classLit = createForClass(11), Ljava_lang_Number_2_classLit = createForClass(204), _3C_classLit = createForArray(416), Ljava_lang_Class_2_classLit = createForClass(202), Ljava_lang_Float_2_classLit = createForClass(203), Ljava_lang_Integer_2_classLit = createForClass(208), _3Ljava_lang_Integer_2_classLit = createForArray(417), Ljava_lang_String_2_classLit = createForClass(2), _3Ljava_lang_String_2_classLit = createForArray(413), Lplayn_html_HtmlGame$1_2_classLit = createForClass(331), Lplayn_html_HtmlGame$2_2_classLit = createForClass(332), Lcom_google_gwt_core_client_Scheduler_2_classLit = createForClass(52), Ljava_lang_StringBuilder_2_classLit = createForClass(217), Ljava_lang_ArrayStoreException_2_classLit = createForClass(200), Lcom_google_gwt_core_client_JavaScriptException_2_classLit = createForClass(43), Lcom_google_gwt_core_client_impl_StringBufferImpl_2_classLit = createForClass(63), Lcom_google_gwt_core_client_impl_SchedulerImpl_2_classLit = createForClass(54), Lcom_google_gwt_core_client_impl_SchedulerImpl$Flusher_2_classLit = createForClass(55), Lcom_google_gwt_core_client_impl_SchedulerImpl$Rescuer_2_classLit = createForClass(56), Lcom_google_gwt_core_client_impl_StackTraceCreator$Collector_2_classLit = createForClass(59), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorMoz_2_classLit = createForClass(61), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChrome_2_classLit = createForClass(60), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChromeNoSourceMap_2_classLit = createForClass(62), Lcom_google_gwt_core_client_impl_StringBufferImplAppend_2_classLit = createForClass(64), Lplayn_core_LogImpl_2_classLit = createForClass(260), Lplayn_core_Log$Level_2_classLit = createForEnum(259, values_9), _3Lplayn_core_Log$Level_2_classLit = createForArray(418), Lplayn_core_AbstractPlatform_2_classLit = createForClass(245), Lplayn_html_HtmlPlatform_2_classLit = createForClass(359), Lplayn_html_HtmlPlatform$Config_2_classLit = createForClass(362), Lplayn_html_HtmlPlatform$1_2_classLit = createForClass(360), Lplayn_html_HtmlLog_2_classLit = createForClass(347), Ljava_lang_NullPointerException_2_classLit = createForClass(211), Ljava_lang_IllegalArgumentException_2_classLit = createForClass(205), Lplayn_html_HtmlLogSimple_2_classLit = createForClass(348), Ljava_lang_StringBuffer_2_classLit = createForClass(216), Lplayn_core_AbstractAssets_2_classLit = createForClass(242), Lplayn_html_HtmlAssets_2_classLit = createForClass(324), Lplayn_core_Game$Default_2_classLit = createForClass(253), Lse_elemel_beanslingers_core_BeanslingersGame_2_classLit = createForClass(392), Lplayn_core_Events$Input$Impl_2_classLit = createForClass(251), Lplayn_core_Keyboard$Event$Impl_2_classLit = createForClass(256), Lplayn_core_Keyboard$TypedEvent$Impl_2_classLit = createForClass(257), Lplayn_core_Events$Flags$Impl_2_classLit = createForClass(250), Lplayn_core_Events$Position$Impl_2_classLit = createForClass(252), Lplayn_html_HtmlGraphics_2_classLit = createForClass(333), Lplayn_core_PointerImpl_2_classLit = createForClass(274), Lplayn_html_HtmlPointer_2_classLit = createForClass(363), Lplayn_html_HtmlPointer$1_2_classLit = createForClass(364), Lplayn_html_HtmlPointer$2_2_classLit = createForClass(365), Lplayn_html_HtmlPointer$3_2_classLit = createForClass(366), Lplayn_html_HtmlPointer$4_2_classLit = createForClass(367), Lplayn_html_HtmlPointer$5_2_classLit = createForClass(368), Lplayn_html_HtmlPointer$6_2_classLit = createForClass(369), Lplayn_core_PointerImpl$1_2_classLit = createForClass(275), Lplayn_core_PointerImpl$2_2_classLit = createForClass(276), Lplayn_core_PointerImpl$3_2_classLit = createForClass(277), Lplayn_core_Pointer$Event$Impl_2_classLit = createForClass(273), Lplayn_core_AbstractLayer_2_classLit = createForClass(243), _3Ljava_lang_Object_2_classLit = createForArray(412), Lplayn_core_AbstractLayer$Flag_2_classLit = createForEnum(244, values_7), _3Lplayn_core_AbstractLayer$Flag_2_classLit = createForArray(419), Lplayn_core_MouseImpl_2_classLit = createForClass(264), Lplayn_html_HtmlMouse_2_classLit = createForClass(349), Lplayn_html_HtmlMouse$1_2_classLit = createForClass(350), Lplayn_html_HtmlMouse$1XYEventHandler_2_classLit = createForClass(352), Lplayn_html_HtmlMouse$1MoveEventHandler_2_classLit = createForClass(351), Lplayn_html_HtmlMouse$2_2_classLit = createForClass(353), Lplayn_html_HtmlMouse$3_2_classLit = createForClass(354), Lplayn_html_HtmlMouse$4_2_classLit = createForClass(355), Lplayn_html_HtmlMouse$5_2_classLit = createForClass(356), Lplayn_html_HtmlMouse$6_2_classLit = createForClass(357), Lplayn_core_MouseImpl$1_2_classLit = createForClass(265), Lplayn_core_MouseImpl$2_2_classLit = createForClass(266), Lplayn_core_MouseImpl$3_2_classLit = createForClass(267), Lplayn_core_MouseImpl$4_2_classLit = createForClass(268), Lplayn_core_MouseImpl$5_2_classLit = createForClass(269), Lplayn_core_MouseImpl$6_2_classLit = createForClass(270), Lplayn_core_MouseImpl$7_2_classLit = createForClass(271), Lplayn_core_Mouse$ButtonEvent$Impl_2_classLit = createForClass(261), Lplayn_core_Mouse$MotionEvent$Impl_2_classLit = createForClass(262), Lplayn_core_Mouse$WheelEvent$Impl_2_classLit = createForClass(263), Lplayn_core_TouchImpl_2_classLit = createForClass(283), Lplayn_html_HtmlTouch_2_classLit = createForClass(373), Lplayn_core_Touch$Event$Impl_2_classLit = createForClass(282), _3Lplayn_core_Touch$Event$Impl_2_classLit = createForArray(420), Lplayn_html_HtmlTouch$1_2_classLit = createForClass(374), Lplayn_html_HtmlTouch$2_2_classLit = createForClass(375), Lplayn_html_HtmlTouch$3_2_classLit = createForClass(376), Lplayn_core_TouchImpl$1_2_classLit = createForClass(284), Lplayn_core_TouchImpl$2_2_classLit = createForClass(285), Lplayn_core_TouchImpl$3_2_classLit = createForClass(286), Lcom_google_web_bindery_event_shared_Event_2_classLit = createForClass(107), Lcom_google_gwt_event_shared_GwtEvent_2_classLit = createForClass(106), Lcom_google_gwt_user_client_Window$ClosingEvent_2_classLit = createForClass(166), Lcom_google_gwt_event_shared_HandlerManager_2_classLit = createForClass(115), Lcom_google_gwt_user_client_Window$WindowHandlers_2_classLit = createForClass(169), Lcom_google_web_bindery_event_shared_Event$Type_2_classLit = createForClass(110), Lcom_google_gwt_event_shared_GwtEvent$Type_2_classLit = createForClass(109), Lcom_google_web_bindery_event_shared_EventBus_2_classLit = createForClass(118), Lcom_google_web_bindery_event_shared_SimpleEventBus_2_classLit = createForClass(117), Lcom_google_gwt_event_shared_HandlerManager$Bus_2_classLit = createForClass(116), Lcom_google_web_bindery_event_shared_SimpleEventBus$1_2_classLit = createForClass(197), Lcom_google_web_bindery_event_shared_SimpleEventBus$2_2_classLit = createForClass(198), Lcom_google_web_bindery_event_shared_SimpleEventBus$3_2_classLit = createForClass(199), Lplayn_html_HtmlAnalytics_2_classLit = createForClass(323), Lplayn_html_HtmlAudio_2_classLit = createForClass(325), Lplayn_html_HtmlKeyboard_2_classLit = createForClass(343), Lplayn_html_HtmlKeyboard$1_2_classLit = createForClass(344), Lplayn_html_HtmlKeyboard$2_2_classLit = createForClass(345), Lplayn_html_HtmlKeyboard$3_2_classLit = createForClass(346), Lplayn_core_CachingAssets_2_classLit = createForClass(247), Lplayn_core_gl_GLContext_2_classLit = createForClass(298), Lplayn_core_gl_GLContext$Stats_2_classLit = createForClass(304), Lse_elemel_beanslingers_core_Screen_2_classLit = createForClass(400), Lse_elemel_beanslingers_core_TitleScreen_2_classLit = createForClass(406), Lplayn_core_util_RunQueue_2_classLit = createForClass(321), Lplayn_html_HtmlStorage_2_classLit = createForClass(372), Lplayn_html_HtmlGraphicsCanvas_2_classLit = createForClass(334), Lplayn_core_gl_AbstractCanvasGL_2_classLit = createForClass(292), Lplayn_html_AbstractHtmlCanvas_2_classLit = createForClass(322), Lplayn_html_HtmlGraphicsCanvas$1_2_classLit = createForClass(335), Lplayn_html_HtmlGraphicsGL_2_classLit = createForClass(336), Lplayn_html_HtmlInput$1_2_classLit = createForClass(341), Lcom_allen_1sauer_gwt_voices_client_SoundController_2_classLit = createForClass(12), Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForEnum(14, values_1), _3Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForArray(421), Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForEnum(13, values_0), _3Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForArray(422), Lcom_google_gwt_storage_client_Storage_2_classLit = createForClass(142), Lcom_google_gwt_storage_client_Storage$StorageSupportDetector_2_classLit = createForClass(143), Ljava_util_AbstractMap_2_classLit = createForClass(147), Lcom_google_gwt_storage_client_StorageMap_2_classLit = createForClass(146), Lcom_google_gwt_storage_client_StorageMap$StorageEntry_2_classLit = createForClass(148), Lcom_google_gwt_storage_client_StorageMap$StorageEntryIterator_2_classLit = createForClass(149), Ljava_util_AbstractCollection_2_classLit = createForClass(21), Ljava_util_AbstractSet_2_classLit = createForClass(151), Lcom_google_gwt_storage_client_StorageMap$StorageEntrySet_2_classLit = createForClass(150), Ljava_util_AbstractMap$1_2_classLit = createForClass(233), Ljava_util_AbstractMap$1$1_2_classLit = createForClass(234), Ljava_util_AbstractHashMap_2_classLit = createForClass(225), Ljava_util_HashMap_2_classLit = createForClass(237), Ljava_util_AbstractHashMap$EntrySet_2_classLit = createForClass(226), Ljava_util_AbstractHashMap$EntrySetIterator_2_classLit = createForClass(227), Ljava_util_AbstractMapEntry_2_classLit = createForClass(229), Ljava_util_AbstractHashMap$MapEntryNull_2_classLit = createForClass(228), Ljava_util_AbstractHashMap$MapEntryString_2_classLit = createForClass(230), Lplayn_core_gl_Scale_2_classLit = createForClass(318), Lplayn_core_canvas_LayerCanvas_2_classLit = createForClass(290), Lplayn_core_canvas_GroupLayerCanvas_2_classLit = createForClass(289), Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForEnum(40, values_2), _3Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForArray(423), Lplayn_core_gl_GL20Context_2_classLit = createForClass(297), Lplayn_html_HtmlGLContext_2_classLit = createForClass(329), _3F_classLit = createForArray(424), Lplayn_core_gl_LayerGL_2_classLit = createForClass(311), Lplayn_core_gl_GroupLayerGL_2_classLit = createForClass(310), Lpythagoras_f_AbstractPoint_2_classLit = createForClass(380), Lpythagoras_f_Point_2_classLit = createForClass(384), Ljava_lang_NumberFormatException_2_classLit = createForClass(213), Lplayn_core_WatchedAssets_2_classLit = createForClass(287), Lplayn_core_WatchedAssets$1_2_classLit = createForClass(288), Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForEnum(91, values_5), _3Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForArray(425), Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForEnum(81, values_3), _3Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForArray(426), Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForEnum(86, values_4), _3Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForArray(427), Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForEnum(101, values_6), _3Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForArray(428), Lcom_google_gwt_dom_client_Style$Unit$1_2_classLit = createForEnum(92, null), Lcom_google_gwt_dom_client_Style$Unit$2_2_classLit = createForEnum(93, null), Lcom_google_gwt_dom_client_Style$Unit$3_2_classLit = createForEnum(94, null), Lcom_google_gwt_dom_client_Style$Unit$4_2_classLit = createForEnum(95, null), Lcom_google_gwt_dom_client_Style$Unit$5_2_classLit = createForEnum(96, null), Lcom_google_gwt_dom_client_Style$Unit$6_2_classLit = createForEnum(97, null), Lcom_google_gwt_dom_client_Style$Unit$7_2_classLit = createForEnum(98, null), Lcom_google_gwt_dom_client_Style$Unit$8_2_classLit = createForEnum(99, null), Lcom_google_gwt_dom_client_Style$Unit$9_2_classLit = createForEnum(100, null), Lcom_google_gwt_dom_client_Style$Overflow$1_2_classLit = createForEnum(82, null), Lcom_google_gwt_dom_client_Style$Overflow$2_2_classLit = createForEnum(83, null), Lcom_google_gwt_dom_client_Style$Overflow$3_2_classLit = createForEnum(84, null), Lcom_google_gwt_dom_client_Style$Overflow$4_2_classLit = createForEnum(85, null), Lcom_google_gwt_dom_client_Style$Position$1_2_classLit = createForEnum(87, null), Lcom_google_gwt_dom_client_Style$Position$2_2_classLit = createForEnum(88, null), Lcom_google_gwt_dom_client_Style$Position$3_2_classLit = createForEnum(89, null), Lcom_google_gwt_dom_client_Style$Position$4_2_classLit = createForEnum(90, null), Lcom_google_gwt_dom_client_Style$Visibility$1_2_classLit = createForEnum(102, null), Lcom_google_gwt_dom_client_Style$Visibility$2_2_classLit = createForEnum(103, null), Lpythagoras_f_AbstractTransform_2_classLit = createForClass(280), Lplayn_html_HtmlInternalTransform_2_classLit = createForClass(342), Lpythagoras_f_AffineTransform_2_classLit = createForClass(279), Lplayn_core_StockInternalTransform_2_classLit = createForClass(278), Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForClass(327), _3Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForArray(429), Lplayn_html_HtmlGL20_2_classLit = createForClass(326), Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForEnum(328, values_10), _3Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForArray(430), Lplayn_core_Key_2_classLit = createForEnum(255, values_8), _3Lplayn_core_Key_2_classLit = createForArray(431), Lplayn_core_gl_AbstractImageGL_2_classLit = createForClass(293), Lplayn_core_gl_ImageGL_2_classLit = createForClass(312), Lplayn_html_HtmlImage_2_classLit = createForClass(337), Lplayn_html_HtmlImage$1_2_classLit = createForClass(338), Lplayn_html_HtmlImage$2_2_classLit = createForClass(339), Lplayn_core_gl_ImageLayerGL_2_classLit = createForClass(313), Ljava_lang_UnsupportedOperationException_2_classLit = createForClass(218), Lplayn_core_GroupLayerImpl_2_classLit = createForClass(254), Lplayn_core_gl_GLShader_2_classLit = createForClass(305), Lplayn_core_gl_GLShader$Core_2_classLit = createForClass(306), Lplayn_core_gl_GLShader$Extras_2_classLit = createForClass(307), Lplayn_core_gl_GLShader$TextureExtras_2_classLit = createForClass(308), Lplayn_core_gl_IndexedTrisShader_2_classLit = createForClass(314), Lplayn_core_gl_IndexedTrisShader$ITCore_2_classLit = createForClass(315), Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForClass(402), _3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForArray(432), Lse_elemel_beanslingers_core_Actor_2_classLit = createForClass(390), Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForClass(404), _3Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForArray(433), Lse_elemel_beanslingers_core_GameScreen_2_classLit = createForClass(401), Lse_elemel_beanslingers_core_BoulderActor_2_classLit = createForClass(394), Lse_elemel_beanslingers_core_CollisionDetector_2_classLit = createForClass(397), Lplayn_core_canvas_ImageLayerCanvas_2_classLit = createForClass(291), Lplayn_core_AbstractSound_2_classLit = createForClass(246), Lplayn_html_HtmlSound_2_classLit = createForClass(370), Lplayn_html_HtmlSound$1_2_classLit = createForClass(371), Lcom_google_gwt_user_client_ui_UIObject_2_classLit = createForClass(137), Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForClass(136), Lcom_google_gwt_user_client_ui_Panel_2_classLit = createForClass(175), Lcom_google_gwt_user_client_ui_ComplexPanel_2_classLit = createForClass(174), Lcom_google_gwt_user_client_ui_AbsolutePanel_2_classLit = createForClass(173), Lcom_google_gwt_user_client_ui_RootPanel_2_classLit = createForClass(180), Lcom_google_gwt_user_client_ui_RootPanel$DefaultRootPanel_2_classLit = createForClass(183), Lcom_google_gwt_user_client_ui_RootPanel$1_2_classLit = createForClass(181), Lcom_google_gwt_user_client_ui_RootPanel$2_2_classLit = createForClass(182), Lcom_google_web_bindery_event_shared_UmbrellaException_2_classLit = createForClass(121), Lcom_google_gwt_event_shared_UmbrellaException_2_classLit = createForClass(120), Lcom_google_gwt_user_client_ui_AttachDetachException_2_classLit = createForClass(176), Lcom_google_gwt_user_client_ui_AttachDetachException$1_2_classLit = createForClass(177), Lcom_google_gwt_user_client_ui_AttachDetachException$2_2_classLit = createForClass(178), Ljava_util_MapEntryImpl_2_classLit = createForClass(239), Lpythagoras_f_AbstractVector_2_classLit = createForClass(381), Lpythagoras_f_Vector_2_classLit = createForClass(387), Lplayn_core_gl_QuadShader_2_classLit = createForClass(316), Lplayn_core_gl_QuadShader$QuadCore_2_classLit = createForClass(317), Lpythagoras_util_NoninvertibleTransformException_2_classLit = createForClass(389), Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForEnum(10, values), _3Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForArray(434), Ljava_util_HashSet_2_classLit = createForClass(238), Lcom_google_gwt_event_shared_LegacyHandlerWrapper_2_classLit = createForClass(119), Ljava_util_AbstractList_2_classLit = createForClass(20), Ljava_util_ArrayList_2_classLit = createForClass(19), Ljava_util_AbstractList$IteratorImpl_2_classLit = createForClass(231), Ljava_util_AbstractList$ListIteratorImpl_2_classLit = createForClass(232), Ljava_lang_IllegalStateException_2_classLit = createForClass(206), Lse_elemel_beanslingers_core_CollisionKey_2_classLit = createForClass(398), Lse_elemel_beanslingers_core_PlayerBoulderCollisionHandler_2_classLit = createForClass(405), Lse_elemel_beanslingers_core_BeanstalkActor_2_classLit = createForClass(393), Lse_elemel_beanslingers_core_GiantActor_2_classLit = createForClass(403), Lcom_google_gwt_event_logical_shared_CloseEvent_2_classLit = createForClass(114), Lse_elemel_beanslingers_core_CollisionShape_2_classLit = createForClass(396), Lplayn_html_HtmlPattern_2_classLit = createForClass(358), Lse_elemel_beanslingers_core_CircleCollisionShape_2_classLit = createForClass(395), Lse_elemel_beanslingers_core_WinScreen_2_classLit = createForClass(407), Lse_elemel_beanslingers_core_GameOverScreen_2_classLit = createForClass(399), Lpythagoras_f_AbstractCircle_2_classLit = createForClass(379), Lpythagoras_f_Circle_2_classLit = createForClass(382), Lcom_allen_1sauer_gwt_voices_client_AbstractSound_2_classLit = createForClass(3), Lcom_allen_1sauer_gwt_voices_client_FlashSound_2_classLit = createForClass(4), Lcom_allen_1sauer_gwt_voices_client_FlashSound$1_2_classLit = createForClass(5), Lcom_allen_1sauer_gwt_voices_client_FlashSound$2_2_classLit = createForClass(6), Lcom_allen_1sauer_gwt_voices_client_NativeSound_2_classLit = createForClass(9), Ljava_lang_IndexOutOfBoundsException_2_classLit = createForClass(207), Lplayn_core_gl_GL20Buffer_2_classLit = createForClass(294), Lplayn_core_gl_GL20Buffer$FloatImpl_2_classLit = createForClass(295), Lplayn_core_gl_GL20Buffer$ShortImpl_2_classLit = createForClass(296), Lse_elemel_beanslingers_core_BeanActor_2_classLit = createForClass(391), Lcom_allen_1sauer_gwt_voices_client_Html5Sound_2_classLit = createForClass(7), Lcom_allen_1sauer_gwt_voices_client_Html5Sound$1_2_classLit = createForClass(8), Lcom_allen_1sauer_gwt_voices_client_ui_FlashMovie_2_classLit = createForClass(23), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie_2_classLit = createForClass(24), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie$1_2_classLit = createForClass(25), Lcom_allen_1sauer_gwt_voices_client_WebAudioSound_2_classLit = createForClass(15), Ljava_util_NoSuchElementException_2_classLit = createForClass(240), Lplayn_core_gl_GL20Program_2_classLit = createForClass(299), Lplayn_core_gl_GL20Program$2_2_classLit = createForClass(301), Lplayn_core_gl_GL20Program$5_2_classLit = createForClass(302), Lplayn_core_gl_GL20Program$8_2_classLit = createForClass(303), Lplayn_core_gl_GL20Program$10_2_classLit = createForClass(300), Lcom_google_gwt_user_client_ui_FocusWidget_2_classLit = createForClass(135), Lcom_google_gwt_media_client_MediaBase_2_classLit = createForClass(134), Lcom_google_gwt_media_client_Audio_2_classLit = createForClass(133), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetector_2_classLit = createForClass(139), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetectedMaybe_2_classLit = createForClass(138), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImpl_2_classLit = createForClass(26), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplPlayN_2_classLit = createForClass(28), Lcom_allen_1sauer_gwt_voices_client_handler_SoundHandlerCollection_2_classLit = createForClass(18), Ljava_util_EventObject_2_classLit = createForClass(17), Lcom_allen_1sauer_gwt_voices_client_handler_SoundLoadStateChangeEvent_2_classLit = createForClass(22), Ljava_nio_Buffer_2_classLit = createForClass(219), Ljava_nio_ByteBuffer_2_classLit = createForClass(220), Ljava_nio_FloatBuffer_2_classLit = createForClass(222), Ljava_nio_ByteOrder_2_classLit = createForClass(221), Ljava_nio_IntBuffer_2_classLit = createForClass(223), Ljava_nio_ShortBuffer_2_classLit = createForClass(224), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplIE6_2_classLit = createForClass(27), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplStandard_2_classLit = createForClass(30), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplSafari_2_classLit = createForClass(29), Lcom_google_gwt_event_dom_client_DomEvent_2_classLit = createForClass(105), Lcom_google_gwt_event_dom_client_EndedEvent_2_classLit = createForClass(111), Lcom_google_gwt_event_dom_client_DomEvent$Type_2_classLit = createForClass(108), Ljava_util_Collections$EmptyList_2_classLit = createForClass(236), Lcom_google_gwt_user_client_ui_WidgetCollection_2_classLit = createForClass(184), _3Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForArray(435), Lcom_google_gwt_user_client_ui_WidgetCollection$WidgetIterator_2_classLit = createForClass(185), Lcom_allen_1sauer_gwt_voices_client_handler_PlaybackCompleteEvent_2_classLit = createForClass(16), Lcom_google_gwt_event_dom_client_PrivateMap_2_classLit = createForClass(112);
 $stats && $stats({moduleName:'beanslingers',sessionId:$sessionId,subSystem:'startup',evtGroup:'moduleStartup',millis:(new Date()).getTime(),type:'moduleEvalEnd'});
 if ($wnd.beanslingers) $wnd.beanslingers.onScriptLoad();
 --></script></body></html>
