@@ -4,14 +4,14 @@ var $gwt_version = "2.5.0";
 var $wnd = parent;
 var $doc = $wnd.document;
 var $moduleName, $moduleBase;
-var $strongName = 'CEDB8D83C34A2073B0FCD064930E60BD';
+var $strongName = 'DD2D5A4D48A6A17D07A64B6A27327C5F';
 var $stats = $wnd.__gwtStatsEvent ? function(a) {return $wnd.__gwtStatsEvent(a);} : null,
 $sessionId = $wnd.__gwtStatsSessionId ? $wnd.__gwtStatsSessionId : null;
 $stats && $stats({moduleName:'beanslingers',sessionId:$sessionId,subSystem:'startup',evtGroup:'moduleStartup',millis:(new Date()).getTime(),type:'moduleEvalStart'});
 </script></head>
 <body>
 <script><!--
-var _, seedTable = {}, Q$Object = 0, Q$String = 1, Q$Sound$LoadState = 2, Q$SoundController$MimeTypeSupport = 3, Q$SoundType = 4, Q$Context2d$Repetition = 5, Q$Style$HasCssName = 6, Q$Style$Overflow = 7, Q$Style$Position = 8, Q$Style$Unit = 9, Q$Style$Visibility = 10, Q$HasAttachHandlers = 11, Q$HasHandlers = 12, Q$LongLibBase$LongEmul = 13, Q$EventListener = 14, Q$HasVisibility = 15, Q$IsWidget = 16, Q$UIObject = 17, Q$Widget = 18, Q$UmbrellaException = 19, Q$Serializable = 20, Q$CharSequence = 21, Q$Comparable = 22, Q$Enum = 23, Q$Exception = 24, Q$Float = 25, Q$Integer = 26, Q$Number = 27, Q$RuntimeException = 28, Q$StackTraceElement = 29, Q$Throwable = 30, Q$ByteBuffer = 31, Q$FloatBuffer = 32, Q$IntBuffer = 33, Q$ShortBuffer = 34, Q$List = 35, Q$Map = 36, Q$Map$Entry = 37, Q$Set = 38, Q$AbstractLayer$Flag = 39, Q$Events$Input = 40, Q$Events$Input$Impl = 41, Q$Events$Position = 42, Q$Events$Position$Impl = 43, Q$Key = 44, Q$Log$Level = 45, Q$Touch$Event = 46, Q$Touch$Event$Impl = 47, Q$HasArrayBufferView = 48, Q$HtmlGL20$VertexAttribArrayState = 49, Q$HtmlGL20$WebGLObjectType = 50, Q$AbstractCircle = 51, Q$AbstractPoint = 52, Q$AbstractVector = 53, Q$Actor = 54, Q$GameScreen$PlayerInput = 55, Q$PlayerActor = 56, CM$ = {};
+var _, seedTable = {}, Q$Object = 0, Q$String = 1, Q$Sound$LoadState = 2, Q$SoundController$MimeTypeSupport = 3, Q$SoundType = 4, Q$Context2d$Repetition = 5, Q$Style$HasCssName = 6, Q$Style$Overflow = 7, Q$Style$Position = 8, Q$Style$Unit = 9, Q$Style$Visibility = 10, Q$HasAttachHandlers = 11, Q$HasHandlers = 12, Q$LongLibBase$LongEmul = 13, Q$EventListener = 14, Q$HasVisibility = 15, Q$IsWidget = 16, Q$UIObject = 17, Q$Widget = 18, Q$UmbrellaException = 19, Q$Serializable = 20, Q$CharSequence = 21, Q$Comparable = 22, Q$Enum = 23, Q$Exception = 24, Q$Float = 25, Q$Integer = 26, Q$Number = 27, Q$RuntimeException = 28, Q$StackTraceElement = 29, Q$Throwable = 30, Q$ByteBuffer = 31, Q$FloatBuffer = 32, Q$IntBuffer = 33, Q$ShortBuffer = 34, Q$List = 35, Q$Map = 36, Q$Map$Entry = 37, Q$Set = 38, Q$AbstractLayer$Flag = 39, Q$Events$Input = 40, Q$Events$Input$Impl = 41, Q$Events$Position = 42, Q$Events$Position$Impl = 43, Q$Key = 44, Q$Log$Level = 45, Q$Touch$Event = 46, Q$Touch$Event$Impl = 47, Q$HasArrayBufferView = 48, Q$HtmlGL20$VertexAttribArrayState = 49, Q$HtmlGL20$WebGLObjectType = 50, Q$AbstractCircle = 51, Q$AbstractPoint = 52, Q$AbstractVector = 53, Q$Actor = 54, Q$GameScreen$PlayerInput = 55, Q$HeroActor = 56, Q$MarkActor$Type = 57, CM$ = {};
 function newSeed(id){
   return new seedTable[id];
 }
@@ -5708,6 +5708,16 @@ _.setAlpha = function setAlpha(alpha){
   return this;
 }
 ;
+_.setDepth = function setDepth(depth){
+  var oldDepth;
+  oldDepth = this.depth;
+  if (depth != oldDepth) {
+    this.depth = depth;
+    !!this.parent_0 && this.parent_0.depthChanged(this, oldDepth);
+  }
+  return this;
+}
+;
 _.setInteractive = function setInteractive(interactive){
   if ($isSet(this, ($clinit_AbstractLayer$Flag() , INTERACTIVE)) != interactive) {
     interactive && !!this.parent_0 && this.parent_0.setInteractive(true);
@@ -5974,6 +5984,21 @@ function $add_5(this$static, self_0, child){
   child.onAdd();
   $isSet(child, ($clinit_AbstractLayer$Flag() , INTERACTIVE)) && self_0.setInteractive(true);
   return index;
+}
+
+function $depthChanged(this$static, layer, oldDepth){
+  var leftCorrect, newDepth, newIndex, oldIndex, rightCorrect;
+  oldIndex = $findChild(this$static, layer, oldDepth);
+  newDepth = layer.depth;
+  leftCorrect = oldIndex == 0 || $get(this$static.children, oldIndex - 1).depth <= newDepth;
+  rightCorrect = oldIndex == this$static.children.size - 1 || $get(this$static.children, oldIndex + 1).depth >= newDepth;
+  if (leftCorrect && rightCorrect) {
+    return oldIndex;
+  }
+  $remove(this$static.children, oldIndex);
+  newIndex = $findInsertion(this$static, newDepth);
+  $add(this$static.children, newIndex, layer);
+  return newIndex;
 }
 
 function $findChild(this$static, child, depth){
@@ -6933,6 +6958,10 @@ _.add_1 = function add_5(layer){
   $add_5(this.impl, this, layer);
 }
 ;
+_.depthChanged = function depthChanged(layer, oldDepth){
+  $depthChanged(this.impl, layer, oldDepth);
+}
+;
 _.hitTestDefault = function hitTestDefault_0(p){
   return $hitTest(this.impl, this, p);
 }
@@ -7638,6 +7667,10 @@ _.add_1 = function add_6(layer){
   $add_5(this.impl, this, layer);
 }
 ;
+_.depthChanged = function depthChanged_0(layer, oldDepth){
+  $depthChanged(this.impl, layer, oldDepth);
+}
+;
 _.hitTestDefault = function hitTestDefault_1(p){
   return $hitTest(this.impl, this, p);
 }
@@ -7743,12 +7776,12 @@ function ImageLayerGL_0(){
 }
 
 defineSeed(313, 311, {}, ImageLayerGL_0);
+--></script>
+<script><!--
 _.height_1 = function height_2(){
   return this.heightSet?this.height_0:$height_0(this.img);
 }
 ;
---></script>
-<script><!--
 _.paint_0 = function paint_2(curTransform, curTint, curShader){
   if ($isSet(this, ($clinit_AbstractLayer$Flag() , VISIBLE_1)) && !!this.img) {
     this.tint != -1 && (curTint = combine(curTint, this.tint));
@@ -10035,6 +10068,10 @@ function NoninvertibleTransformException_0(s){
 }
 
 defineSeed(389, 44, makeCastMap([Q$Serializable, Q$Exception, Q$RuntimeException, Q$Throwable]), NoninvertibleTransformException_0);
+function Actor_0(){
+  this.children = new ArrayList_0;
+}
+
 defineSeed(390, 1, makeCastMap([Q$Actor]));
 _.exit = function exit_0(){
 }
@@ -10049,6 +10086,7 @@ _.update = function update(delta){
 }
 ;
 function BeanActor_0(gameScreen, x, y, dx){
+  Actor_0.call(this);
   this.collisionShape = new CircleCollisionShape_0;
   this.gameScreen = gameScreen;
   this.x1 = x;
@@ -10073,6 +10111,7 @@ _.init = function init_1(){
   this.collisionShape.userData = this;
   $addShape(this.gameScreen.collisionDetector, this.collisionShape);
   this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setDepth(6);
   this.imageLayer.setOrigin(12.5, 12.5);
   this.imageLayer.setScale(4);
   this.gameScreen.groupLayer.add_1(this.imageLayer);
@@ -10126,6 +10165,100 @@ _.x1 = 568;
 _.x2 = 0;
 _.y1 = 320;
 _.y2 = 0;
+function BeanAndMarkCollisionHandler_0(gameScreen){
+  this.gameScreen = gameScreen;
+}
+
+defineSeed(392, 1, {}, BeanAndMarkCollisionHandler_0);
+_.onCollision = function onCollision(shape1, shape2){
+  var beanActor, markActor;
+  beanActor = shape1.userData;
+  markActor = shape2.userData;
+  $play_0(markActor.hitBeanSound);
+  $removeShape(markActor.gameScreen.collisionDetector, markActor.collisionShape);
+  markActor.collisionShape = null;
+  markActor.fadingOut = true;
+  markActor.fadingStartTick = $tick_0(platform_1);
+  markActor.fadingStopTick = markActor.fadingStartTick + 500;
+  $removeActor(this.gameScreen, beanActor);
+}
+;
+_.gameScreen = null;
+function BeanPodActor_0(gameScreen, beanstalkActor, x, y){
+  Actor_0.call(this);
+  this.gameScreen = gameScreen;
+  this.beanstalkActor = beanstalkActor;
+  this.x = x;
+  this.y = y;
+}
+
+defineSeed(393, 390, makeCastMap([Q$Actor]), BeanPodActor_0);
+_.exit = function exit_2(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  !!this.collisionShape && $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+}
+;
+_.init = function init_2(){
+  this.assets = this.gameScreen.assets;
+  this.image = $getImage(this.assets, 'images/beanPod.png');
+  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setOrigin(25, 25);
+  this.imageLayer.setDepth(2);
+  this.imageLayer.setTranslation(this.x, this.y);
+  this.imageLayer.setScale_0(this.x < 568?4:-4, 4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+  this.startFadingTick = $tick_0(platform_1);
+  this.stopFadingTick = this.startFadingTick + 500;
+}
+;
+_.paint_2 = function paint_7(alpha){
+  var smoothImageAlpha;
+  smoothImageAlpha = lerp(this.oldImageAlpha, this.imageAlpha, alpha);
+  this.imageLayer.setAlpha(smoothImageAlpha);
+}
+;
+_.update = function update_1(delta){
+  this.oldImageAlpha = this.imageAlpha;
+  if (this.fadingIn) {
+    if (this.stopFadingTick <= $tick_0(platform_1)) {
+      this.fadingIn = false;
+      this.imageAlpha = 1;
+      this.collisionShape = new CircleCollisionShape_0;
+      this.collisionShape.userData = this;
+      $set_3(this.collisionShape.circle, this.x, this.y, 60);
+      $addShape(this.gameScreen.collisionDetector, this.collisionShape);
+    }
+     else {
+      this.imageAlpha = ($tick_0(platform_1) - this.startFadingTick) / (this.stopFadingTick - this.startFadingTick);
+    }
+  }
+  if (this.fadingOut) {
+    if (this.stopFadingTick <= $tick_0(platform_1)) {
+      this.fadingOut = false;
+      this.imageAlpha = 0;
+      this.beanstalkActor.beanPodActor = null;
+      $removeActor(this.gameScreen, this);
+    }
+     else {
+      this.imageAlpha = 1 - ($tick_0(platform_1) - this.startFadingTick) / (this.stopFadingTick - this.startFadingTick);
+    }
+  }
+}
+;
+_.assets = null;
+_.beanstalkActor = null;
+_.collisionShape = null;
+_.fadingIn = true;
+_.fadingOut = false;
+_.gameScreen = null;
+_.image = null;
+_.imageAlpha = 0;
+_.imageLayer = null;
+_.oldImageAlpha = 0;
+_.startFadingTick = 0;
+_.stopFadingTick = 0;
+_.x = 0;
+_.y = 0;
 function $onKeyDown(this$static, event_0){
   !!this$static.screen_0 && this$static.screen_0.onKeyDown(event_0);
 }
@@ -10144,58 +10277,76 @@ function BeanslingersGame_0(){
   this.updateRate = 33;
 }
 
-defineSeed(392, 253, {}, BeanslingersGame_0);
+defineSeed(394, 253, {}, BeanslingersGame_0);
 _.assets = null;
 _.screen_0 = null;
+function $updateBeanPod(this$static){
+  var podX, podY;
+  if (!this$static.beanPodActor) {
+    podX = this$static.index_0 == 0?this$static.x - 64:this$static.x + 64;
+    podY = 320 + (2 * Math.random() - 1) * 200;
+    this$static.beanPodActor = new BeanPodActor_0(this$static.gameScreen, this$static, podX, podY);
+    $addActor(this$static.gameScreen, this$static.beanPodActor);
+  }
+}
+
 function BeanstalkActor_0(gameScreen, index){
+  Actor_0.call(this);
   this.collisionShape = new CircleCollisionShape_0;
   this.gameScreen = gameScreen;
   this.index_0 = index;
 }
 
-defineSeed(393, 390, makeCastMap([Q$Actor]), BeanstalkActor_0);
-_.exit = function exit_2(){
-  this.gameScreen.groupLayer.remove_4(this.imageLayer);
-  $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
-}
-;
-_.init = function init_2(){
-  this.assets = this.gameScreen.assets;
-  this.image = $getImage(this.assets, 'images/beanstalk.png');
-  this.collisionShape.userData = this;
-  $addShape(this.gameScreen.collisionDetector, this.collisionShape);
-  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
-  this.imageLayer.setOrigin(50, 100);
-  this.imageLayer.setTranslation(this.index_0 == 0?200:936, 320);
-  this.imageLayer.setScale_0(this.index_0 == 0?4:-4, 4);
-  this.gameScreen.groupLayer.add_1(this.imageLayer);
-}
-;
-_.paint_2 = function paint_7(alpha){
-}
-;
-_.update = function update_1(delta){
-}
-;
-_.assets = null;
-_.gameScreen = null;
-_.image = null;
-_.imageLayer = null;
-_.index_0 = 0;
-function BoulderActor_0(gameScreen, y, dx){
-  this.collisionShape = new CircleCollisionShape_0;
-  this.gameScreen = gameScreen;
-  this.y1 = y;
-  this.dx = dx;
-}
-
-defineSeed(394, 390, makeCastMap([Q$Actor]), BoulderActor_0);
+defineSeed(395, 390, makeCastMap([Q$Actor]), BeanstalkActor_0);
 _.exit = function exit_3(){
   this.gameScreen.groupLayer.remove_4(this.imageLayer);
   $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
 }
 ;
 _.init = function init_3(){
+  this.assets = this.gameScreen.assets;
+  this.x = this.index_0 == 0?200:936;
+  this.y = 320;
+  this.image = $getImage(this.assets, 'images/beanstalk.png');
+  this.collisionShape.userData = this;
+  $addShape(this.gameScreen.collisionDetector, this.collisionShape);
+  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setOrigin(50, 100);
+  this.imageLayer.setTranslation(this.x, this.y);
+  this.imageLayer.setScale_0(this.index_0 == 0?4:-4, 4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+}
+;
+_.paint_2 = function paint_8(alpha){
+}
+;
+_.update = function update_2(delta){
+  $updateBeanPod(this);
+}
+;
+_.assets = null;
+_.beanPodActor = null;
+_.gameScreen = null;
+_.image = null;
+_.imageLayer = null;
+_.index_0 = 0;
+_.x = 0;
+_.y = 0;
+function BoulderActor_0(gameScreen, y, dx){
+  Actor_0.call(this);
+  this.collisionShape = new CircleCollisionShape_0;
+  this.gameScreen = gameScreen;
+  this.y1 = y;
+  this.dx = dx;
+}
+
+defineSeed(396, 390, makeCastMap([Q$Actor]), BoulderActor_0);
+_.exit = function exit_4(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+}
+;
+_.init = function init_4(){
   this.assets = this.gameScreen.assets;
   this.creationTick = $tick_0(platform_1);
   this.image = $getImage(this.assets, 'images/boulder.png');
@@ -10206,6 +10357,7 @@ _.init = function init_3(){
   this.collisionShape.userData = this;
   $addShape(this.gameScreen.collisionDetector, this.collisionShape);
   this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setDepth(7);
   this.imageLayer.setOrigin(25, 25);
   this.imageLayer.setScale(4);
   this.gameScreen.groupLayer.add_1(this.imageLayer);
@@ -10215,7 +10367,7 @@ _.init = function init_3(){
   $play_0(this.sound);
 }
 ;
-_.paint_2 = function paint_8(alpha){
+_.paint_2 = function paint_9(alpha){
   var creationTickDiff, imageAlpha, x, y;
   x = lerp(this.x2, this.x1, alpha);
   y = lerp(this.y2, this.y1, alpha);
@@ -10228,7 +10380,7 @@ _.paint_2 = function paint_8(alpha){
   this.imageLayer.setAlpha(imageAlpha);
 }
 ;
-_.update = function update_2(delta){
+_.update = function update_3(delta){
   var dt;
   if (this.removeTick <= $tick_0(platform_1)) {
     $removeActor(this.gameScreen, this);
@@ -10259,18 +10411,28 @@ _.x1 = 568;
 _.x2 = 0;
 _.y1 = 320;
 _.y2 = 0;
+function BoulderAndHeroCollisionHandler_0(){
+}
+
+defineSeed(397, 1, {}, BoulderAndHeroCollisionHandler_0);
+_.onCollision = function onCollision_0(shape1, shape2){
+  var playerActor;
+  playerActor = shape2.userData;
+  $hit(playerActor);
+}
+;
 function $setKey(this$static, key){
   this$static.key_0 = key;
 }
 
-defineSeed(396, 1, {});
+defineSeed(399, 1, {});
 _.key_0 = 0;
 _.userData = null;
 function CircleCollisionShape_0(){
   this.circle = new Circle_0;
 }
 
-defineSeed(395, 396, {}, CircleCollisionShape_0);
+defineSeed(398, 399, {}, CircleCollisionShape_0);
 function $addShape(this$static, shape){
   $setKey(shape, this$static.nextShapeKey++);
   $add_0(this$static.shapes, shape);
@@ -10302,7 +10464,7 @@ function CollisionDetector_0(){
   this.shapes = new ArrayList_0;
 }
 
-defineSeed(397, 1, {}, CollisionDetector_0);
+defineSeed(400, 1, {}, CollisionDetector_0);
 _.listener = null;
 _.nextShapeKey = 1;
 function $set_5(this$static, class1, class2){
@@ -10318,7 +10480,7 @@ function CollisionKey_1(class1, class2){
   this.class2 = class2;
 }
 
-defineSeed(398, 1, {}, CollisionKey_0, CollisionKey_1);
+defineSeed(401, 1, {}, CollisionKey_0, CollisionKey_1);
 _.equals$ = function equals_16(obj){
   var other;
   if (this === obj)
@@ -10352,11 +10514,11 @@ _.hashCode$ = function hashCode_17(){
 ;
 _.class1 = null;
 _.class2 = null;
-defineSeed(400, 1, {});
-_.exit = function exit_4(){
+defineSeed(403, 1, {});
+_.exit = function exit_5(){
 }
 ;
-_.init = function init_4(){
+_.init = function init_5(){
 }
 ;
 _.onKeyDown = function onKeyDown(event_0){
@@ -10365,22 +10527,22 @@ _.onKeyDown = function onKeyDown(event_0){
 _.onKeyUp = function onKeyUp(event_0){
 }
 ;
-_.paint_2 = function paint_9(alpha){
+_.paint_2 = function paint_10(alpha){
 }
 ;
-_.update = function update_3(delta){
+_.update = function update_4(delta){
 }
 ;
 function GameOverScreen_0(game){
   this.game = game;
 }
 
-defineSeed(399, 400, {}, GameOverScreen_0);
-_.exit = function exit_5(){
+defineSeed(402, 403, {}, GameOverScreen_0);
+_.exit = function exit_6(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_5(){
+_.init = function init_6(){
   var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.assets = this.game.assets;
   this.groupLayer = platform_1.graphics.createGroupLayer();
@@ -10405,8 +10567,13 @@ _.assets = null;
 _.game = null;
 _.groupLayer = null;
 function $addActor(this$static, actor){
+  var child, child$iterator;
   $add_0(this$static.actors, actor);
   actor.init();
+  for (child$iterator = new AbstractList$IteratorImpl_0(actor.children); child$iterator.i < child$iterator.this$0_0.size_0();) {
+    child = $next_2(child$iterator);
+    $addActor(this$static, child);
+  }
 }
 
 function $getPlayerActor(this$static, index){
@@ -10424,25 +10591,29 @@ function $onCollision(this$static, shape1, shape2){
   $set_5(this$static.tempCollisionKey, actor1.___clazz$, actor2.___clazz$);
   handler1 = $get_5(this$static.collisionHandlers, this$static.tempCollisionKey);
   if (handler1) {
-    $onCollision_0(shape1);
+    handler1.onCollision(shape1, shape2);
     return;
   }
   $set_5(this$static.tempCollisionKey, actor2.___clazz$, actor1.___clazz$);
   handler2 = $get_5(this$static.collisionHandlers, this$static.tempCollisionKey);
   if (handler2) {
-    $onCollision_0(shape2);
+    handler2.onCollision(shape2, shape1);
     return;
   }
 }
 
 function $removeActor(this$static, actor){
-  var i;
+  var child, child$iterator, i;
+  for (child$iterator = new AbstractList$IteratorImpl_0(actor.children); child$iterator.i < child$iterator.this$0_0.size_0();) {
+    child = $next_2(child$iterator);
+    $removeActor(this$static, child);
+  }
   i = $lastIndexOf(this$static.actors, actor);
   actor.exit();
   $set(this$static.actors, i);
 }
 
-function $setPlayerActor(this$static, index, actor){
+function $setHeroActor(this$static, index, actor){
   this$static.playerActors[index] = actor;
 }
 
@@ -10450,20 +10621,24 @@ function GameScreen_0(game){
   this.collisionHandlers = new HashMap_0;
   this.tempCollisionKey = new CollisionKey_0;
   this.playerInputs = initValues(_3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit, makeCastMap([Q$Serializable]), Q$GameScreen$PlayerInput, [new GameScreen$PlayerInput_0, new GameScreen$PlayerInput_0]);
-  this.playerActors = initDim(_3Lse_elemel_beanslingers_core_PlayerActor_2_classLit, makeCastMap([Q$Serializable]), Q$PlayerActor, 2, 0);
+  this.playerActors = initDim(_3Lse_elemel_beanslingers_core_HeroActor_2_classLit, makeCastMap([Q$Serializable]), Q$HeroActor, 2, 0);
   this.actors = new ArrayList_0;
   this.game = game;
 }
 
-defineSeed(401, 400, {}, GameScreen_0);
-_.exit = function exit_6(){
+defineSeed(404, 403, {}, GameScreen_0);
+_.exit = function exit_7(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_6(){
+--></script>
+<script><!--
+_.init = function init_7(){
   var backgroundImage, backgroundLayer;
   this.assets = this.game.assets;
-  $put_2(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_PlayerActor_2_classLit, Lse_elemel_beanslingers_core_BoulderActor_2_classLit), new PlayerBoulderCollisionHandler_0);
+  $put_2(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_BoulderActor_2_classLit, Lse_elemel_beanslingers_core_HeroActor_2_classLit), new BoulderAndHeroCollisionHandler_0);
+  $put_2(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_HeroActor_2_classLit, Lse_elemel_beanslingers_core_BeanPodActor_2_classLit), new HeroAndBeanPodCollisionHandler_0);
+  $put_2(this.collisionHandlers, new CollisionKey_1(Lse_elemel_beanslingers_core_BeanActor_2_classLit, Lse_elemel_beanslingers_core_MarkActor_2_classLit), new BeanAndMarkCollisionHandler_0(this));
   this.collisionDetector = new CollisionDetector_0;
   this.collisionDetector.listener = this;
   this.groupLayer = platform_1.graphics.createGroupLayer();
@@ -10474,8 +10649,8 @@ _.init = function init_6(){
   this.groupLayer.add_1(backgroundLayer);
   $addActor(this, new BeanstalkActor_0(this, 0));
   $addActor(this, new BeanstalkActor_0(this, 1));
-  $addActor(this, new PlayerActor_0(this, 0));
-  $addActor(this, new PlayerActor_0(this, 1));
+  $addActor(this, new HeroActor_0(this, 0));
+  $addActor(this, new HeroActor_0(this, 1));
   $addActor(this, new GiantActor_0(this));
 }
 ;
@@ -10546,7 +10721,7 @@ _.onKeyUp = function onKeyUp_0(event_0){
   }
 }
 ;
-_.paint_2 = function paint_10(alpha){
+_.paint_2 = function paint_11(alpha){
   var actor, i, n;
   n = this.actors.size;
   for (i = 0; i < n; ++i) {
@@ -10555,7 +10730,7 @@ _.paint_2 = function paint_10(alpha){
   }
 }
 ;
-_.update = function update_4(delta){
+_.update = function update_5(delta){
   var actor, i, n;
   n = this.actors.size;
   for (i = 0; i < n; ++i) {
@@ -10573,7 +10748,7 @@ _.groupLayer = null;
 function GameScreen$PlayerInput_0(){
 }
 
-defineSeed(402, 1, makeCastMap([Q$GameScreen$PlayerInput]), GameScreen$PlayerInput_0);
+defineSeed(405, 1, makeCastMap([Q$GameScreen$PlayerInput]), GameScreen$PlayerInput_0);
 _.down = false;
 _.left_0 = false;
 _.right = false;
@@ -10601,34 +10776,60 @@ function $updateBoulder(this$static){
   }
 }
 
+function $updateMark(this$static){
+  var type;
+  if (!this$static.markActor && this$static.marks.size != 0) {
+    type = $remove(this$static.marks, this$static.marks.size - 1);
+    this$static.markActor = new MarkActor_0(this$static.gameScreen, this$static, type);
+    $addActor(this$static.gameScreen, this$static.markActor);
+  }
+}
+
 function GiantActor_0(gameScreen){
+  Actor_0.call(this);
+  this.marks = new ArrayList_0;
   this.gameScreen = gameScreen;
 }
 
-defineSeed(403, 390, makeCastMap([Q$Actor]), GiantActor_0);
-_.exit = function exit_7(){
+defineSeed(406, 390, makeCastMap([Q$Actor]), GiantActor_0);
+_.exit = function exit_8(){
   this.gameScreen.groupLayer.remove_4(this.imageLayer);
 }
 ;
-_.init = function init_7(){
+_.init = function init_8(){
   this.assets = this.gameScreen.assets;
   this.image = $getImage(this.assets, 'images/giant.png');
   this.facingLeft = Math.random() < 0.5;
-  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
-  this.imageLayer.setOrigin(62.5, 75);
-  this.imageLayer.setTranslation(568, 320);
-  this.imageLayer.setScale(4);
-  this.gameScreen.groupLayer.add_1(this.imageLayer);
   this.nextBoulderTick = $tick_0(platform_1) + round_int(1500 + 1500 * Math.random());
   this.nextTurnTick = $tick_0(platform_1) + round_int(3000 + 3000 * Math.random());
+  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setDepth(4);
+  this.imageLayer.setOrigin(62.5, 75);
+  this.imageLayer.setTranslation(568, 320);
+  this.imageLayer.setScale_0(this.facingLeft?-4:4, 4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+  $getSound(this.assets, 'sounds/hitBean');
+  $add_0(this.marks, ($clinit_MarkActor$Type() , FACE));
+  $add_0(this.marks, FOREGROUND_SHOULDER);
+  $add_0(this.marks, FOREGROUND_HAND);
+  $add_0(this.marks, BACKGROUND_HAND);
+  $add_0(this.marks, FOREGROUND_FOOT);
+  $add_0(this.marks, BACKGROUND_FOOT);
 }
 ;
-_.paint_2 = function paint_11(alpha){
+_.paint_2 = function paint_12(alpha){
   this.imageLayer.setScale_0(this.facingLeft?-4:4, 4);
 }
 ;
-_.update = function update_5(delta){
+_.update = function update_6(delta){
+  var game;
+  if (!this.markActor && this.marks.size == 0) {
+    game = this.gameScreen.game;
+    $setScreen(game, new WinScreen_0(game));
+    return;
+  }
   $updateBoulder(this);
+  $updateMark(this);
 }
 ;
 _.assets = null;
@@ -10636,14 +10837,13 @@ _.facingLeft = false;
 _.gameScreen = null;
 _.image = null;
 _.imageLayer = null;
+_.markActor = null;
 _.nextBoulderTick = 0;
 _.nextTurnTick = 0;
---></script>
-<script><!--
 function $hit(this$static){
   if (!this$static.dead) {
     this$static.dead = true;
-    this$static.dx = 150 * (this$static.facingLeft?1:-1);
+    this$static.dx = 200 * (this$static.facingLeft?1:-1);
     this$static.dAngle = 2 * (this$static.facingLeft?1:-1);
     this$static.gameOverTick = $tick_0(platform_1) + 1000;
     this$static.respawnTick = $tick_0(platform_1) + 3000;
@@ -10652,7 +10852,7 @@ function $hit(this$static){
 }
 
 function $resetPosition(this$static){
-  if (this$static.playerIndex == 0) {
+  if (this$static.index_0 == 0) {
     this$static.x1 = 200;
     this$static.y1 = 120 + 400 * Math.random();
     this$static.angle1 = 0;
@@ -10668,46 +10868,55 @@ function $resetPosition(this$static){
 
 function $updateBean(this$static){
   var dx;
-  if (this$static.nextBeanTick < $tick_0(platform_1) && !this$static.dead && this$static.input.left_0 ^ this$static.input.right) {
-    dx = (this$static.input.left_0?-1:1) * 500;
-    $addActor(this$static.gameScreen, new BeanActor_0(this$static.gameScreen, this$static.x1, this$static.y1, dx));
+  if (this$static.nextBeanTick < $tick_0(platform_1) && !this$static.dead && (this$static.input.left_0 || this$static.input.right)) {
+    if (this$static.beanCount >= 1) {
+      --this$static.beanCount;
+      dx = (this$static.index_0 == 0?1:-1) * 500;
+      $addActor(this$static.gameScreen, new BeanActor_0(this$static.gameScreen, this$static.x1, this$static.y1, dx));
+    }
+     else {
+      $play_0(this$static.noBeansSound);
+    }
     this$static.nextBeanTick = $tick_0(platform_1) + 200;
   }
 }
 
-function PlayerActor_0(gameScreen, playerIndex){
+function HeroActor_0(gameScreen, index){
+  Actor_0.call(this);
   this.collisionShape = new CircleCollisionShape_0;
   this.gameScreen = gameScreen;
-  this.playerIndex = playerIndex;
+  this.index_0 = index;
 }
 
-defineSeed(404, 390, makeCastMap([Q$Actor, Q$PlayerActor]), PlayerActor_0);
-_.exit = function exit_8(){
+defineSeed(407, 390, makeCastMap([Q$Actor, Q$HeroActor]), HeroActor_0);
+_.exit = function exit_9(){
   this.gameScreen.groupLayer.remove_4(this.imageLayer);
   $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
-  $setPlayerActor(this.gameScreen, this.playerIndex, null);
+  $setHeroActor(this.gameScreen, this.index_0, null);
 }
 ;
-_.init = function init_8(){
+_.init = function init_9(){
   this.assets = this.gameScreen.assets;
-  this.input = $getPlayerInput(this.gameScreen, this.playerIndex);
-  $setPlayerActor(this.gameScreen, this.playerIndex, this);
-  this.playerIndex == 0?(this.image = $getImage(this.assets, 'images/jack.png')):(this.image = $getImage(this.assets, 'images/david.png'));
+  this.input = $getPlayerInput(this.gameScreen, this.index_0);
+  $setHeroActor(this.gameScreen, this.index_0, this);
+  this.index_0 == 0?(this.image = $getImage(this.assets, 'images/jack.png')):(this.image = $getImage(this.assets, 'images/david.png'));
   $resetPosition(this);
   this.collisionShape.userData = this;
   $addShape(this.gameScreen.collisionDetector, this.collisionShape);
   this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setDepth(3);
   this.imageLayer.setScale(4);
   this.imageLayer.setOrigin(25, 25);
   this.gameScreen.groupLayer.add_1(this.imageLayer);
-  this.winTick = $tick_0(platform_1) + 20000;
   this.nextBeanTick = $tick_0(platform_1) + 500;
   this.hitBoulderSound = $getSound(this.assets, 'sounds/hitBoulder');
+  this.takeBeanPodSound = $getSound(this.assets, 'sounds/playerTakesBeanPod');
+  this.noBeansSound = $getSound(this.assets, 'sounds/playerHasNoBeans');
   this.x2 = this.x1;
   this.y2 = this.y1;
 }
 ;
-_.paint_2 = function paint_12(alpha){
+_.paint_2 = function paint_13(alpha){
   var angle, x, y;
   x = lerp(this.x2, this.x1, alpha);
   y = lerp(this.y2, this.y1, alpha);
@@ -10717,13 +10926,8 @@ _.paint_2 = function paint_12(alpha){
   this.imageLayer.setRotation(this.facingLeft?-angle:angle);
 }
 ;
-_.update = function update_6(delta){
+_.update = function update_7(delta){
   var game, dt, dt_0;
-  if (!this.dead && this.winTick <= $tick_0(platform_1)) {
-    game = this.gameScreen.game;
-    $setScreen(game, new WinScreen_0(game));
-    return;
-  }
   if (this.dead && this.gameOverTick <= $tick_0(platform_1)) {
     game = this.gameScreen.game;
     $setScreen(game, new GameOverScreen_0(game));
@@ -10744,6 +10948,7 @@ _.update = function update_6(delta){
 _.angle1 = 0;
 _.angle2 = 0;
 _.assets = null;
+_.beanCount = 0;
 _.dAngle = 0;
 _.dead = false;
 _.dx = 0;
@@ -10754,25 +10959,156 @@ _.gameScreen = null;
 _.hitBoulderSound = null;
 _.image = null;
 _.imageLayer = null;
+_.index_0 = 0;
 _.input = null;
 _.nextBeanTick = 0;
-_.playerIndex = 0;
+_.noBeansSound = null;
 _.respawnTick = 0;
-_.winTick = 0;
+_.takeBeanPodSound = null;
 _.x1 = 0;
 _.x2 = 0;
 _.y1 = 0;
 _.y2 = 0;
-function $onCollision_0(shape1){
-  var playerActor;
+function HeroAndBeanPodCollisionHandler_0(){
+}
+
+defineSeed(408, 1, {}, HeroAndBeanPodCollisionHandler_0);
+_.onCollision = function onCollision_1(shape1, shape2){
+  var beanPodActor, playerActor;
   playerActor = shape1.userData;
-  $hit(playerActor);
+  beanPodActor = shape2.userData;
+  playerActor.beanCount = 3;
+  $play_0(playerActor.takeBeanPodSound);
+  $removeShape(beanPodActor.gameScreen.collisionDetector, beanPodActor.collisionShape);
+  beanPodActor.collisionShape = null;
+  beanPodActor.fadingOut = true;
+  beanPodActor.startFadingTick = $tick_0(platform_1);
+  beanPodActor.stopFadingTick = beanPodActor.startFadingTick + 500;
+}
+;
+function $getPosition(this$static, position){
+  switch (this$static.type_0.ordinal) {
+    case 0:
+      $set_4(position, 588, 144);
+      break;
+    case 1:
+      $set_4(position, 488, 236);
+      break;
+    case 2:
+      $set_4(position, 452, 384);
+      break;
+    case 3:
+      $set_4(position, 712, 212);
+      break;
+    case 4:
+      $set_4(position, 508, 528);
+      break;
+    case 5:
+      $set_4(position, 620, 524);
+  }
+  this$static.giantActor.facingLeft && (position.x = 1136 - position.x);
 }
 
-function PlayerBoulderCollisionHandler_0(){
+function MarkActor_0(gameScreen, giantActor, type){
+  Actor_0.call(this);
+  this.collisionShape = new CircleCollisionShape_0;
+  this.position_0 = new Point_0;
+  this.gameScreen = gameScreen;
+  this.giantActor = giantActor;
+  this.type_0 = type;
 }
 
-defineSeed(405, 1, {}, PlayerBoulderCollisionHandler_0);
+defineSeed(409, 390, makeCastMap([Q$Actor]), MarkActor_0);
+_.exit = function exit_10(){
+  this.gameScreen.groupLayer.remove_4(this.imageLayer);
+  !!this.collisionShape && $removeShape(this.gameScreen.collisionDetector, this.collisionShape);
+}
+;
+_.init = function init_10(){
+  this.assets = this.gameScreen.assets;
+  this.image = $getImage(this.assets, 'images/mark.png');
+  this.imageLayer = platform_1.graphics.createImageLayer(this.image);
+  this.imageLayer.setDepth(5);
+  this.imageLayer.setOrigin(25, 25);
+  this.imageLayer.setTranslation(568, 160);
+  this.imageLayer.setScale(4);
+  this.gameScreen.groupLayer.add_1(this.imageLayer);
+  this.hitBeanSound = $getSound(this.assets, 'sounds/beanHitsMark');
+  this.fadingIn = true;
+  this.fadingStartTick = $tick_0(platform_1);
+  this.fadingStopTick = this.fadingStartTick + 500;
+}
+;
+_.paint_2 = function paint_14(alpha){
+  var fadingTick, imageAlpha;
+  fadingTick = lerp(this.fadingTick2, this.fadingTick1, alpha);
+  imageAlpha = 1;
+  this.fadingIn && (imageAlpha = (fadingTick - this.fadingStartTick) / (this.fadingStopTick - this.fadingStartTick));
+  this.fadingOut && (imageAlpha = 1 - (fadingTick - this.fadingStartTick) / (this.fadingStopTick - this.fadingStartTick));
+  this.imageLayer.setTranslation(this.position_0.x, this.position_0.y);
+  this.imageLayer.setScale_0(this.giantActor.facingLeft?-4:4, 4);
+  this.imageLayer.setAlpha(imageAlpha);
+}
+;
+_.update = function update_8(delta){
+  $getPosition(this, this.position_0);
+  if (this.fadingIn) {
+    this.fadingTick2 = this.fadingTick1;
+    this.fadingTick1 = $tick_0(platform_1);
+    if (this.fadingTick1 >= this.fadingStopTick) {
+      this.fadingIn = false;
+      this.collisionShape = new CircleCollisionShape_0;
+      this.collisionShape.userData = this;
+      $addShape(this.gameScreen.collisionDetector, this.collisionShape);
+    }
+  }
+  if (this.fadingOut) {
+    this.fadingTick2 = this.fadingTick1;
+    this.fadingTick1 = $tick_0(platform_1);
+    if (this.fadingTick1 >= this.fadingStopTick) {
+      $removeActor(this.gameScreen, this);
+      this.giantActor.markActor = null;
+      return;
+    }
+  }
+  !!this.collisionShape && $set_3(this.collisionShape.circle, this.position_0.x, this.position_0.y, 30);
+}
+;
+_.assets = null;
+_.fadingIn = false;
+_.fadingOut = false;
+_.fadingStartTick = 0;
+_.fadingStopTick = 0;
+_.fadingTick1 = 0;
+_.fadingTick2 = 0;
+_.gameScreen = null;
+_.giantActor = null;
+_.hitBeanSound = null;
+_.image = null;
+_.imageLayer = null;
+_.type_0 = null;
+function $clinit_MarkActor$Type(){
+  $clinit_MarkActor$Type = nullMethod;
+  FACE = new MarkActor$Type_0('FACE', 0);
+  FOREGROUND_SHOULDER = new MarkActor$Type_0('FOREGROUND_SHOULDER', 1);
+  FOREGROUND_HAND = new MarkActor$Type_0('FOREGROUND_HAND', 2);
+  BACKGROUND_HAND = new MarkActor$Type_0('BACKGROUND_HAND', 3);
+  FOREGROUND_FOOT = new MarkActor$Type_0('FOREGROUND_FOOT', 4);
+  BACKGROUND_FOOT = new MarkActor$Type_0('BACKGROUND_FOOT', 5);
+  $VALUES_11 = initValues(_3Lse_elemel_beanslingers_core_MarkActor$Type_2_classLit, makeCastMap([Q$Serializable]), Q$MarkActor$Type, [FACE, FOREGROUND_SHOULDER, FOREGROUND_HAND, BACKGROUND_HAND, FOREGROUND_FOOT, BACKGROUND_FOOT]);
+}
+
+function MarkActor$Type_0(enum$name, enum$ordinal){
+  Enum_0.call(this, enum$name, enum$ordinal);
+}
+
+function values_11(){
+  $clinit_MarkActor$Type();
+  return $VALUES_11;
+}
+
+defineSeed(410, 11, makeCastMap([Q$Serializable, Q$Comparable, Q$Enum, Q$MarkActor$Type]), MarkActor$Type_0);
+var $VALUES_11, BACKGROUND_FOOT, BACKGROUND_HAND, FACE, FOREGROUND_FOOT, FOREGROUND_HAND, FOREGROUND_SHOULDER;
 function $getPercentage(current, total){
   return 100 * current / total < 0?round_int(100 * current / total - 0.5):round_int(100 * current / total + 0.5);
 }
@@ -10781,12 +11117,12 @@ function TitleScreen_0(game){
   this.game = game;
 }
 
-defineSeed(406, 400, {}, TitleScreen_0);
-_.exit = function exit_9(){
+defineSeed(411, 403, {}, TitleScreen_0);
+_.exit = function exit_11(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_9(){
+_.init = function init_11(){
   var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.assets = this.game.assets;
   this.watchedAssets = new WatchedAssets_0(this.assets);
@@ -10804,6 +11140,7 @@ _.init = function init_9(){
   this.groupLayer.add_1(imageLayer);
   $getImage_0(this.watchedAssets, 'images/background.png');
   $getImage_0(this.watchedAssets, 'images/bean.png');
+  $getImage_0(this.watchedAssets, 'images/beanPod.png');
   $getImage_0(this.watchedAssets, 'images/beanstalk.png');
   $getImage_0(this.watchedAssets, 'images/blueSky.png');
   $getImage_0(this.watchedAssets, 'images/boulder.png');
@@ -10811,13 +11148,16 @@ _.init = function init_9(){
   $getImage_0(this.watchedAssets, 'images/gameOver.png');
   $getImage_0(this.watchedAssets, 'images/giant.png');
   $getImage_0(this.watchedAssets, 'images/jack.png');
+  $getImage_0(this.watchedAssets, 'images/mark.png');
   $getImage_0(this.watchedAssets, 'images/title.png');
   $getImage_0(this.watchedAssets, 'images/win.png');
-  $getSound_0(this.watchedAssets, 'sounds/hitBean');
+  $getSound_0(this.watchedAssets, 'sounds/beanHitsMark');
   $getSound_0(this.watchedAssets, 'sounds/hitBoulder');
+  $getSound_0(this.watchedAssets, 'sounds/playerTakesBeanPod');
+  $getSound_0(this.watchedAssets, 'sounds/playerHasNoBeans');
   $getSound_0(this.watchedAssets, 'sounds/shootBean');
   $getSound_0(this.watchedAssets, 'sounds/shootBoulder');
-  this.totalRequestCount = 15;
+  this.totalRequestCount = 19;
   this.pendingRequestCount = $getPendingRequestCount(this.watchedAssets);
 }
 ;
@@ -10825,7 +11165,7 @@ _.onKeyDown = function onKeyDown_2(event_0){
   event_0.key_0.ordinal == 98 && $setScreen(this.game, new GameScreen_0(this.game));
 }
 ;
-_.update = function update_7(delta){
+_.update = function update_9(delta){
   var percentage;
   if (this.pendingRequestCount != $getPendingRequestCount(this.watchedAssets)) {
     this.pendingRequestCount = $getPendingRequestCount(this.watchedAssets);
@@ -10844,12 +11184,12 @@ function WinScreen_0(game){
   this.game = game;
 }
 
-defineSeed(407, 400, {}, WinScreen_0);
-_.exit = function exit_10(){
+defineSeed(412, 403, {}, WinScreen_0);
+_.exit = function exit_12(){
   platform_1.graphics.rootLayer_0().remove_4(this.groupLayer);
 }
 ;
-_.init = function init_10(){
+_.init = function init_12(){
   var backgroundImage, backgroundImageLayer, image, imageLayer;
   this.assets = this.game.assets;
   this.groupLayer = platform_1.graphics.createGroupLayer();
@@ -10891,7 +11231,7 @@ function gwtOnLoad(errFn, modName, modBase, softPermutationId){
 
 --></script>
 <script><!--
-var Ljava_lang_Object_2_classLit = createForClass(1), Lcom_google_gwt_core_client_JavaScriptObject_2_classLit = createForClass(38), Ljava_lang_Throwable_2_classLit = createForClass(46), Ljava_lang_Exception_2_classLit = createForClass(45), Ljava_lang_RuntimeException_2_classLit = createForClass(44), Ljava_lang_StackTraceElement_2_classLit = createForClass(214), _3Ljava_lang_StackTraceElement_2_classLit = createForArray(414), _3I_classLit = createForArray(415), Lcom_google_gwt_lang_SeedUtil_2_classLit = createForClass(130), Ljava_lang_Enum_2_classLit = createForClass(11), Ljava_lang_Number_2_classLit = createForClass(204), _3C_classLit = createForArray(416), Ljava_lang_Class_2_classLit = createForClass(202), Ljava_lang_Float_2_classLit = createForClass(203), Ljava_lang_Integer_2_classLit = createForClass(208), _3Ljava_lang_Integer_2_classLit = createForArray(417), Ljava_lang_String_2_classLit = createForClass(2), _3Ljava_lang_String_2_classLit = createForArray(413), Lplayn_html_HtmlGame$1_2_classLit = createForClass(331), Lplayn_html_HtmlGame$2_2_classLit = createForClass(332), Lcom_google_gwt_core_client_Scheduler_2_classLit = createForClass(52), Ljava_lang_StringBuilder_2_classLit = createForClass(217), Ljava_lang_ArrayStoreException_2_classLit = createForClass(200), Lcom_google_gwt_core_client_JavaScriptException_2_classLit = createForClass(43), Lcom_google_gwt_core_client_impl_StringBufferImpl_2_classLit = createForClass(63), Lcom_google_gwt_core_client_impl_SchedulerImpl_2_classLit = createForClass(54), Lcom_google_gwt_core_client_impl_SchedulerImpl$Flusher_2_classLit = createForClass(55), Lcom_google_gwt_core_client_impl_SchedulerImpl$Rescuer_2_classLit = createForClass(56), Lcom_google_gwt_core_client_impl_StackTraceCreator$Collector_2_classLit = createForClass(59), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorMoz_2_classLit = createForClass(61), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChrome_2_classLit = createForClass(60), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChromeNoSourceMap_2_classLit = createForClass(62), Lcom_google_gwt_core_client_impl_StringBufferImplAppend_2_classLit = createForClass(64), Lplayn_core_LogImpl_2_classLit = createForClass(260), Lplayn_core_Log$Level_2_classLit = createForEnum(259, values_9), _3Lplayn_core_Log$Level_2_classLit = createForArray(418), Lplayn_core_AbstractPlatform_2_classLit = createForClass(245), Lplayn_html_HtmlPlatform_2_classLit = createForClass(359), Lplayn_html_HtmlPlatform$Config_2_classLit = createForClass(362), Lplayn_html_HtmlPlatform$1_2_classLit = createForClass(360), Lplayn_html_HtmlLog_2_classLit = createForClass(347), Ljava_lang_NullPointerException_2_classLit = createForClass(211), Ljava_lang_IllegalArgumentException_2_classLit = createForClass(205), Lplayn_html_HtmlLogSimple_2_classLit = createForClass(348), Ljava_lang_StringBuffer_2_classLit = createForClass(216), Lplayn_core_AbstractAssets_2_classLit = createForClass(242), Lplayn_html_HtmlAssets_2_classLit = createForClass(324), Lplayn_core_Game$Default_2_classLit = createForClass(253), Lse_elemel_beanslingers_core_BeanslingersGame_2_classLit = createForClass(392), Lplayn_core_Events$Input$Impl_2_classLit = createForClass(251), Lplayn_core_Keyboard$Event$Impl_2_classLit = createForClass(256), Lplayn_core_Keyboard$TypedEvent$Impl_2_classLit = createForClass(257), Lplayn_core_Events$Flags$Impl_2_classLit = createForClass(250), Lplayn_core_Events$Position$Impl_2_classLit = createForClass(252), Lplayn_html_HtmlGraphics_2_classLit = createForClass(333), Lplayn_core_PointerImpl_2_classLit = createForClass(274), Lplayn_html_HtmlPointer_2_classLit = createForClass(363), Lplayn_html_HtmlPointer$1_2_classLit = createForClass(364), Lplayn_html_HtmlPointer$2_2_classLit = createForClass(365), Lplayn_html_HtmlPointer$3_2_classLit = createForClass(366), Lplayn_html_HtmlPointer$4_2_classLit = createForClass(367), Lplayn_html_HtmlPointer$5_2_classLit = createForClass(368), Lplayn_html_HtmlPointer$6_2_classLit = createForClass(369), Lplayn_core_PointerImpl$1_2_classLit = createForClass(275), Lplayn_core_PointerImpl$2_2_classLit = createForClass(276), Lplayn_core_PointerImpl$3_2_classLit = createForClass(277), Lplayn_core_Pointer$Event$Impl_2_classLit = createForClass(273), Lplayn_core_AbstractLayer_2_classLit = createForClass(243), _3Ljava_lang_Object_2_classLit = createForArray(412), Lplayn_core_AbstractLayer$Flag_2_classLit = createForEnum(244, values_7), _3Lplayn_core_AbstractLayer$Flag_2_classLit = createForArray(419), Lplayn_core_MouseImpl_2_classLit = createForClass(264), Lplayn_html_HtmlMouse_2_classLit = createForClass(349), Lplayn_html_HtmlMouse$1_2_classLit = createForClass(350), Lplayn_html_HtmlMouse$1XYEventHandler_2_classLit = createForClass(352), Lplayn_html_HtmlMouse$1MoveEventHandler_2_classLit = createForClass(351), Lplayn_html_HtmlMouse$2_2_classLit = createForClass(353), Lplayn_html_HtmlMouse$3_2_classLit = createForClass(354), Lplayn_html_HtmlMouse$4_2_classLit = createForClass(355), Lplayn_html_HtmlMouse$5_2_classLit = createForClass(356), Lplayn_html_HtmlMouse$6_2_classLit = createForClass(357), Lplayn_core_MouseImpl$1_2_classLit = createForClass(265), Lplayn_core_MouseImpl$2_2_classLit = createForClass(266), Lplayn_core_MouseImpl$3_2_classLit = createForClass(267), Lplayn_core_MouseImpl$4_2_classLit = createForClass(268), Lplayn_core_MouseImpl$5_2_classLit = createForClass(269), Lplayn_core_MouseImpl$6_2_classLit = createForClass(270), Lplayn_core_MouseImpl$7_2_classLit = createForClass(271), Lplayn_core_Mouse$ButtonEvent$Impl_2_classLit = createForClass(261), Lplayn_core_Mouse$MotionEvent$Impl_2_classLit = createForClass(262), Lplayn_core_Mouse$WheelEvent$Impl_2_classLit = createForClass(263), Lplayn_core_TouchImpl_2_classLit = createForClass(283), Lplayn_html_HtmlTouch_2_classLit = createForClass(373), Lplayn_core_Touch$Event$Impl_2_classLit = createForClass(282), _3Lplayn_core_Touch$Event$Impl_2_classLit = createForArray(420), Lplayn_html_HtmlTouch$1_2_classLit = createForClass(374), Lplayn_html_HtmlTouch$2_2_classLit = createForClass(375), Lplayn_html_HtmlTouch$3_2_classLit = createForClass(376), Lplayn_core_TouchImpl$1_2_classLit = createForClass(284), Lplayn_core_TouchImpl$2_2_classLit = createForClass(285), Lplayn_core_TouchImpl$3_2_classLit = createForClass(286), Lcom_google_web_bindery_event_shared_Event_2_classLit = createForClass(107), Lcom_google_gwt_event_shared_GwtEvent_2_classLit = createForClass(106), Lcom_google_gwt_user_client_Window$ClosingEvent_2_classLit = createForClass(166), Lcom_google_gwt_event_shared_HandlerManager_2_classLit = createForClass(115), Lcom_google_gwt_user_client_Window$WindowHandlers_2_classLit = createForClass(169), Lcom_google_web_bindery_event_shared_Event$Type_2_classLit = createForClass(110), Lcom_google_gwt_event_shared_GwtEvent$Type_2_classLit = createForClass(109), Lcom_google_web_bindery_event_shared_EventBus_2_classLit = createForClass(118), Lcom_google_web_bindery_event_shared_SimpleEventBus_2_classLit = createForClass(117), Lcom_google_gwt_event_shared_HandlerManager$Bus_2_classLit = createForClass(116), Lcom_google_web_bindery_event_shared_SimpleEventBus$1_2_classLit = createForClass(197), Lcom_google_web_bindery_event_shared_SimpleEventBus$2_2_classLit = createForClass(198), Lcom_google_web_bindery_event_shared_SimpleEventBus$3_2_classLit = createForClass(199), Lplayn_html_HtmlAnalytics_2_classLit = createForClass(323), Lplayn_html_HtmlAudio_2_classLit = createForClass(325), Lplayn_html_HtmlKeyboard_2_classLit = createForClass(343), Lplayn_html_HtmlKeyboard$1_2_classLit = createForClass(344), Lplayn_html_HtmlKeyboard$2_2_classLit = createForClass(345), Lplayn_html_HtmlKeyboard$3_2_classLit = createForClass(346), Lplayn_core_CachingAssets_2_classLit = createForClass(247), Lplayn_core_gl_GLContext_2_classLit = createForClass(298), Lplayn_core_gl_GLContext$Stats_2_classLit = createForClass(304), Lse_elemel_beanslingers_core_Screen_2_classLit = createForClass(400), Lse_elemel_beanslingers_core_TitleScreen_2_classLit = createForClass(406), Lplayn_core_util_RunQueue_2_classLit = createForClass(321), Lplayn_html_HtmlStorage_2_classLit = createForClass(372), Lplayn_html_HtmlGraphicsCanvas_2_classLit = createForClass(334), Lplayn_core_gl_AbstractCanvasGL_2_classLit = createForClass(292), Lplayn_html_AbstractHtmlCanvas_2_classLit = createForClass(322), Lplayn_html_HtmlGraphicsCanvas$1_2_classLit = createForClass(335), Lplayn_html_HtmlGraphicsGL_2_classLit = createForClass(336), Lplayn_html_HtmlInput$1_2_classLit = createForClass(341), Lcom_allen_1sauer_gwt_voices_client_SoundController_2_classLit = createForClass(12), Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForEnum(14, values_1), _3Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForArray(421), Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForEnum(13, values_0), _3Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForArray(422), Lcom_google_gwt_storage_client_Storage_2_classLit = createForClass(142), Lcom_google_gwt_storage_client_Storage$StorageSupportDetector_2_classLit = createForClass(143), Ljava_util_AbstractMap_2_classLit = createForClass(147), Lcom_google_gwt_storage_client_StorageMap_2_classLit = createForClass(146), Lcom_google_gwt_storage_client_StorageMap$StorageEntry_2_classLit = createForClass(148), Lcom_google_gwt_storage_client_StorageMap$StorageEntryIterator_2_classLit = createForClass(149), Ljava_util_AbstractCollection_2_classLit = createForClass(21), Ljava_util_AbstractSet_2_classLit = createForClass(151), Lcom_google_gwt_storage_client_StorageMap$StorageEntrySet_2_classLit = createForClass(150), Ljava_util_AbstractMap$1_2_classLit = createForClass(233), Ljava_util_AbstractMap$1$1_2_classLit = createForClass(234), Ljava_util_AbstractHashMap_2_classLit = createForClass(225), Ljava_util_HashMap_2_classLit = createForClass(237), Ljava_util_AbstractHashMap$EntrySet_2_classLit = createForClass(226), Ljava_util_AbstractHashMap$EntrySetIterator_2_classLit = createForClass(227), Ljava_util_AbstractMapEntry_2_classLit = createForClass(229), Ljava_util_AbstractHashMap$MapEntryNull_2_classLit = createForClass(228), Ljava_util_AbstractHashMap$MapEntryString_2_classLit = createForClass(230), Lplayn_core_gl_Scale_2_classLit = createForClass(318), Lplayn_core_canvas_LayerCanvas_2_classLit = createForClass(290), Lplayn_core_canvas_GroupLayerCanvas_2_classLit = createForClass(289), Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForEnum(40, values_2), _3Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForArray(423), Lplayn_core_gl_GL20Context_2_classLit = createForClass(297), Lplayn_html_HtmlGLContext_2_classLit = createForClass(329), _3F_classLit = createForArray(424), Lplayn_core_gl_LayerGL_2_classLit = createForClass(311), Lplayn_core_gl_GroupLayerGL_2_classLit = createForClass(310), Lpythagoras_f_AbstractPoint_2_classLit = createForClass(380), Lpythagoras_f_Point_2_classLit = createForClass(384), Ljava_lang_NumberFormatException_2_classLit = createForClass(213), Lplayn_core_WatchedAssets_2_classLit = createForClass(287), Lplayn_core_WatchedAssets$1_2_classLit = createForClass(288), Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForEnum(91, values_5), _3Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForArray(425), Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForEnum(81, values_3), _3Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForArray(426), Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForEnum(86, values_4), _3Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForArray(427), Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForEnum(101, values_6), _3Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForArray(428), Lcom_google_gwt_dom_client_Style$Unit$1_2_classLit = createForEnum(92, null), Lcom_google_gwt_dom_client_Style$Unit$2_2_classLit = createForEnum(93, null), Lcom_google_gwt_dom_client_Style$Unit$3_2_classLit = createForEnum(94, null), Lcom_google_gwt_dom_client_Style$Unit$4_2_classLit = createForEnum(95, null), Lcom_google_gwt_dom_client_Style$Unit$5_2_classLit = createForEnum(96, null), Lcom_google_gwt_dom_client_Style$Unit$6_2_classLit = createForEnum(97, null), Lcom_google_gwt_dom_client_Style$Unit$7_2_classLit = createForEnum(98, null), Lcom_google_gwt_dom_client_Style$Unit$8_2_classLit = createForEnum(99, null), Lcom_google_gwt_dom_client_Style$Unit$9_2_classLit = createForEnum(100, null), Lcom_google_gwt_dom_client_Style$Overflow$1_2_classLit = createForEnum(82, null), Lcom_google_gwt_dom_client_Style$Overflow$2_2_classLit = createForEnum(83, null), Lcom_google_gwt_dom_client_Style$Overflow$3_2_classLit = createForEnum(84, null), Lcom_google_gwt_dom_client_Style$Overflow$4_2_classLit = createForEnum(85, null), Lcom_google_gwt_dom_client_Style$Position$1_2_classLit = createForEnum(87, null), Lcom_google_gwt_dom_client_Style$Position$2_2_classLit = createForEnum(88, null), Lcom_google_gwt_dom_client_Style$Position$3_2_classLit = createForEnum(89, null), Lcom_google_gwt_dom_client_Style$Position$4_2_classLit = createForEnum(90, null), Lcom_google_gwt_dom_client_Style$Visibility$1_2_classLit = createForEnum(102, null), Lcom_google_gwt_dom_client_Style$Visibility$2_2_classLit = createForEnum(103, null), Lpythagoras_f_AbstractTransform_2_classLit = createForClass(280), Lplayn_html_HtmlInternalTransform_2_classLit = createForClass(342), Lpythagoras_f_AffineTransform_2_classLit = createForClass(279), Lplayn_core_StockInternalTransform_2_classLit = createForClass(278), Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForClass(327), _3Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForArray(429), Lplayn_html_HtmlGL20_2_classLit = createForClass(326), Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForEnum(328, values_10), _3Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForArray(430), Lplayn_core_Key_2_classLit = createForEnum(255, values_8), _3Lplayn_core_Key_2_classLit = createForArray(431), Lplayn_core_gl_AbstractImageGL_2_classLit = createForClass(293), Lplayn_core_gl_ImageGL_2_classLit = createForClass(312), Lplayn_html_HtmlImage_2_classLit = createForClass(337), Lplayn_html_HtmlImage$1_2_classLit = createForClass(338), Lplayn_html_HtmlImage$2_2_classLit = createForClass(339), Lplayn_core_gl_ImageLayerGL_2_classLit = createForClass(313), Ljava_lang_UnsupportedOperationException_2_classLit = createForClass(218), Lplayn_core_GroupLayerImpl_2_classLit = createForClass(254), Lplayn_core_gl_GLShader_2_classLit = createForClass(305), Lplayn_core_gl_GLShader$Core_2_classLit = createForClass(306), Lplayn_core_gl_GLShader$Extras_2_classLit = createForClass(307), Lplayn_core_gl_GLShader$TextureExtras_2_classLit = createForClass(308), Lplayn_core_gl_IndexedTrisShader_2_classLit = createForClass(314), Lplayn_core_gl_IndexedTrisShader$ITCore_2_classLit = createForClass(315), Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForClass(402), _3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForArray(432), Lse_elemel_beanslingers_core_Actor_2_classLit = createForClass(390), Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForClass(404), _3Lse_elemel_beanslingers_core_PlayerActor_2_classLit = createForArray(433), Lse_elemel_beanslingers_core_GameScreen_2_classLit = createForClass(401), Lse_elemel_beanslingers_core_BoulderActor_2_classLit = createForClass(394), Lse_elemel_beanslingers_core_CollisionDetector_2_classLit = createForClass(397), Lplayn_core_canvas_ImageLayerCanvas_2_classLit = createForClass(291), Lplayn_core_AbstractSound_2_classLit = createForClass(246), Lplayn_html_HtmlSound_2_classLit = createForClass(370), Lplayn_html_HtmlSound$1_2_classLit = createForClass(371), Lcom_google_gwt_user_client_ui_UIObject_2_classLit = createForClass(137), Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForClass(136), Lcom_google_gwt_user_client_ui_Panel_2_classLit = createForClass(175), Lcom_google_gwt_user_client_ui_ComplexPanel_2_classLit = createForClass(174), Lcom_google_gwt_user_client_ui_AbsolutePanel_2_classLit = createForClass(173), Lcom_google_gwt_user_client_ui_RootPanel_2_classLit = createForClass(180), Lcom_google_gwt_user_client_ui_RootPanel$DefaultRootPanel_2_classLit = createForClass(183), Lcom_google_gwt_user_client_ui_RootPanel$1_2_classLit = createForClass(181), Lcom_google_gwt_user_client_ui_RootPanel$2_2_classLit = createForClass(182), Lcom_google_web_bindery_event_shared_UmbrellaException_2_classLit = createForClass(121), Lcom_google_gwt_event_shared_UmbrellaException_2_classLit = createForClass(120), Lcom_google_gwt_user_client_ui_AttachDetachException_2_classLit = createForClass(176), Lcom_google_gwt_user_client_ui_AttachDetachException$1_2_classLit = createForClass(177), Lcom_google_gwt_user_client_ui_AttachDetachException$2_2_classLit = createForClass(178), Ljava_util_MapEntryImpl_2_classLit = createForClass(239), Lpythagoras_f_AbstractVector_2_classLit = createForClass(381), Lpythagoras_f_Vector_2_classLit = createForClass(387), Lplayn_core_gl_QuadShader_2_classLit = createForClass(316), Lplayn_core_gl_QuadShader$QuadCore_2_classLit = createForClass(317), Lpythagoras_util_NoninvertibleTransformException_2_classLit = createForClass(389), Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForEnum(10, values), _3Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForArray(434), Ljava_util_HashSet_2_classLit = createForClass(238), Lcom_google_gwt_event_shared_LegacyHandlerWrapper_2_classLit = createForClass(119), Ljava_util_AbstractList_2_classLit = createForClass(20), Ljava_util_ArrayList_2_classLit = createForClass(19), Ljava_util_AbstractList$IteratorImpl_2_classLit = createForClass(231), Ljava_util_AbstractList$ListIteratorImpl_2_classLit = createForClass(232), Ljava_lang_IllegalStateException_2_classLit = createForClass(206), Lse_elemel_beanslingers_core_CollisionKey_2_classLit = createForClass(398), Lse_elemel_beanslingers_core_PlayerBoulderCollisionHandler_2_classLit = createForClass(405), Lse_elemel_beanslingers_core_BeanstalkActor_2_classLit = createForClass(393), Lse_elemel_beanslingers_core_GiantActor_2_classLit = createForClass(403), Lcom_google_gwt_event_logical_shared_CloseEvent_2_classLit = createForClass(114), Lse_elemel_beanslingers_core_CollisionShape_2_classLit = createForClass(396), Lplayn_html_HtmlPattern_2_classLit = createForClass(358), Lse_elemel_beanslingers_core_CircleCollisionShape_2_classLit = createForClass(395), Lse_elemel_beanslingers_core_WinScreen_2_classLit = createForClass(407), Lse_elemel_beanslingers_core_GameOverScreen_2_classLit = createForClass(399), Lpythagoras_f_AbstractCircle_2_classLit = createForClass(379), Lpythagoras_f_Circle_2_classLit = createForClass(382), Lcom_allen_1sauer_gwt_voices_client_AbstractSound_2_classLit = createForClass(3), Lcom_allen_1sauer_gwt_voices_client_FlashSound_2_classLit = createForClass(4), Lcom_allen_1sauer_gwt_voices_client_FlashSound$1_2_classLit = createForClass(5), Lcom_allen_1sauer_gwt_voices_client_FlashSound$2_2_classLit = createForClass(6), Lcom_allen_1sauer_gwt_voices_client_NativeSound_2_classLit = createForClass(9), Ljava_lang_IndexOutOfBoundsException_2_classLit = createForClass(207), Lplayn_core_gl_GL20Buffer_2_classLit = createForClass(294), Lplayn_core_gl_GL20Buffer$FloatImpl_2_classLit = createForClass(295), Lplayn_core_gl_GL20Buffer$ShortImpl_2_classLit = createForClass(296), Lse_elemel_beanslingers_core_BeanActor_2_classLit = createForClass(391), Lcom_allen_1sauer_gwt_voices_client_Html5Sound_2_classLit = createForClass(7), Lcom_allen_1sauer_gwt_voices_client_Html5Sound$1_2_classLit = createForClass(8), Lcom_allen_1sauer_gwt_voices_client_ui_FlashMovie_2_classLit = createForClass(23), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie_2_classLit = createForClass(24), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie$1_2_classLit = createForClass(25), Lcom_allen_1sauer_gwt_voices_client_WebAudioSound_2_classLit = createForClass(15), Ljava_util_NoSuchElementException_2_classLit = createForClass(240), Lplayn_core_gl_GL20Program_2_classLit = createForClass(299), Lplayn_core_gl_GL20Program$2_2_classLit = createForClass(301), Lplayn_core_gl_GL20Program$5_2_classLit = createForClass(302), Lplayn_core_gl_GL20Program$8_2_classLit = createForClass(303), Lplayn_core_gl_GL20Program$10_2_classLit = createForClass(300), Lcom_google_gwt_user_client_ui_FocusWidget_2_classLit = createForClass(135), Lcom_google_gwt_media_client_MediaBase_2_classLit = createForClass(134), Lcom_google_gwt_media_client_Audio_2_classLit = createForClass(133), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetector_2_classLit = createForClass(139), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetectedMaybe_2_classLit = createForClass(138), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImpl_2_classLit = createForClass(26), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplPlayN_2_classLit = createForClass(28), Lcom_allen_1sauer_gwt_voices_client_handler_SoundHandlerCollection_2_classLit = createForClass(18), Ljava_util_EventObject_2_classLit = createForClass(17), Lcom_allen_1sauer_gwt_voices_client_handler_SoundLoadStateChangeEvent_2_classLit = createForClass(22), Ljava_nio_Buffer_2_classLit = createForClass(219), Ljava_nio_ByteBuffer_2_classLit = createForClass(220), Ljava_nio_FloatBuffer_2_classLit = createForClass(222), Ljava_nio_ByteOrder_2_classLit = createForClass(221), Ljava_nio_IntBuffer_2_classLit = createForClass(223), Ljava_nio_ShortBuffer_2_classLit = createForClass(224), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplIE6_2_classLit = createForClass(27), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplStandard_2_classLit = createForClass(30), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplSafari_2_classLit = createForClass(29), Lcom_google_gwt_event_dom_client_DomEvent_2_classLit = createForClass(105), Lcom_google_gwt_event_dom_client_EndedEvent_2_classLit = createForClass(111), Lcom_google_gwt_event_dom_client_DomEvent$Type_2_classLit = createForClass(108), Ljava_util_Collections$EmptyList_2_classLit = createForClass(236), Lcom_google_gwt_user_client_ui_WidgetCollection_2_classLit = createForClass(184), _3Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForArray(435), Lcom_google_gwt_user_client_ui_WidgetCollection$WidgetIterator_2_classLit = createForClass(185), Lcom_allen_1sauer_gwt_voices_client_handler_PlaybackCompleteEvent_2_classLit = createForClass(16), Lcom_google_gwt_event_dom_client_PrivateMap_2_classLit = createForClass(112);
+var Ljava_lang_Object_2_classLit = createForClass(1), Lcom_google_gwt_core_client_JavaScriptObject_2_classLit = createForClass(38), Ljava_lang_Throwable_2_classLit = createForClass(46), Ljava_lang_Exception_2_classLit = createForClass(45), Ljava_lang_RuntimeException_2_classLit = createForClass(44), Ljava_lang_StackTraceElement_2_classLit = createForClass(214), _3Ljava_lang_StackTraceElement_2_classLit = createForArray(419), _3I_classLit = createForArray(420), Lcom_google_gwt_lang_SeedUtil_2_classLit = createForClass(130), Ljava_lang_Enum_2_classLit = createForClass(11), Ljava_lang_Number_2_classLit = createForClass(204), _3C_classLit = createForArray(421), Ljava_lang_Class_2_classLit = createForClass(202), Ljava_lang_Float_2_classLit = createForClass(203), Ljava_lang_Integer_2_classLit = createForClass(208), _3Ljava_lang_Integer_2_classLit = createForArray(422), Ljava_lang_String_2_classLit = createForClass(2), _3Ljava_lang_String_2_classLit = createForArray(418), Lplayn_html_HtmlGame$1_2_classLit = createForClass(331), Lplayn_html_HtmlGame$2_2_classLit = createForClass(332), Lcom_google_gwt_core_client_Scheduler_2_classLit = createForClass(52), Ljava_lang_StringBuilder_2_classLit = createForClass(217), Ljava_lang_ArrayStoreException_2_classLit = createForClass(200), Lcom_google_gwt_core_client_JavaScriptException_2_classLit = createForClass(43), Lcom_google_gwt_core_client_impl_StringBufferImpl_2_classLit = createForClass(63), Lcom_google_gwt_core_client_impl_SchedulerImpl_2_classLit = createForClass(54), Lcom_google_gwt_core_client_impl_SchedulerImpl$Flusher_2_classLit = createForClass(55), Lcom_google_gwt_core_client_impl_SchedulerImpl$Rescuer_2_classLit = createForClass(56), Lcom_google_gwt_core_client_impl_StackTraceCreator$Collector_2_classLit = createForClass(59), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorMoz_2_classLit = createForClass(61), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChrome_2_classLit = createForClass(60), Lcom_google_gwt_core_client_impl_StackTraceCreator$CollectorChromeNoSourceMap_2_classLit = createForClass(62), Lcom_google_gwt_core_client_impl_StringBufferImplAppend_2_classLit = createForClass(64), Lplayn_core_LogImpl_2_classLit = createForClass(260), Lplayn_core_Log$Level_2_classLit = createForEnum(259, values_9), _3Lplayn_core_Log$Level_2_classLit = createForArray(423), Lplayn_core_AbstractPlatform_2_classLit = createForClass(245), Lplayn_html_HtmlPlatform_2_classLit = createForClass(359), Lplayn_html_HtmlPlatform$Config_2_classLit = createForClass(362), Lplayn_html_HtmlPlatform$1_2_classLit = createForClass(360), Lplayn_html_HtmlLog_2_classLit = createForClass(347), Ljava_lang_NullPointerException_2_classLit = createForClass(211), Ljava_lang_IllegalArgumentException_2_classLit = createForClass(205), Lplayn_html_HtmlLogSimple_2_classLit = createForClass(348), Ljava_lang_StringBuffer_2_classLit = createForClass(216), Lplayn_core_AbstractAssets_2_classLit = createForClass(242), Lplayn_html_HtmlAssets_2_classLit = createForClass(324), Lplayn_core_Game$Default_2_classLit = createForClass(253), Lse_elemel_beanslingers_core_BeanslingersGame_2_classLit = createForClass(394), Lplayn_core_Events$Input$Impl_2_classLit = createForClass(251), Lplayn_core_Keyboard$Event$Impl_2_classLit = createForClass(256), Lplayn_core_Keyboard$TypedEvent$Impl_2_classLit = createForClass(257), Lplayn_core_Events$Flags$Impl_2_classLit = createForClass(250), Lplayn_core_Events$Position$Impl_2_classLit = createForClass(252), Lplayn_html_HtmlGraphics_2_classLit = createForClass(333), Lplayn_core_PointerImpl_2_classLit = createForClass(274), Lplayn_html_HtmlPointer_2_classLit = createForClass(363), Lplayn_html_HtmlPointer$1_2_classLit = createForClass(364), Lplayn_html_HtmlPointer$2_2_classLit = createForClass(365), Lplayn_html_HtmlPointer$3_2_classLit = createForClass(366), Lplayn_html_HtmlPointer$4_2_classLit = createForClass(367), Lplayn_html_HtmlPointer$5_2_classLit = createForClass(368), Lplayn_html_HtmlPointer$6_2_classLit = createForClass(369), Lplayn_core_PointerImpl$1_2_classLit = createForClass(275), Lplayn_core_PointerImpl$2_2_classLit = createForClass(276), Lplayn_core_PointerImpl$3_2_classLit = createForClass(277), Lplayn_core_Pointer$Event$Impl_2_classLit = createForClass(273), Lplayn_core_AbstractLayer_2_classLit = createForClass(243), _3Ljava_lang_Object_2_classLit = createForArray(417), Lplayn_core_AbstractLayer$Flag_2_classLit = createForEnum(244, values_7), _3Lplayn_core_AbstractLayer$Flag_2_classLit = createForArray(424), Lplayn_core_MouseImpl_2_classLit = createForClass(264), Lplayn_html_HtmlMouse_2_classLit = createForClass(349), Lplayn_html_HtmlMouse$1_2_classLit = createForClass(350), Lplayn_html_HtmlMouse$1XYEventHandler_2_classLit = createForClass(352), Lplayn_html_HtmlMouse$1MoveEventHandler_2_classLit = createForClass(351), Lplayn_html_HtmlMouse$2_2_classLit = createForClass(353), Lplayn_html_HtmlMouse$3_2_classLit = createForClass(354), Lplayn_html_HtmlMouse$4_2_classLit = createForClass(355), Lplayn_html_HtmlMouse$5_2_classLit = createForClass(356), Lplayn_html_HtmlMouse$6_2_classLit = createForClass(357), Lplayn_core_MouseImpl$1_2_classLit = createForClass(265), Lplayn_core_MouseImpl$2_2_classLit = createForClass(266), Lplayn_core_MouseImpl$3_2_classLit = createForClass(267), Lplayn_core_MouseImpl$4_2_classLit = createForClass(268), Lplayn_core_MouseImpl$5_2_classLit = createForClass(269), Lplayn_core_MouseImpl$6_2_classLit = createForClass(270), Lplayn_core_MouseImpl$7_2_classLit = createForClass(271), Lplayn_core_Mouse$ButtonEvent$Impl_2_classLit = createForClass(261), Lplayn_core_Mouse$MotionEvent$Impl_2_classLit = createForClass(262), Lplayn_core_Mouse$WheelEvent$Impl_2_classLit = createForClass(263), Lplayn_core_TouchImpl_2_classLit = createForClass(283), Lplayn_html_HtmlTouch_2_classLit = createForClass(373), Lplayn_core_Touch$Event$Impl_2_classLit = createForClass(282), _3Lplayn_core_Touch$Event$Impl_2_classLit = createForArray(425), Lplayn_html_HtmlTouch$1_2_classLit = createForClass(374), Lplayn_html_HtmlTouch$2_2_classLit = createForClass(375), Lplayn_html_HtmlTouch$3_2_classLit = createForClass(376), Lplayn_core_TouchImpl$1_2_classLit = createForClass(284), Lplayn_core_TouchImpl$2_2_classLit = createForClass(285), Lplayn_core_TouchImpl$3_2_classLit = createForClass(286), Lcom_google_web_bindery_event_shared_Event_2_classLit = createForClass(107), Lcom_google_gwt_event_shared_GwtEvent_2_classLit = createForClass(106), Lcom_google_gwt_user_client_Window$ClosingEvent_2_classLit = createForClass(166), Lcom_google_gwt_event_shared_HandlerManager_2_classLit = createForClass(115), Lcom_google_gwt_user_client_Window$WindowHandlers_2_classLit = createForClass(169), Lcom_google_web_bindery_event_shared_Event$Type_2_classLit = createForClass(110), Lcom_google_gwt_event_shared_GwtEvent$Type_2_classLit = createForClass(109), Lcom_google_web_bindery_event_shared_EventBus_2_classLit = createForClass(118), Lcom_google_web_bindery_event_shared_SimpleEventBus_2_classLit = createForClass(117), Lcom_google_gwt_event_shared_HandlerManager$Bus_2_classLit = createForClass(116), Lcom_google_web_bindery_event_shared_SimpleEventBus$1_2_classLit = createForClass(197), Lcom_google_web_bindery_event_shared_SimpleEventBus$2_2_classLit = createForClass(198), Lcom_google_web_bindery_event_shared_SimpleEventBus$3_2_classLit = createForClass(199), Lplayn_html_HtmlAnalytics_2_classLit = createForClass(323), Lplayn_html_HtmlAudio_2_classLit = createForClass(325), Lplayn_html_HtmlKeyboard_2_classLit = createForClass(343), Lplayn_html_HtmlKeyboard$1_2_classLit = createForClass(344), Lplayn_html_HtmlKeyboard$2_2_classLit = createForClass(345), Lplayn_html_HtmlKeyboard$3_2_classLit = createForClass(346), Lplayn_core_CachingAssets_2_classLit = createForClass(247), Lplayn_core_gl_GLContext_2_classLit = createForClass(298), Lplayn_core_gl_GLContext$Stats_2_classLit = createForClass(304), Lse_elemel_beanslingers_core_Screen_2_classLit = createForClass(403), Lse_elemel_beanslingers_core_TitleScreen_2_classLit = createForClass(411), Lplayn_core_util_RunQueue_2_classLit = createForClass(321), Lplayn_html_HtmlStorage_2_classLit = createForClass(372), Lplayn_html_HtmlGraphicsCanvas_2_classLit = createForClass(334), Lplayn_core_gl_AbstractCanvasGL_2_classLit = createForClass(292), Lplayn_html_AbstractHtmlCanvas_2_classLit = createForClass(322), Lplayn_html_HtmlGraphicsCanvas$1_2_classLit = createForClass(335), Lplayn_html_HtmlGraphicsGL_2_classLit = createForClass(336), Lplayn_html_HtmlInput$1_2_classLit = createForClass(341), Lcom_allen_1sauer_gwt_voices_client_SoundController_2_classLit = createForClass(12), Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForEnum(14, values_1), _3Lcom_allen_1sauer_gwt_voices_client_SoundType_2_classLit = createForArray(426), Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForEnum(13, values_0), _3Lcom_allen_1sauer_gwt_voices_client_SoundController$MimeTypeSupport_2_classLit = createForArray(427), Lcom_google_gwt_storage_client_Storage_2_classLit = createForClass(142), Lcom_google_gwt_storage_client_Storage$StorageSupportDetector_2_classLit = createForClass(143), Ljava_util_AbstractMap_2_classLit = createForClass(147), Lcom_google_gwt_storage_client_StorageMap_2_classLit = createForClass(146), Lcom_google_gwt_storage_client_StorageMap$StorageEntry_2_classLit = createForClass(148), Lcom_google_gwt_storage_client_StorageMap$StorageEntryIterator_2_classLit = createForClass(149), Ljava_util_AbstractCollection_2_classLit = createForClass(21), Ljava_util_AbstractSet_2_classLit = createForClass(151), Lcom_google_gwt_storage_client_StorageMap$StorageEntrySet_2_classLit = createForClass(150), Ljava_util_AbstractMap$1_2_classLit = createForClass(233), Ljava_util_AbstractMap$1$1_2_classLit = createForClass(234), Ljava_util_AbstractHashMap_2_classLit = createForClass(225), Ljava_util_HashMap_2_classLit = createForClass(237), Ljava_util_AbstractHashMap$EntrySet_2_classLit = createForClass(226), Ljava_util_AbstractHashMap$EntrySetIterator_2_classLit = createForClass(227), Ljava_util_AbstractMapEntry_2_classLit = createForClass(229), Ljava_util_AbstractHashMap$MapEntryNull_2_classLit = createForClass(228), Ljava_util_AbstractHashMap$MapEntryString_2_classLit = createForClass(230), Lplayn_core_gl_Scale_2_classLit = createForClass(318), Lplayn_core_canvas_LayerCanvas_2_classLit = createForClass(290), Lplayn_core_canvas_GroupLayerCanvas_2_classLit = createForClass(289), Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForEnum(40, values_2), _3Lcom_google_gwt_canvas_dom_client_Context2d$Repetition_2_classLit = createForArray(428), Lplayn_core_gl_GL20Context_2_classLit = createForClass(297), Lplayn_html_HtmlGLContext_2_classLit = createForClass(329), _3F_classLit = createForArray(429), Lplayn_core_gl_LayerGL_2_classLit = createForClass(311), Lplayn_core_gl_GroupLayerGL_2_classLit = createForClass(310), Lpythagoras_f_AbstractPoint_2_classLit = createForClass(380), Lpythagoras_f_Point_2_classLit = createForClass(384), Ljava_lang_NumberFormatException_2_classLit = createForClass(213), Lplayn_core_WatchedAssets_2_classLit = createForClass(287), Lplayn_core_WatchedAssets$1_2_classLit = createForClass(288), Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForEnum(91, values_5), _3Lcom_google_gwt_dom_client_Style$Unit_2_classLit = createForArray(430), Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForEnum(81, values_3), _3Lcom_google_gwt_dom_client_Style$Overflow_2_classLit = createForArray(431), Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForEnum(86, values_4), _3Lcom_google_gwt_dom_client_Style$Position_2_classLit = createForArray(432), Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForEnum(101, values_6), _3Lcom_google_gwt_dom_client_Style$Visibility_2_classLit = createForArray(433), Lcom_google_gwt_dom_client_Style$Unit$1_2_classLit = createForEnum(92, null), Lcom_google_gwt_dom_client_Style$Unit$2_2_classLit = createForEnum(93, null), Lcom_google_gwt_dom_client_Style$Unit$3_2_classLit = createForEnum(94, null), Lcom_google_gwt_dom_client_Style$Unit$4_2_classLit = createForEnum(95, null), Lcom_google_gwt_dom_client_Style$Unit$5_2_classLit = createForEnum(96, null), Lcom_google_gwt_dom_client_Style$Unit$6_2_classLit = createForEnum(97, null), Lcom_google_gwt_dom_client_Style$Unit$7_2_classLit = createForEnum(98, null), Lcom_google_gwt_dom_client_Style$Unit$8_2_classLit = createForEnum(99, null), Lcom_google_gwt_dom_client_Style$Unit$9_2_classLit = createForEnum(100, null), Lcom_google_gwt_dom_client_Style$Overflow$1_2_classLit = createForEnum(82, null), Lcom_google_gwt_dom_client_Style$Overflow$2_2_classLit = createForEnum(83, null), Lcom_google_gwt_dom_client_Style$Overflow$3_2_classLit = createForEnum(84, null), Lcom_google_gwt_dom_client_Style$Overflow$4_2_classLit = createForEnum(85, null), Lcom_google_gwt_dom_client_Style$Position$1_2_classLit = createForEnum(87, null), Lcom_google_gwt_dom_client_Style$Position$2_2_classLit = createForEnum(88, null), Lcom_google_gwt_dom_client_Style$Position$3_2_classLit = createForEnum(89, null), Lcom_google_gwt_dom_client_Style$Position$4_2_classLit = createForEnum(90, null), Lcom_google_gwt_dom_client_Style$Visibility$1_2_classLit = createForEnum(102, null), Lcom_google_gwt_dom_client_Style$Visibility$2_2_classLit = createForEnum(103, null), Lpythagoras_f_AbstractTransform_2_classLit = createForClass(280), Lplayn_html_HtmlInternalTransform_2_classLit = createForClass(342), Lpythagoras_f_AffineTransform_2_classLit = createForClass(279), Lplayn_core_StockInternalTransform_2_classLit = createForClass(278), Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForClass(327), _3Lplayn_html_HtmlGL20$VertexAttribArrayState_2_classLit = createForArray(434), Lplayn_html_HtmlGL20_2_classLit = createForClass(326), Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForEnum(328, values_10), _3Lplayn_html_HtmlGL20$WebGLObjectType_2_classLit = createForArray(435), Lplayn_core_Key_2_classLit = createForEnum(255, values_8), _3Lplayn_core_Key_2_classLit = createForArray(436), Lplayn_core_gl_AbstractImageGL_2_classLit = createForClass(293), Lplayn_core_gl_ImageGL_2_classLit = createForClass(312), Lplayn_html_HtmlImage_2_classLit = createForClass(337), Lplayn_html_HtmlImage$1_2_classLit = createForClass(338), Lplayn_html_HtmlImage$2_2_classLit = createForClass(339), Lplayn_core_gl_ImageLayerGL_2_classLit = createForClass(313), Ljava_lang_UnsupportedOperationException_2_classLit = createForClass(218), Lplayn_core_GroupLayerImpl_2_classLit = createForClass(254), Lplayn_core_gl_GLShader_2_classLit = createForClass(305), Lplayn_core_gl_GLShader$Core_2_classLit = createForClass(306), Lplayn_core_gl_GLShader$Extras_2_classLit = createForClass(307), Lplayn_core_gl_GLShader$TextureExtras_2_classLit = createForClass(308), Lplayn_core_gl_IndexedTrisShader_2_classLit = createForClass(314), Lplayn_core_gl_IndexedTrisShader$ITCore_2_classLit = createForClass(315), Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForClass(405), _3Lse_elemel_beanslingers_core_GameScreen$PlayerInput_2_classLit = createForArray(437), Lse_elemel_beanslingers_core_Actor_2_classLit = createForClass(390), Lse_elemel_beanslingers_core_HeroActor_2_classLit = createForClass(407), _3Lse_elemel_beanslingers_core_HeroActor_2_classLit = createForArray(438), Lse_elemel_beanslingers_core_GameScreen_2_classLit = createForClass(404), Lse_elemel_beanslingers_core_BoulderActor_2_classLit = createForClass(396), Lse_elemel_beanslingers_core_BeanPodActor_2_classLit = createForClass(393), Lse_elemel_beanslingers_core_BeanActor_2_classLit = createForClass(391), Lse_elemel_beanslingers_core_MarkActor_2_classLit = createForClass(409), Lse_elemel_beanslingers_core_CollisionDetector_2_classLit = createForClass(400), Lplayn_core_canvas_ImageLayerCanvas_2_classLit = createForClass(291), Lplayn_core_AbstractSound_2_classLit = createForClass(246), Lplayn_html_HtmlSound_2_classLit = createForClass(370), Lplayn_html_HtmlSound$1_2_classLit = createForClass(371), Lcom_google_gwt_user_client_ui_UIObject_2_classLit = createForClass(137), Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForClass(136), Lcom_google_gwt_user_client_ui_Panel_2_classLit = createForClass(175), Lcom_google_gwt_user_client_ui_ComplexPanel_2_classLit = createForClass(174), Lcom_google_gwt_user_client_ui_AbsolutePanel_2_classLit = createForClass(173), Lcom_google_gwt_user_client_ui_RootPanel_2_classLit = createForClass(180), Lcom_google_gwt_user_client_ui_RootPanel$DefaultRootPanel_2_classLit = createForClass(183), Lcom_google_gwt_user_client_ui_RootPanel$1_2_classLit = createForClass(181), Lcom_google_gwt_user_client_ui_RootPanel$2_2_classLit = createForClass(182), Lcom_google_web_bindery_event_shared_UmbrellaException_2_classLit = createForClass(121), Lcom_google_gwt_event_shared_UmbrellaException_2_classLit = createForClass(120), Lcom_google_gwt_user_client_ui_AttachDetachException_2_classLit = createForClass(176), Lcom_google_gwt_user_client_ui_AttachDetachException$1_2_classLit = createForClass(177), Lcom_google_gwt_user_client_ui_AttachDetachException$2_2_classLit = createForClass(178), Ljava_util_MapEntryImpl_2_classLit = createForClass(239), Lpythagoras_f_AbstractVector_2_classLit = createForClass(381), Lpythagoras_f_Vector_2_classLit = createForClass(387), Lplayn_core_gl_QuadShader_2_classLit = createForClass(316), Lplayn_core_gl_QuadShader$QuadCore_2_classLit = createForClass(317), Lpythagoras_util_NoninvertibleTransformException_2_classLit = createForClass(389), Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForEnum(10, values), _3Lcom_allen_1sauer_gwt_voices_client_Sound$LoadState_2_classLit = createForArray(439), Ljava_util_HashSet_2_classLit = createForClass(238), Lcom_google_gwt_event_shared_LegacyHandlerWrapper_2_classLit = createForClass(119), Ljava_util_AbstractList_2_classLit = createForClass(20), Ljava_util_ArrayList_2_classLit = createForClass(19), Ljava_util_AbstractList$IteratorImpl_2_classLit = createForClass(231), Ljava_util_AbstractList$ListIteratorImpl_2_classLit = createForClass(232), Ljava_lang_IllegalStateException_2_classLit = createForClass(206), Lse_elemel_beanslingers_core_CollisionKey_2_classLit = createForClass(401), Lse_elemel_beanslingers_core_BoulderAndHeroCollisionHandler_2_classLit = createForClass(397), Lse_elemel_beanslingers_core_HeroAndBeanPodCollisionHandler_2_classLit = createForClass(408), Lse_elemel_beanslingers_core_MarkActor$Type_2_classLit = createForEnum(410, values_11), _3Lse_elemel_beanslingers_core_MarkActor$Type_2_classLit = createForArray(440), Lse_elemel_beanslingers_core_BeanAndMarkCollisionHandler_2_classLit = createForClass(392), Lse_elemel_beanslingers_core_BeanstalkActor_2_classLit = createForClass(395), Lse_elemel_beanslingers_core_GiantActor_2_classLit = createForClass(406), Lcom_google_gwt_event_logical_shared_CloseEvent_2_classLit = createForClass(114), Lse_elemel_beanslingers_core_CollisionShape_2_classLit = createForClass(399), Lplayn_html_HtmlPattern_2_classLit = createForClass(358), Lse_elemel_beanslingers_core_CircleCollisionShape_2_classLit = createForClass(398), Lse_elemel_beanslingers_core_GameOverScreen_2_classLit = createForClass(402), Lpythagoras_f_AbstractCircle_2_classLit = createForClass(379), Lpythagoras_f_Circle_2_classLit = createForClass(382), Lse_elemel_beanslingers_core_WinScreen_2_classLit = createForClass(412), Lcom_allen_1sauer_gwt_voices_client_AbstractSound_2_classLit = createForClass(3), Lcom_allen_1sauer_gwt_voices_client_FlashSound_2_classLit = createForClass(4), Lcom_allen_1sauer_gwt_voices_client_FlashSound$1_2_classLit = createForClass(5), Lcom_allen_1sauer_gwt_voices_client_FlashSound$2_2_classLit = createForClass(6), Lcom_allen_1sauer_gwt_voices_client_NativeSound_2_classLit = createForClass(9), Ljava_lang_IndexOutOfBoundsException_2_classLit = createForClass(207), Lplayn_core_gl_GL20Buffer_2_classLit = createForClass(294), Lplayn_core_gl_GL20Buffer$FloatImpl_2_classLit = createForClass(295), Lplayn_core_gl_GL20Buffer$ShortImpl_2_classLit = createForClass(296), Lcom_allen_1sauer_gwt_voices_client_Html5Sound_2_classLit = createForClass(7), Lcom_allen_1sauer_gwt_voices_client_Html5Sound$1_2_classLit = createForClass(8), Lcom_allen_1sauer_gwt_voices_client_ui_FlashMovie_2_classLit = createForClass(23), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie_2_classLit = createForClass(24), Lcom_allen_1sauer_gwt_voices_client_ui_VoicesMovie$1_2_classLit = createForClass(25), Lcom_allen_1sauer_gwt_voices_client_WebAudioSound_2_classLit = createForClass(15), Ljava_util_NoSuchElementException_2_classLit = createForClass(240), Lplayn_core_gl_GL20Program_2_classLit = createForClass(299), Lplayn_core_gl_GL20Program$2_2_classLit = createForClass(301), Lplayn_core_gl_GL20Program$5_2_classLit = createForClass(302), Lplayn_core_gl_GL20Program$8_2_classLit = createForClass(303), Lplayn_core_gl_GL20Program$10_2_classLit = createForClass(300), Lcom_google_gwt_user_client_ui_FocusWidget_2_classLit = createForClass(135), Lcom_google_gwt_media_client_MediaBase_2_classLit = createForClass(134), Lcom_google_gwt_media_client_Audio_2_classLit = createForClass(133), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetector_2_classLit = createForClass(139), Lcom_google_gwt_media_client_Audio$AudioElementSupportDetectedMaybe_2_classLit = createForClass(138), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImpl_2_classLit = createForClass(26), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplPlayN_2_classLit = createForClass(28), Lcom_allen_1sauer_gwt_voices_client_handler_SoundHandlerCollection_2_classLit = createForClass(18), Ljava_util_EventObject_2_classLit = createForClass(17), Lcom_allen_1sauer_gwt_voices_client_handler_SoundLoadStateChangeEvent_2_classLit = createForClass(22), Ljava_nio_Buffer_2_classLit = createForClass(219), Ljava_nio_ByteBuffer_2_classLit = createForClass(220), Ljava_nio_FloatBuffer_2_classLit = createForClass(222), Ljava_nio_ByteOrder_2_classLit = createForClass(221), Ljava_nio_IntBuffer_2_classLit = createForClass(223), Ljava_nio_ShortBuffer_2_classLit = createForClass(224), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplIE6_2_classLit = createForClass(27), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplStandard_2_classLit = createForClass(30), Lcom_allen_1sauer_gwt_voices_client_ui_impl_FlashMovieImplSafari_2_classLit = createForClass(29), Lcom_google_gwt_event_dom_client_DomEvent_2_classLit = createForClass(105), Lcom_google_gwt_event_dom_client_EndedEvent_2_classLit = createForClass(111), Lcom_google_gwt_event_dom_client_DomEvent$Type_2_classLit = createForClass(108), Ljava_util_Collections$EmptyList_2_classLit = createForClass(236), Lcom_google_gwt_user_client_ui_WidgetCollection_2_classLit = createForClass(184), _3Lcom_google_gwt_user_client_ui_Widget_2_classLit = createForArray(441), Lcom_google_gwt_user_client_ui_WidgetCollection$WidgetIterator_2_classLit = createForClass(185), Lcom_allen_1sauer_gwt_voices_client_handler_PlaybackCompleteEvent_2_classLit = createForClass(16), Lcom_google_gwt_event_dom_client_PrivateMap_2_classLit = createForClass(112);
 $stats && $stats({moduleName:'beanslingers',sessionId:$sessionId,subSystem:'startup',evtGroup:'moduleStartup',millis:(new Date()).getTime(),type:'moduleEvalEnd'});
 if ($wnd.beanslingers) $wnd.beanslingers.onScriptLoad();
 --></script></body></html>
