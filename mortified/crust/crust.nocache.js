@@ -249,7 +249,7 @@ function crust(){
   $stats && $stats({moduleName:'crust', sessionId:$sessionId_0, subSystem:'startup', evtGroup:'bootstrap', millis:(new Date).getTime(), type:'selectingPermutation'});
   if (!isHostedMode()) {
     try {
-      strongName = '17C29C71506144223BE3B1F481DAB295';
+      strongName = 'C0F7F09218FB641E3E47C040DB14E942';
       var idx = strongName.indexOf(':');
       if (idx != -1) {
         softPermutationId = Number(strongName.substring(idx + 1));
